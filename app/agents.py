@@ -12,6 +12,7 @@ from typing import Iterable, Iterator, List, Sequence, Tuple
 from .retrieval import search
 from .schemas import Claim, EvidenceSpan, Insight, ReviewedClaim
 from .utils import configure_logging, ensure_dirs
+from .validator import verify_span
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -24,6 +25,14 @@ def _artifacts_dir() -> Path:
     path = Path(os.getenv("ARTIFACTS_DIR", "artifacts")).expanduser()
     ensure_dirs(path)
     return path
+
+
+def _claims_path() -> Path:
+    return _artifacts_dir() / "claims.json"
+
+
+def _claims_reviewed_path() -> Path:
+    return _artifacts_dir() / "claims_reviewed.json"
 
 
 def _normalize_text(text: str) -> str:
@@ -73,10 +82,25 @@ def _make_evidence_span(hit: dict, sentence: str, relative_idx: int) -> Evidence
 
 
 def _persist_claims(claims: Iterable[Claim]) -> None:
-    path = _artifacts_dir() / "claims.json"
+    path = _claims_path()
     payload = [claim.model_dump() for claim in claims]
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     logger.info("Wrote %d claims to %s", len(payload), path)
+
+
+def load_claims_from_artifacts() -> List[Claim]:
+    path = _claims_path()
+    if not path.exists():
+        raise FileNotFoundError("claims.json not found. Run the researcher stage first.")
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [Claim.model_validate(entry) for entry in data]
+
+
+def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
+    path = _claims_reviewed_path()
+    payload = [claim.model_dump() for claim in claims]
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    logger.info("Wrote %d reviewed claims to %s", len(payload), path)
 
 
 def run_researcher(topic: str) -> List[Claim]:
@@ -135,7 +159,43 @@ def run_researcher(topic: str) -> List[Claim]:
 
 def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
     """Review claims and assign verdicts."""
-    raise NotImplementedError
+    reviewed: List[ReviewedClaim] = []
+    for claim in claims:
+        base = claim.model_dump()
+        base["status"] = "reviewed"
+        if not claim.citations:
+            reviewed.append(
+                ReviewedClaim(
+                    **base,
+                    verdict="Weak",
+                    reviewer_notes="Missing citations",
+                )
+            )
+            continue
+
+        results = [verify_span(span) for span in claim.citations]
+        successes = [ok for ok, _ in results]
+        if all(successes):
+            verdict = "Supported"
+            notes = "All citations verified"
+        elif any(successes):
+            verdict = "Weak"
+            failures = [msg for ok, msg in results if not ok]
+            notes = failures[0] if failures else "Some citations failed verification"
+        else:
+            verdict = "Contradicted"
+            notes = results[0][1]
+
+        reviewed.append(
+            ReviewedClaim(
+                **base,
+                verdict=verdict,
+                reviewer_notes=notes,
+            )
+        )
+
+    _persist_reviewed_claims(reviewed)
+    return reviewed
 
 
 def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:

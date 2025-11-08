@@ -10,6 +10,7 @@ from typing import Dict, List
 
 import fitz  # PyMuPDF
 
+from .storage import cache_page_texts
 from .utils import configure_logging, ensure_dirs
 from .vectorstore import build_embeddings, get_collection, get_collection_name
 
@@ -45,6 +46,7 @@ def load_pdf(path: str) -> List[Dict]:
         )
     doc.close()
     logger.info("Loaded %s (%d pages)", pdf_path.name, len(pages))
+    cache_page_texts(source_id, pages)
     return pages
 
 
