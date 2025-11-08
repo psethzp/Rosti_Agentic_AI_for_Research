@@ -9,6 +9,7 @@ import re
 from pathlib import Path
 from typing import Iterable, Iterator, List, Sequence, Tuple
 
+from .reporting import render_report_html
 from .retrieval import search
 from .schemas import Claim, EvidenceSpan, Insight, ReviewedClaim
 from .utils import configure_logging, ensure_dirs
@@ -33,6 +34,14 @@ def _claims_path() -> Path:
 
 def _claims_reviewed_path() -> Path:
     return _artifacts_dir() / "claims_reviewed.json"
+
+
+def _report_json_path() -> Path:
+    return _artifacts_dir() / "report.json"
+
+
+def _report_html_path() -> Path:
+    return _artifacts_dir() / "report.html"
 
 
 def _normalize_text(text: str) -> str:
@@ -101,6 +110,18 @@ def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
     payload = [claim.model_dump() for claim in claims]
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     logger.info("Wrote %d reviewed claims to %s", len(payload), path)
+
+
+def _persist_report(insights: List[Insight], claims: List[ReviewedClaim]) -> None:
+    json_path = _report_json_path()
+    html_path = _report_html_path()
+    json_path.write_text(
+        json.dumps([insight.model_dump() for insight in insights], indent=2),
+        encoding="utf-8",
+    )
+    html = render_report_html(insights, claims)
+    html_path.write_text(html, encoding="utf-8")
+    logger.info("Wrote report artifacts to %s and %s", json_path, html_path)
 
 
 def run_researcher(topic: str) -> List[Claim]:
@@ -200,4 +221,30 @@ def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
 
 def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
     """Synthesize reviewed claims into final insights."""
-    raise NotImplementedError
+    supported = [claim for claim in reviewed if claim.verdict == "Supported"]
+    weak = [claim for claim in reviewed if claim.verdict == "Weak"]
+    if not supported and not weak:
+        raise ValueError("No reviewed claims available to synthesize insights.")
+
+    selected_claims = supported or weak[:3]
+    insights: List[Insight] = []
+    chunk_size = max(1, len(selected_claims) // 3 + (1 if len(selected_claims) > 3 else 0))
+    for idx in range(0, len(selected_claims), chunk_size):
+        group = selected_claims[idx : idx + chunk_size]
+        text = " ".join(claim.text for claim in group)
+        claim_ids = [claim.id for claim in group]
+        provenance = [span for claim in group for span in claim.citations]
+        insight = Insight(
+            id=f"i{len(insights) + 1:04d}",
+            topic=topic,
+            claim_ids=claim_ids,
+            text=text,
+            confidence=min(0.95, sum((claim.confidence or 0.6) for claim in group) / len(group)),
+            provenance=provenance,
+        )
+        insights.append(insight)
+        if len(insights) >= 5:
+            break
+
+    _persist_report(insights, reviewed)
+    return insights

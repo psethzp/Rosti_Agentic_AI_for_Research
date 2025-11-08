@@ -1,15 +1,15 @@
 [
   {
     "id": "c0001",
-    "topic": "SFDA",
-    "text": "domain adaptive object detector.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation.",
     "citations": [
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "source_id": "MR_NeuroReach_VR_Midterm_Presentation_Purkayastha_Elsig_Flueckiger_Khoshimov (1)",
+        "page": 3,
         "char_start": 0,
-        "char_end": 32,
-        "quote": "domain adaptive object detector."
+        "char_end": 130,
+        "quote": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation."
       }
     ],
     "confidence": 0.65,
@@ -17,15 +17,15 @@
   },
   {
     "id": "c0002",
-    "topic": "SFDA",
-    "text": "In Com- puter Vision\u2013ECCV 2020: 16th European Conference, Glasgow, UK, August 23\u201328, 2020, Proceedings, Part IX 16, pages 733\u2013 748.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "\u2212 We have successfully implemented a vertical slice that \u2212 Integrates all core hardware and software \u2212 Creating a stable platform for the rapid development of our rehabilitation tasks \u2022 Validated Integrations: \u2212 Establish Pipeline: Successfully setting up pipeline to deploy a Unity build on the Quest 3 \u2713 \u2212 Passthrough Environment: Successfully merged user real-world space with interactive virtual content \u2713 \u2212 Spatial Anchors: Pinning virtual objects to the real world \u2713 \u2212 MX Ink Integration: Real-time tracking of the stylus input \u2713 NeuroReach VR 03.11.2025 3.",
     "citations": [
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "source_id": "MR_NeuroReach_VR_Midterm_Presentation_Purkayastha_Elsig_Flueckiger_Khoshimov (1)",
+        "page": 3,
         "char_start": 0,
-        "char_end": 131,
-        "quote": "In Com- puter Vision\u2013ECCV 2020: 16th European Conference, Glasgow, UK, August 23\u201328, 2020, Proceedings, Part IX 16, pages 733\u2013 748."
+        "char_end": 562,
+        "quote": "\u2212 We have successfully implemented a vertical slice that \u2212 Integrates all core hardware and software \u2212 Creating a stable platform for the rapid development of our rehabilitation tasks \u2022 Validated Integrations: \u2212 Establish Pipeline: Successfully setting up pipeline to deploy a Unity build on the Quest 3 \u2713 \u2212 Passthrou..."
       }
     ],
     "confidence": 0.65,
@@ -33,15 +33,15 @@
   },
   {
     "id": "c0003",
-    "topic": "SFDA",
-    "text": "Springer, 2020.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components.",
     "citations": [
       {
         "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
-        "char_start": 165,
-        "char_end": 180,
-        "quote": "Springer, 2020."
+        "page": 13,
+        "char_start": 0,
+        "char_end": 135,
+        "quote": "Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components."
       }
     ],
     "confidence": 0.65,
@@ -49,15 +49,15 @@
   },
   {
     "id": "c0004",
-    "topic": "SFDA",
-    "text": "[50] Tzu Ming Harry Hsu, Wei Yu Chen, Cheng- An Hou, Yao-Hung Hubert Tsai, Yi-Ren Yeh, and Yu-Chiang Frank Wang.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "RCM is included in all studies as it forms the basis of CRA and SAL.",
     "citations": [
       {
         "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "page": 13,
         "char_start": 0,
-        "char_end": 112,
-        "quote": "[50] Tzu Ming Harry Hsu, Wei Yu Chen, Cheng- An Hou, Yao-Hung Hubert Tsai, Yi-Ren Yeh, and Yu-Chiang Frank Wang."
+        "char_end": 68,
+        "quote": "RCM is included in all studies as it forms the basis of CRA and SAL."
       }
     ],
     "confidence": 0.65,
@@ -65,15 +65,15 @@
   },
   {
     "id": "c0005",
-    "topic": "SFDA",
-    "text": "Unsuper- vised Domain Adaptation with Imbalanced Cross-Domain Data.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "We report the mean average precision at 0.50 IoU (mAP).",
     "citations": [
       {
         "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "page": 13,
         "char_start": 0,
-        "char_end": 67,
-        "quote": "Unsuper- vised Domain Adaptation with Imbalanced Cross-Domain Data."
+        "char_end": 55,
+        "quote": "We report the mean average precision at 0.50 IoU (mAP)."
       }
     ],
     "confidence": 0.65,
@@ -81,15 +81,15 @@
   },
   {
     "id": "c0006",
-    "topic": "SFDA",
-    "text": "In IEEE/CVF Inter- national Conference on Computer Vision, pages 4121\u20134129, December 2015.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "Our contributions are not included in the base framework (AT [71]).",
     "citations": [
       {
         "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "page": 13,
         "char_start": 0,
-        "char_end": 90,
-        "quote": "In IEEE/CVF Inter- national Conference on Computer Vision, pages 4121\u20134129, December 2015."
+        "char_end": 67,
+        "quote": "Our contributions are not included in the base framework (AT [71])."
       }
     ],
     "confidence": 0.65,
@@ -97,15 +97,15 @@
   },
   {
     "id": "c0007",
-    "topic": "SFDA",
-    "text": "[51] Jiaxing Huang, Dayan Guan, Aoran Xiao, and Shijian Lu.",
+    "topic": "NeuroReach VR rehab summary",
+    "text": "5.3 Ablation Studies To verify the significance of our contributions, we conducted an ablation study.",
     "citations": [
       {
         "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 19,
+        "page": 13,
         "char_start": 0,
-        "char_end": 59,
-        "quote": "[51] Jiaxing Huang, Dayan Guan, Aoran Xiao, and Shijian Lu."
+        "char_end": 101,
+        "quote": "5.3 Ablation Studies To verify the significance of our contributions, we conducted an ablation study."
       }
     ],
     "confidence": 0.65,

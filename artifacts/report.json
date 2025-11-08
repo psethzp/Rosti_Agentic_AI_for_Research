@@ -1,0 +1,72 @@
+[
+  {
+    "id": "i0001",
+    "topic": "NeuroReach VR rehab summary",
+    "claim_ids": [
+      "c0001",
+      "c0003"
+    ],
+    "text": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation. Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components.",
+    "confidence": 0.65,
+    "provenance": [
+      {
+        "source_id": "MR_NeuroReach_VR_Midterm_Presentation_Purkayastha_Elsig_Flueckiger_Khoshimov (1)",
+        "page": 3,
+        "char_start": 0,
+        "char_end": 130,
+        "quote": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation."
+      },
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 13,
+        "char_start": 0,
+        "char_end": 135,
+        "quote": "Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components."
+      }
+    ]
+  },
+  {
+    "id": "i0002",
+    "topic": "NeuroReach VR rehab summary",
+    "claim_ids": [
+      "c0004",
+      "c0005"
+    ],
+    "text": "RCM is included in all studies as it forms the basis of CRA and SAL. We report the mean average precision at 0.50 IoU (mAP).",
+    "confidence": 0.65,
+    "provenance": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 13,
+        "char_start": 0,
+        "char_end": 68,
+        "quote": "RCM is included in all studies as it forms the basis of CRA and SAL."
+      },
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 13,
+        "char_start": 0,
+        "char_end": 55,
+        "quote": "We report the mean average precision at 0.50 IoU (mAP)."
+      }
+    ]
+  },
+  {
+    "id": "i0003",
+    "topic": "NeuroReach VR rehab summary",
+    "claim_ids": [
+      "c0006"
+    ],
+    "text": "Our contributions are not included in the base framework (AT [71]).",
+    "confidence": 0.65,
+    "provenance": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 13,
+        "char_start": 0,
+        "char_end": 67,
+        "quote": "Our contributions are not included in the base framework (AT [71])."
+      }
+    ]
+  }
+]

@@ -6,6 +6,26 @@
   </head>
   <body>
     <h1>Collective Insight Lab</h1>
-    <p>This template will be populated with insights and claims.</p>
+    <section>
+      <h2>Insights</h2>
+      {insight_cards}
+    </section>
+    <section>
+      <h2>Claims Summary</h2>
+      <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Text</th>
+            <th>Verdict</th>
+            <th>Notes</th>
+            <th>Citation</th>
+          </tr>
+        </thead>
+        <tbody>
+          {claims_table}
+        </tbody>
+      </table>
+    </section>
   </body>
 </html>
