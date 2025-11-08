@@ -44,6 +44,19 @@ def _report_html_path() -> Path:
     return _artifacts_dir() / "report.html"
 
 
+def reset_artifacts(include_claims: bool = False) -> None:
+    """Remove downstream artifact files to avoid stale UI state."""
+    for path in (_claims_reviewed_path(), _report_json_path(), _report_html_path()):
+        if path.exists():
+            path.unlink()
+            logger.info("Removed artifact %s", path)
+    if include_claims:
+        path = _claims_path()
+        if path.exists():
+            path.unlink()
+            logger.info("Removed artifact %s", path)
+
+
 def _normalize_text(text: str) -> str:
     """Collapse whitespace and strip surrounding spaces."""
     return re.sub(r"\s+", " ", text.strip())
@@ -128,6 +141,8 @@ def run_researcher(topic: str) -> List[Claim]:
     """Generate claims for a topic using retrieval results."""
     if not topic.strip():
         raise ValueError("Topic must not be empty")
+
+    reset_artifacts(include_claims=False)
 
     hits = search(topic, k=MAX_CLAIMS * 2)
     if not hits:
@@ -224,7 +239,9 @@ def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
     supported = [claim for claim in reviewed if claim.verdict == "Supported"]
     weak = [claim for claim in reviewed if claim.verdict == "Weak"]
     if not supported and not weak:
-        raise ValueError("No reviewed claims available to synthesize insights.")
+        logger.warning("No reviewed claims available to synthesize insights.")
+        _persist_report([], reviewed)
+        return []
 
     selected_claims = supported or weak[:3]
     insights: List[Insight] = []

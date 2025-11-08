@@ -1,71 +1,87 @@
 [
   {
     "id": "i0001",
-    "topic": "NeuroReach VR rehab summary",
+    "topic": "Grounded Teacher",
     "claim_ids": [
       "c0001",
+      "c0002",
       "c0003"
     ],
-    "text": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation. Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components.",
+    "text": "Chapter 5 Cognitive tutors Page 167 Ritter, S. and Anderson, J. R.",
     "confidence": 0.65,
     "provenance": [
       {
-        "source_id": "MR_NeuroReach_VR_Midterm_Presentation_Purkayastha_Elsig_Flueckiger_Khoshimov (1)",
-        "page": 3,
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
         "char_start": 0,
-        "char_end": 130,
-        "quote": "Current Progress \u2022 Strategy : \u2212 Our initial development has focused on building and validating the project's technical foundation."
+        "char_end": 46,
+        "quote": "Chapter 5 Cognitive tutors Page 167 Ritter, S."
       },
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 13,
-        "char_start": 0,
-        "char_end": 135,
-        "quote": "Method RCM SA SAL mAP Base (AT [72]) 30.4 + SA \u2713 \u2713 41.8 + SAL \u2713 \u2713 44.2 GT (Full) \u2713 \u2713 \u2713 50.8 Table 6: Ablation studies on GT components."
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
+        "char_start": 56,
+        "char_end": 72,
+        "quote": "and Anderson, J."
+      },
+      {
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
+        "char_start": 73,
+        "char_end": 75,
+        "quote": "R."
       }
     ]
   },
   {
     "id": "i0002",
-    "topic": "NeuroReach VR rehab summary",
+    "topic": "Grounded Teacher",
     "claim_ids": [
       "c0004",
-      "c0005"
+      "c0005",
+      "c0006"
     ],
-    "text": "RCM is included in all studies as it forms the basis of CRA and SAL. We report the mean average precision at 0.50 IoU (mAP).",
+    "text": "(1995). Calculation and strategy in the equation solving tutor. In J.D.",
     "confidence": 0.65,
     "provenance": [
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 13,
-        "char_start": 0,
-        "char_end": 68,
-        "quote": "RCM is included in all studies as it forms the basis of CRA and SAL."
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
+        "char_start": 76,
+        "char_end": 83,
+        "quote": "(1995)."
       },
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 13,
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
         "char_start": 0,
         "char_end": 55,
-        "quote": "We report the mean average precision at 0.50 IoU (mAP)."
+        "quote": "Calculation and strategy in the equation solving tutor."
+      },
+      {
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
+        "char_start": 141,
+        "char_end": 148,
+        "quote": "In J.D."
       }
     ]
   },
   {
     "id": "i0003",
-    "topic": "NeuroReach VR rehab summary",
+    "topic": "Grounded Teacher",
     "claim_ids": [
-      "c0006"
+      "c0007"
     ],
-    "text": "Our contributions are not included in the base framework (AT [71]).",
+    "text": "Moore & J.F.",
     "confidence": 0.65,
     "provenance": [
       {
-        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
-        "page": 13,
-        "char_start": 0,
-        "char_end": 67,
-        "quote": "Our contributions are not included in the base framework (AT [71])."
+        "source_id": "1_Cognitive Tutors Technology Bringing Learning Science to the Classroom",
+        "page": 34,
+        "char_start": 149,
+        "char_end": 161,
+        "quote": "Moore & J.F."
       }
     ]
   }

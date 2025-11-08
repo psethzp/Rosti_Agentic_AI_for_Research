@@ -1,0 +1,42 @@
+[
+  {
+    "page": 1,
+    "text": "Combining brain\u2013computer interface and virtual reality \nfor rehabilitation in neurological diseases: \nA narrative review\nDong Wen, Yali Fan, Sheng-Hsiou Hsu, Jian Xu, Yanhong Zhou, \nJianxin Tao, Xifa Lan, Fengnian Li\n263-5905-00L \nMixed Reality HS2025"
+  },
+  {
+    "page": 2,
+    "text": "Why BCI-VR for Neurorehab?\nThe Problem:\n\u2022\nTraditional rehab: \n\u2212\nMonotonous\n\u2212\nPassive Patient Role\n\u2212\nOften modest gains\nDong Wen et al.\n27.10.25\n2\nThe Promise:\n\u2022\nThe BCI-VR Solution:\n\u2212\nBCI: Direct brain\u2192device, driving \nneuroplasticity\n\u2212\nVR: Immersive world \u2192 multi-sensory \nfeedback, engagement\nGoal : Review 39 studies combining BCI + VR across paradigms and diseases\nClaim : BCI-VR > traditional BCI for feedback & motivation, promising rehab gains"
+  },
+  {
+    "page": 3,
+    "text": "The Therapeutic Loop\nA feedback loop that translates a user's brain intent into a virtual action.\nDong Wen et al.\n27.10.25\n3"
+  },
+  {
+    "page": 4,
+    "text": "The Therapeutic Loop (Contd.)\n\u2022\nLoop: EEG \u2192 preprocess/feature \u2192 classifier \u2192 VR feedback \u2192 repeat\n\u2022\nInputs:\n\u2212\nMI \u2013 Motor Imagery: Imagining body movements to generate brain signals \n(ERD/ERS) for motor control.\n\u2212\nP300 \u2013 Event-Related Potential (300\u2009ms): Detects attention to a target stimulus \nthrough a brainwave spike around 300\u2009ms after stimulus.\n\u2212\nSSVEP \u2013 Steady-State Visual Evoked Potential: Uses brain responses to \nflickering visual stimuli at fixed frequencies for control or communication.\n\u2022\nDesign principle: Low latency, artifact-robust, intuitive VR tasks\nDong Wen et al.\n27.10.25\n4"
+  },
+  {
+    "page": 5,
+    "text": "The Research Landscape\n\u2022\nParadigms: MI (18) > P300 (7) > SSVEP (5); others (9)\n\u2022\nDiseases: \n\u2212\nStroke leads\n\u2212\nAlso SCI, ADHD/ADD, AD/MCI, \nPD, schizophrenia\n\u2022\nWhy: \n\u2212\nMI/SSVEP \u2192 motor rehab/devices\n\u2212\nP300 \u2192 attention/cognition/communication\n\u2022\nVR value: \n\u2212\nNaturalistic scenes (homes & classrooms)\n\u2212\nGamified feedback\nDong Wen et al.\n27.10.25\n5"
+  },
+  {
+    "page": 6,
+    "text": "Evidence Highlights\n\u2022\nAccuracy bands: System accuracies are often high, but depend heavily on the task and user.\n\u2212\nMI: ~62\u201397%, P300: ~70\u201393.5%, SSVEP: ~81\u201395%\n\u2212\nSome report ITR gains in VR\n\u2022\nBoosters: Task simplicity, Robots/FES, Vibrotactile/haptics, Algorithm tuning\n\u2022\nTakeaways:\n\u2212\nViable High Performance: VR matches flat-screen performance (~95% accuracy), proving its validity as a \nplatform (Kathner et al.).\n\u2212\nHigh MI Accuracy: Motor Imagery shows high accuracy (~90-95%) in both stroke patients and controlled lab \nsettings (Achanccaray/Ortner, Munoz/Ma).\n\u2212\nPowerful Robotic Synergy: Pairing with robotics is highly effective; a BCI-controlled ankle robot achieved \n80-100% success (Zeng et al.).\n\u2212\nThe Complexity Caveat: Accuracy drops significantly (to ~65%) as VR task complexity and immersion \nincreases (Vourvopoulos et al.)\nDong Wen et al.\n27.10.25\n6"
+  },
+  {
+    "page": 7,
+    "text": "Evidence Highlights (Contd.)\nDong Wen et al.\n27.10.25\n7"
+  },
+  {
+    "page": 8,
+    "text": "Path Forward\n\u2022\nAdvantages: \n\u2212\nRicher feedback\n\u2212\nHigher engagement\n\u2212\nEcological training\n\u2212\nPotential faster learning\nDong Wen et al.\n27.10.25\n8\n\u2022\nChallenges: \n\u2212\nEEG ITR\n\u2212\nArtifact robustness\n\u2212\nMI training burden\n\u2212\nP300/SSVEP passivity/flicker comfort\n\u2022\nDesign cues: Naturalistic VR stimuli, Hybrid BCI+robot/haptics, Adaptive decoders\n\u2022\nBottom line: Promising but early, Clinical impact scales with robustness in \nperformance and user-centered VR design"
+  },
+  {
+    "page": 9,
+    "text": "Any Questions?"
+  },
+  {
+    "page": 10,
+    "text": "Partha Sarathi Purkayastha <ppurkayastha@ethz.ch>\nAlexandre Elsig <elsiga@ethz.ch>\nRaphael Fl\u00fcckiger <rflueckiger@ethz.ch>\nRakhmatillokhon Khoshimov <rkhoshimov@ethz.ch>\nTHANK YOU!"
+  }
+]

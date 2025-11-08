@@ -53,7 +53,10 @@ def main() -> None:
     topic = args.topic or (claims[0].topic if claims else "Untitled Topic")
     insights = run_synthesizer(topic, reviewed)
     logging.getLogger(__name__).info("Synthesized %d insights", len(insights))
-    print("Saved output to artifacts/claims_reviewed.json and artifacts/report.{json,html}")
+    if insights:
+        print("Saved output to artifacts/claims_reviewed.json and artifacts/report.{json,html}")
+    else:
+        print("No insights generated; check reviewer verdicts or add more documents.")
 
 
 if __name__ == "__main__":
