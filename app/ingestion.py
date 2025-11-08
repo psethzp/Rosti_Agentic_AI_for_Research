@@ -10,9 +10,16 @@ from typing import Dict, List
 
 import fitz  # PyMuPDF
 
+from chromadb.errors import InvalidDimensionException
+
 from .storage import cache_page_texts
 from .utils import configure_logging, ensure_dirs
-from .vectorstore import build_embeddings, get_collection, get_collection_name
+from .vectorstore import (
+    build_embeddings,
+    get_collection,
+    get_collection_name,
+    reset_vector_store,
+)
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -118,12 +125,25 @@ def embed_chunks(chunks: List[Dict]) -> int:
     ]
     embeddings = build_embeddings(documents)
     collection_name = get_collection_name()
-    collection.upsert(
-        ids=[chunk["id"] for chunk in chunks],
-        documents=documents,
-        metadatas=metadatas,
-        embeddings=embeddings,
-    )
+    try:
+        collection.upsert(
+            ids=[chunk["id"] for chunk in chunks],
+            documents=documents,
+            metadatas=metadatas,
+            embeddings=embeddings,
+        )
+    except InvalidDimensionException:
+        logger.warning(
+            "Detected embedding dimension mismatch; resetting vector store and retrying."
+        )
+        reset_vector_store()
+        collection = get_collection()
+        collection.upsert(
+            ids=[chunk["id"] for chunk in chunks],
+            documents=documents,
+            metadatas=metadatas,
+            embeddings=embeddings,
+        )
     logger.info("Upserted %d chunks into collection '%s'", len(chunks), collection_name)
     return len(chunks)
 

@@ -1,0 +1,58 @@
+{
+  "a1a7317e9e075c79ef09d3a000f9a81eaec2426844a59784266437ca10d62c13": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs can assist in the development of language skills specific to a particular field of work and provides examples of domain-specific corpora (legal, medical, IT) for fine-tuning."
+  },
+  "b6dea851756db917b07e5c884acd8ff9e00629ce5441225f20eef27ef3431899": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs can assist in the development of skills such as programming, report writing, project management, decision making, and problem-solving."
+  },
+  "8d7a982cc9be9527ecb08b1a1fb8c2eb40a11d9b4391e2a8cc1151cb60bdd461": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that the ability of LLMs to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework."
+  },
+  "d465f43c483cb87db899884276068471b7ec485b269b54cdb622cd1bda531c0f": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs have the ability to generate contextualized natural language texts, code for implementation tasks, and various types of multimedia content when combined with other AI systems like DALL-E."
+  },
+  "a7c76fdd824f8e42f83f4bf217c6ca65eea8662329673e041c0d300430bbfd29": {
+    "verdict": "Supported",
+    "notes": "The evidence directly states that LLMs (specifically GPT-3) can support learning by explaining code snippets and can be fine-tuned to generate assessment questions based on learning materials."
+  },
+  "9153c5192ca2cf382cfd1bcec25ef011474b807d370f02eda05b4b538156a88c": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that LLMs can assist teachers by providing resources, summaries, and explanations of new teaching methodologies, technologies, and materials to help them stay up-to-date."
+  },
+  "ebfec0014834e2226b0b1b31d9c0e5b96a046d46a258272bd484721f8543c319": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs can assist teachers in creating inclusive lesson plans and activities by generating course syllabi with short topic descriptions based on provided documents."
+  },
+  "50ada8b53d786dd4220eff4eaa72b0c591dad79d46553f753429624af0b16a98": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that \"Language models can also generate questions and prompts that encourage the participation of people at different knowledge and ability levels, and elicit critical thinking and problem-solving.\""
+  },
+  "9b4b9561f1c2d7f1dcbbc956d439e2433fc1ecf2c40337fdf80e52a77ca9f4a4": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that LLMs can be used to 'generate questions and prompts that encourage students to think critically' and 'assist in the development of problem-solving skills' for various educational levels, directly supporting the claim."
+  },
+  "1b4f264a086feaa40e93f67b3896f7a90461bd11775e7396953102bbf3a96765": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that LLMs can assist in research skills by providing information, resources, and hinting at unexplored aspects and current research topics."
+  },
+  "b5b18d6501fc7c9f2e0f23bec2768e86be65d5f2530f9f304095a670a34780a5": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that LLMs can be used to 'facilitate group discussions and debates by providing a discussion structure, real-time feedback and personalized guidance to students during the discussion' in group & remote learning environments."
+  },
+  "8ac06fd3d3b041f23e637753583b4d3dd63de9f299012887034d41ef48ec6d4a": {
+    "verdict": "Supported",
+    "notes": "The evidence directly states that LLMs can reduce grading effort by up to 85% with high precision and improved student-perceived quality, which aligns perfectly with the claim."
+  },
+  "708a801d82c6c2247385580e65537f141730ad5cc1fb5b6057e81b2bde5ae3a9": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs can assist in the automatic generation of exercises, including programming tasks, correct solutions, automated tests, and code explanations, directly supporting the claim."
+  },
+  "33d8eabe3cf633f00af67b3a22b31cd40dbcfca8b6d2c6d84c786964851960ff": {
+    "verdict": "Supported",
+    "notes": "The evidence directly states that LLMs can be fine-tuned on domain-specific corpora (legal, medical, IT) to generate domain-specific language and assist learners in professional training, aligning perfectly with the claim."
+  }
+}

@@ -46,7 +46,7 @@ def _format_results(response: Dict) -> List[Dict]:
 
 def _keyword_fallback(query: str, k: int = 6) -> List[Dict]:
     collection = get_collection()
-    raw = collection.get(include=["documents", "metadatas", "ids"])
+    raw = collection.get(include=["documents", "metadatas"])
     docs = raw.get("documents", [])
     metas = raw.get("metadatas", [])
     ids = raw.get("ids", [])

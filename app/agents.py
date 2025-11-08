@@ -7,13 +7,14 @@ import logging
 import os
 import re
 from pathlib import Path
-from typing import Iterable, Iterator, List, Sequence, Tuple
+from typing import Iterable, Iterator, List, Optional, Sequence, Tuple
 
+from .llm import call_llm_json
 from .reporting import render_report_html
 from .retrieval import search
 from .schemas import Claim, EvidenceSpan, Insight, ReviewedClaim
 from .utils import configure_logging, ensure_dirs
-from .validator import verify_span
+from .validator import assess_span_support, verify_span
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -100,6 +101,8 @@ def _make_evidence_span(hit: dict, sentence: str, relative_idx: int) -> Evidence
         char_start=char_start,
         char_end=char_end,
         quote=_clip_quote(sentence),
+        chunk_id=hit.get("id"),
+        chunk_text=hit.get("text"),
     )
 
 
@@ -148,47 +151,10 @@ def run_researcher(topic: str) -> List[Claim]:
     if not hits:
         raise RuntimeError("No retrieval results available. Ingest documents first.")
 
-    claims: List[Claim] = []
-    for idx, (sentence, hit, rel_idx) in enumerate(_yield_sentences(hits)):
-        claim_id = f"c{idx + 1:04d}"
-        span = _make_evidence_span(hit, sentence, rel_idx)
-        text = sentence if sentence.endswith(".") else f"{sentence}."
-        claims.append(
-            Claim(
-                id=claim_id,
-                topic=topic,
-                text=text,
-                citations=[span],
-                confidence=0.65,
-                status="draft",
-            )
-        )
-        if len(claims) >= MAX_CLAIMS:
-            break
-
-    if len(claims) < MIN_CLAIMS and hits:
-        logger.warning(
-            "Only %d claims generated; reusing sentences to reach %d",
-            len(claims),
-            MIN_CLAIMS,
-        )
-        idx = 0
-        while len(claims) < MIN_CLAIMS:
-            hit = hits[idx % len(hits)]
-            sentence = _sentence_chunks(hit.get("text", ""))[0]
-            span = _make_evidence_span(hit, sentence, hit.get("text", "").find(sentence))
-            claims.append(
-                Claim(
-                    id=f"c{len(claims) + 1:04d}",
-                    topic=topic,
-                    text=sentence if sentence.endswith(".") else f"{sentence}.",
-                    citations=[span],
-                    confidence=0.5,
-                    status="draft",
-                )
-            )
-            idx += 1
-
+    claims = _llm_researcher(topic, hits)
+    if len(claims) < MIN_CLAIMS:
+        logger.warning("LLM provided %d claims; using fallback extraction.", len(claims))
+        claims = _fallback_claims(topic, hits)
     _persist_claims(claims)
     return claims
 
@@ -208,41 +174,205 @@ def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
                 )
             )
             continue
-
-        results = [verify_span(span) for span in claim.citations]
-        successes = [ok for ok, _ in results]
-        if all(successes):
-            verdict = "Supported"
-            notes = "All citations verified"
-        elif any(successes):
-            verdict = "Weak"
-            failures = [msg for ok, msg in results if not ok]
-            notes = failures[0] if failures else "Some citations failed verification"
-        else:
-            verdict = "Contradicted"
-            notes = results[0][1]
-
+        evaluations = [assess_span_support(claim.text, span) for span in claim.citations]
+        verdict = _aggregate_verdict(evaluations)
+        notes = "; ".join(note for _, note in evaluations if note)
         reviewed.append(
             ReviewedClaim(
                 **base,
                 verdict=verdict,
-                reviewer_notes=notes,
+                reviewer_notes=notes or "No reviewer notes.",
             )
         )
-
     _persist_reviewed_claims(reviewed)
     return reviewed
 
 
 def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
     """Synthesize reviewed claims into final insights."""
+    insights = _llm_synthesizer(topic, reviewed)
+    if not insights:
+        logger.warning("No insights synthesized; falling back to deterministic grouping.")
+        insights = _fallback_insights(topic, reviewed)
+    _persist_report(insights, reviewed)
+    return insights
+
+
+def _llm_researcher(topic: str, hits: Sequence[dict]) -> List[Claim]:
+    evidence_map = {}
+    evidence_lines = []
+    for idx, hit in enumerate(hits):
+        evid_id = f"E{idx + 1}"
+        snippet = _normalize_text(hit.get("text", ""))[:600]
+        evidence_lines.append(
+            f"{evid_id}: Source={hit.get('source_id')} page {hit.get('page')} -> {snippet}"
+        )
+        evidence_map[evid_id] = hit
+
+    if not evidence_lines:
+        return []
+
+    system_prompt = (
+        "You are Researcher. Use the provided evidence snippets to write factual claims. "
+        "Output JSON list where each item has fields: "
+        "'text' (string), 'evidence_refs' (array of evidence IDs like E1), "
+        "and optional 'confidence' (0-1). Produce between 3 and 7 claims."
+    )
+    user_prompt = f"Topic: {topic}\nEvidence:\n" + "\n".join(evidence_lines)
+    try:
+        llm_output = call_llm_json(system_prompt, user_prompt)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Researcher LLM failed: %s", exc)
+        return []
+
+    claims: List[Claim] = []
+    for idx, entry in enumerate(llm_output):
+        text = _normalize_text(entry.get("text", ""))
+        if not text:
+            continue
+        evidence_refs = entry.get("evidence_refs") or entry.get("evidence") or []
+        citations: List[EvidenceSpan] = []
+        for ref in evidence_refs:
+            chunk = evidence_map.get(ref)
+            if not chunk:
+                continue
+            citations.append(
+                EvidenceSpan(
+                    source_id=chunk.get("source_id", "unknown"),
+                    page=chunk.get("page", 1),
+                    char_start=chunk.get("char_start", 0),
+                    char_end=chunk.get("char_end", 0),
+                    quote=_clip_quote(chunk.get("text", "")),
+                    chunk_id=chunk.get("id"),
+                    chunk_text=chunk.get("text"),
+                )
+            )
+        if not citations:
+            continue
+        confidence = entry.get("confidence")
+        try:
+            confidence_val = float(confidence) if confidence is not None else 0.7
+        except (TypeError, ValueError):
+            confidence_val = 0.7
+        claims.append(
+            Claim(
+                id=f"c{len(claims) + 1:04d}",
+                topic=topic,
+                text=text if text.endswith(".") else f"{text}.",
+                citations=citations,
+                confidence=max(0.0, min(1.0, confidence_val)),
+                status="draft",
+            )
+        )
+        if len(claims) >= MAX_CLAIMS:
+            break
+
+    return claims
+
+
+def _fallback_claims(topic: str, hits: Sequence[dict]) -> List[Claim]:
+    claims: List[Claim] = []
+    for sentence, hit, rel_idx in _yield_sentences(hits):
+        span = _make_evidence_span(hit, sentence, rel_idx)
+        text = sentence if sentence.endswith(".") else f"{sentence}."
+        claims.append(
+            Claim(
+                id=f"c{len(claims) + 1:04d}",
+                topic=topic,
+                text=text,
+                citations=[span],
+                confidence=0.6,
+                status="draft",
+            )
+        )
+        if len(claims) >= MAX_CLAIMS:
+            break
+    if len(claims) < MIN_CLAIMS:
+        idx = 0
+        while len(claims) < MIN_CLAIMS and hits:
+            hit = hits[idx % len(hits)]
+            sentence = _sentence_chunks(hit.get("text", ""))[0]
+            span = _make_evidence_span(hit, sentence, hit.get("text", "").find(sentence))
+            claims.append(
+                Claim(
+                    id=f"c{len(claims) + 1:04d}",
+                    topic=topic,
+                    text=sentence if sentence.endswith(".") else f"{sentence}.",
+                    citations=[span],
+                    confidence=0.5,
+                    status="draft",
+                )
+            )
+            idx += 1
+    return claims
+
+
+def _aggregate_verdict(evals: List[Tuple[str, str]]) -> str:
+    verdicts = [verdict for verdict, _ in evals]
+    if any(verdict == "Contradicted" for verdict in verdicts):
+        return "Contradicted"
+    if any(verdict == "Weak" for verdict in verdicts):
+        return "Weak"
+    return "Supported"
+
+
+def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
+    usable_claims = [c for c in reviewed if c.verdict in {"Supported", "Weak"}]
+    if not usable_claims:
+        logger.warning("No Supported/Weak claims to synthesize.")
+        return []
+    claim_lines = [
+        f"{claim.id} ({claim.verdict}): {claim.text}" for claim in usable_claims
+    ]
+    system_prompt = (
+        "You are Synthesizer. Combine the reviewed claims into 2-5 high-level insights. "
+        "Output JSON list with objects {\"text\":..., \"claim_ids\": [\"c0001\"...], "
+        "\"confidence\": 0-1}. Only reference claim IDs provided."
+    )
+    user_prompt = f"Topic: {topic}\nReviewed claims:\n" + "\n".join(claim_lines)
+    try:
+        llm_output = call_llm_json(system_prompt, user_prompt)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Synthesizer LLM failed: %s", exc)
+        return []
+
+    claim_lookup = {claim.id: claim for claim in reviewed}
+    insights: List[Insight] = []
+    for entry in llm_output:
+        text = _normalize_text(entry.get("text", ""))
+        if not text:
+            continue
+        claim_ids = [cid for cid in entry.get("claim_ids", []) if cid in claim_lookup]
+        if not claim_ids:
+            continue
+        provenance: List[EvidenceSpan] = []
+        for cid in claim_ids:
+            provenance.extend(claim_lookup[cid].citations)
+        try:
+            confidence = float(entry.get("confidence", 0.75))
+        except (TypeError, ValueError):
+            confidence = 0.75
+        insights.append(
+            Insight(
+                id=f"i{len(insights) + 1:04d}",
+                topic=topic,
+                claim_ids=claim_ids,
+                text=text if text.endswith(".") else f"{text}.",
+                confidence=max(0.0, min(1.0, confidence)),
+                provenance=provenance,
+            )
+        )
+        if len(insights) >= 5:
+            break
+    return insights
+
+
+def _fallback_insights(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
     supported = [claim for claim in reviewed if claim.verdict == "Supported"]
     weak = [claim for claim in reviewed if claim.verdict == "Weak"]
     if not supported and not weak:
         logger.warning("No reviewed claims available to synthesize insights.")
-        _persist_report([], reviewed)
         return []
-
     selected_claims = supported or weak[:3]
     insights: List[Insight] = []
     chunk_size = max(1, len(selected_claims) // 3 + (1 if len(selected_claims) > 3 else 0))
@@ -262,6 +392,4 @@ def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
         insights.append(insight)
         if len(insights) >= 5:
             break
-
-    _persist_report(insights, reviewed)
     return insights

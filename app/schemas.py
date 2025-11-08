@@ -13,6 +13,8 @@ class EvidenceSpan(BaseModel):
     char_start: int
     char_end: int
     quote: str
+    chunk_id: Optional[str] = None
+    chunk_text: Optional[str] = None
 
 
 class Claim(BaseModel):

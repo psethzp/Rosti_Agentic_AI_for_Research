@@ -1,10 +1,17 @@
-"""Utility helpers for paths and logging."""
+"""Utility helpers for paths, logging, and environment loading."""
 
 from __future__ import annotations
 
 import logging
 from pathlib import Path
 from typing import Iterable
+
+try:  # Load .env automatically so downstream modules see secrets.
+    from dotenv import load_dotenv
+
+    load_dotenv(override=False)
+except Exception:
+    pass
 
 
 def ensure_dirs(*paths: str | Path | Iterable[str | Path]) -> None:
