@@ -309,7 +309,7 @@ This formula **fits perfectly** here without scope creep.
 
 Topic of Study
 
-### 🅰️ Pack A — **Urban Flood Mapping from Satellite (SAR vs Optical)**
+# Pack A — **Urban Flood Mapping from Satellite (SAR vs Optical)**
 
 **Why this is sexy for the demo**
 
@@ -351,4 +351,143 @@ Topic of Study
 - Side‑by‑side **pre/post** scenes → predicted mask overlay; slider to compare **S1 vs S2 vs fused** predictions.
 - **Contradiction matrix**: papers disagree on “fusion benefit” & “change detect vs single‑date”.
 - **Semantic map**: clusters for “S1 DL segmentation,” “Fusion with DEM,” “Change detection.”
-- **Suggested reads** with reasons (e.g., adds DEM in urban).
+- **Suggested reads** with reasons (e.g., adds DEM in urban). 
+
+
+
+# Pack B: Urban Environmental Justice in Smart Cities
+## Overview
+This topic connects **urban data science**, **IoT applications**, **remote sensing**, and **social equity** to examine how technological innovation reshapes urban environmental justice.  
+Recent debates focus on whether smart city tools close gaps in justice, accessibility, and civic engagement — or further widen them.
+
+---
+
+## Hypothesis 1
+### “Urban computing reveals climate vulnerability hotspots and guides fair resource allocation.”
+
+#### Supporting Evidence
+1. **Frontiers in Built Environment (2022)** – *Remote sensing and socio-economic analysis of urban heat islands and inequality dynamics.*  
+   [PDF](https://www.frontiersin.org/articles/10.3389/fbuil.2022.861485/pdf)
+2. **ArXiv Preprint (2021)** – *Remote sensing and AI for building climate adaptation applications.*  
+   [PDF](https://arxiv.org/pdf/2107.02693.pdf)
+3. **ScienceDirect (2023)** – *Urban climate variability and remote sensing applications for social-environmental mapping.*  
+   [PDF](https://reader.elsevier.com/reader/sd/pii/S2405844023002772?token=5333F0D6B45E457D8A79634DE67D2C73DC5D75EE2A393D1D53F85AD2A967E44B63C43A23CE1D5BFE1B52CFCE71FB890A&originRegion=eu-west-1&originCreation=20231123123827)
+4. **DLR (2019)** – *Urban climate analysis integrating satellite and ground-level meteorological data for heat mitigation.*  
+   [PDF](https://elib.dlr.de/130915/1/Masson_Heldens_etal_UrbanClimate_2019.pdf)
+
+#### Nuanced / Counter Perspectives
+5. **Cogitatio Press (2024)** – *Reframing Urban Nature-Based Solutions through Environmental Justice.*  
+   [PDF](https://www.cogitatiopress.com/urbanplanning/article/download/6374/6374)
+6. **Umwelt Bundesamt (2015)** – *Environmental Justice in Urban Areas: Synthesizing health and environmental data for policy alignment.*  
+   [Full text PDF](https://www.umweltbundesamt.de/sites/default/files/medien/378/publikationen/umwelt_und_gesundheit_01_2015_summary.pdf)
+7. **OAPEN (2021)** – *Urban Sustainability and Justice.*  
+   [PDF](https://library.oapen.org/handle/20.500.12657/23377)
+8. **University of Groningen Journal (2023)** – *Participatory risk mapping and urban environmental governance.*  
+   [Open Access](https://ugp.rug.nl/potcj/article/view/41048)
+
+**Current count:** 8 sources  
+→ To reach 10, add two more open-access review or case-study articles from *Frontiers*, *MDPI*, or *Urban Climate (Elsevier)* on vulnerability mapping or equity-driven adaptation planning.
+
+---
+
+## Hypothesis 2
+### “Technology deployment often reproduces inequities due to uneven infrastructure and data accessibility.”
+
+#### Supporting Evidence
+1. **MDPI Sustainability (2023)** – *Smart city inequality and IoT sensor distribution across neighborhoods.*  
+   [PDF](https://www.mdpi.com/2071-1050/15/3/1962/pdf)
+2. **TU Delft IET Smart Cities (2024)** – *Hierarchies of urban sensing: distributional inequity in networked infrastructure.*  
+   [PDF](https://pure.tudelft.nl/ws/portalfiles/portal/160762935/Kumar_et_al_2024_Internet_of_Things.pdf)
+3. **RSIS International (2023)** – *Smart Cities and Internet of Things: Review of developments, challenges, and social gaps.*  
+   [PDF](https://www.rsisinternational.org/journals/ijrsi/articles/smart-cities-and-internet-of-things-iot-a-review-of-recent-developments-challenges-and-opportunities.pdf)
+4. **TU Delft (2024)** – *Sense and the City: From IoT sensors and open data platforms to urban inclusion.*  
+   [PDF](https://pure.tudelft.nl/ws/portalfiles/portal/209254661/IET_Smart_Cities_-_2024_-_Kumar_-_Sense_and_the_city_From_Internet_of_Things_sensors_and_open_data_platforms_to_urban.pdf)
+
+#### Nuanced / Counter Perspectives
+5. **DIVA Portal (2024)** – *IoT applications and challenges in smart cities.*  
+   [PDF](https://www.diva-portal.org/smash/get/diva2:1765956/FULLTEXT01.pdf)
+6. **Library OAPEN (2021)** – *Urban Sustainability and Justice: Practical frameworks for equitable smart transition.*  
+   [PDF](https://library.oapen.org/bitstream/handle/20.500.12657/58830/9781786994943.pdf?sequence=1&isAllowed=y)
+7. **RSIS International (2024)** – *Smart Cities and IoT: Addressing emerging technologies and socio-ethical challenges.*  
+   [Full PDF](https://rsisinternational.org/journals/ijriss/articles/smart-cities-and-internet-of-things-iot-a-review-of-emerging-technologies-and-challenges/)
+8. **Cogitatio Press (2023)** – *Citizen co-design and platform equity in digital cities.*  
+   [Full Text](https://www.cogitatiopress.com/urbanplanning/article/view/6018)
+
+**Current count:** 8 sources  
+→ To reach 10, locate additional papers on digital infrastructure equity or participatory IoT governance (try *IEEE Access*, *MDPI Smart Cities*, or *Urban Informatics*).
+
+
+---
+
+# 📱 Pack C: Smartphone Use and Cognitive Function
+
+## Overview
+This topic explores how **smartphone usage**, **digital dependence**, and **AI-assisted tools** influence **human cognition**, **attention**, and **behavioral outcomes**.  
+The literature reflects both supportive and nuanced perspectives: while many studies associate heavy phone use with reduced cognitive control or focus, others emphasize context-dependent effects such as cognitive offloading and adaptive multitasking.
+
+---
+
+## Hypothesis 1  
+### “Smartphone dependence and presence impair attention, memory, and executive function.”
+
+#### Supporting Evidence
+1. **M. L. Méndez et al. (2024)** – *Effects of Internet and Smartphone Addiction on Cognitive Performance.*  
+   [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0149763424000411)  
+   Correlates smartphone/internet addiction with lower cognitive test performance in college students.
+
+2. **G. Niu et al. (2022)** – *Can Smartphone Presence Affect Cognitive Function?*  
+   [ScienceDirect](https://www.sciencedirect.com/science/article/abs/pii/S0747563222002217)  
+   Experimental “brain drain” study — proximity of smartphones reduces working memory and attention.
+
+3. **H. H. Wilmer et al. (2017)** – *Smartphones and Cognition: A Review of Research.*  
+   [PMC (NCBI)](https://pmc.ncbi.nlm.nih.gov/articles/PMC5403814/)  
+   Meta-analysis summarizing cognitive impacts across attention, memory, and learning domains.
+
+4. **J. Skowronek et al. (2023)** – *The Mere Presence of a Smartphone Results in Lower Cognitive Performance.*  
+   [Nature](https://www.nature.com/articles/s41598-023-36256-4)  
+   Controlled lab study measuring decreased working memory when smartphones are visible but unused.
+
+5. **A. Al-Amri et al. (2023)** – *Effects of Smartphone Addiction on Cognitive Function and Physical Activity in Middle-School Children.*  
+   [Frontiers in Psychology](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2023.1182749/full)  
+   Finds smartphone addiction linked to lower executive function and reduced physical activity in adolescents.
+
+6. **N. Talaei et al. (2024)** – *The Impact of Smartphone Addiction on Cognitive and Driving Behavior.*  
+   [SSRN](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5153559)  
+   Driving simulator study showing increased reaction times and distraction under phone exposure.
+
+#### Nuanced / Counter Perspectives
+7. **M. Gerlich et al. (2025)** – *AI Tools in Society: Impacts on Cognitive Offloading and Human Dependence.*  
+   [MDPI](https://www.mdpi.com/3119574)  
+   Suggests “digital offloading” can sometimes optimize performance, paralleling smartphone-based cognitive outsourcing.
+
+8. **Novel Smartphone Interventions Improve Cognitive Flexibility and OCD Symptoms in Individuals with Contamination Fears**  
+   *(2024, Journal TBD)*  
+   Demonstrates therapeutic use of smartphone apps for enhancing cognitive flexibility — showing positive effects of digital intervention.
+
+9. **All Extern? Exploring the Impact of Social Media and Physical Activity on Adolescents’ Body Image and Interoception**  
+   *(2024, Preprint or Early View)*  
+   Investigates interaction effects — smartphone/social media use moderated by physical activity on body image and perception.
+
+10. **The Association Between Real-Life Markers of Phone Use and Cognitive Performance, Health-Related Quality of Life, and Sleep**  
+    [ScienceDirect](https://www.sciencedirect.com/science/article/pii/S0013935123008034)  
+    Large-scale observational study linking objective phone-use data with cognitive and lifestyle outcomes.
+
+---
+
+## Summary Insights
+- **Converging Evidence:** Heavy smartphone presence or dependence consistently correlates with reduced working memory and sustained attention.  
+- **Age Sensitivity:** Effects are stronger in adolescents and young adults, potentially moderated by self-regulation development.  
+- **Positive Interventions:** Targeted or therapeutic smartphone use (e.g., CBT apps) can enhance cognitive flexibility or reduce symptoms.  
+- **Emergent Trend:** Cognitive offloading — shifting memory or decision load to digital tools — introduces a new debate on *functional vs. detrimental* dependence.
+
+---
+
+## Suggested Extensions
+- Use **EEG datasets** or **digital behavior tracking APIs** for multimodal replication.  
+- Integrate **AI-driven digital well-being assistants** (e.g., usage prediction, screen-time adaptation).  
+- Explore **cross-domain parallels**: compare smartphone effects to **AI cognitive tools** (as in Gerlich et al., 2025).
+
+---
+
+**Current count:** 10 sources  
+→ To expand: include meta-reviews from *Frontiers in Psychology*, *MDPI Behavioral Sciences*, or *Nature Human Behaviour* on **cognitive offloading**, **screen dependency**, or **AI-mediated attention**.
