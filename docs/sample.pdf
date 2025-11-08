@@ -9,12 +9,12 @@ endobj
 << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>
 endobj
 4 0 obj
-<< /Length 82 >>
+<< /Length 192 >>
 stream
 BT
-/F1 18 Tf
+/F1 14 Tf
 72 720 Td
-(Collective Insight sample PDF for ingestion tests.) Tj
+(Collective Insight sample PDF for ingestion tests. It contains multiple sentences to validate retrieval. This ensures we can form several claims from one chunk.) Tj
 ET
 endstream
 endobj
@@ -28,9 +28,9 @@ xref
 0000000058 00000 n 
 0000000115 00000 n 
 0000000241 00000 n 
-0000000372 00000 n 
+0000000483 00000 n 
 trailer
 << /Size 6 /Root 1 0 R >>
 startxref
-442
+553
 %%EOF

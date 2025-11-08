@@ -2,35 +2,22 @@
 
 from __future__ import annotations
 
-import hashlib
 import logging
 import os
 import re
 from pathlib import Path
 from typing import Dict, List
 
-import chromadb
-from chromadb.api import Collection
-from chromadb.config import Settings
 import fitz  # PyMuPDF
 
 from .utils import configure_logging, ensure_dirs
+from .vectorstore import build_embeddings, get_collection, get_collection_name
 
 configure_logging()
 logger = logging.getLogger(__name__)
 
 TARGET_TOKENS = 350
 CHUNK_OVERLAP = 60
-
-
-def _get_chroma_dir() -> Path:
-    return Path(os.getenv("CHROMA_DIR", ".data/chroma")).expanduser()
-
-
-def _get_collection_name() -> str:
-    return os.getenv("CHROMA_COLLECTION", "docs")
-
-
 PDF_STAGING_DIR = Path(os.getenv("PDF_STAGING_DIR", "pdf_workspace")).expanduser()
 ensure_dirs(PDF_STAGING_DIR)
 
@@ -111,44 +98,12 @@ def chunk_pages(
     return chunks
 
 
-def _fallback_embedding(text: str, dim: int = 32) -> List[float]:
-    digest = hashlib.sha256(text.encode("utf-8")).digest()
-    values = [b / 255.0 for b in digest[:dim]]
-    return values
-
-
-def _build_embeddings(texts: List[str]) -> List[List[float]]:
-    api_key = os.getenv("OPENAI_API_KEY")
-    model = os.getenv("EMBED_MODEL", "text-embedding-large")
-    if api_key:
-        try:
-            from openai import OpenAI
-
-            client = OpenAI(api_key=api_key)
-            response = client.embeddings.create(model=model, input=texts)
-            embeddings = [item.embedding for item in response.data]
-            logger.info("Generated embeddings via %s", model)
-            return embeddings
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("Falling back to deterministic embeddings: %s", exc)
-    return [_fallback_embedding(text) for text in texts]
-
-
-def _get_chroma_collection() -> Collection:
-    chroma_dir = _get_chroma_dir()
-    ensure_dirs(chroma_dir)
-    collection_name = _get_collection_name()
-    client = chromadb.PersistentClient(path=str(chroma_dir), settings=Settings(anonymized_telemetry=False))
-    collection = client.get_or_create_collection(name=collection_name)
-    return collection
-
-
 def embed_chunks(chunks: List[Dict]) -> int:
     """Upsert chunk data into Chroma and return number of inserted chunks."""
     if not chunks:
         logger.warning("No chunks provided for embedding")
         return 0
-    collection = _get_chroma_collection()
+    collection = get_collection()
     documents = [chunk["text"] for chunk in chunks]
     metadatas = [
         {
@@ -159,8 +114,8 @@ def embed_chunks(chunks: List[Dict]) -> int:
         }
         for chunk in chunks
     ]
-    embeddings = _build_embeddings(documents)
-    collection_name = _get_collection_name()
+    embeddings = build_embeddings(documents)
+    collection_name = get_collection_name()
     collection.upsert(
         ids=[chunk["id"] for chunk in chunks],
         documents=documents,

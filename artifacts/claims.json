@@ -1,0 +1,114 @@
+[
+  {
+    "id": "c0001",
+    "topic": "Grounded Teacher",
+    "text": "Algorithm 1 Relation Contextual Module (RCM) Update Procedure Require: Global class-relation matrix R P RC\u02c6C initialized to zero; EMA decay factor \u03b2 P r0, 1s.",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 0,
+        "char_end": 158,
+        "quote": "Algorithm 1 Relation Contextual Module (RCM) Update Procedure Require: Global class-relation matrix R P RC\u02c6C initialized to zero; EMA decay factor \u03b2 P r0, 1s."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0002",
+    "topic": "Grounded Teacher",
+    "text": "1: while training do 2: Initialize batch-specific relation matrix Rb P RC\u02c6C to zero.",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 0,
+        "char_end": 84,
+        "quote": "1: while training do 2: Initialize batch-specific relation matrix Rb P RC\u02c6C to zero."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0003",
+    "topic": "Grounded Teacher",
+    "text": "3: for each training example with ground- truth label ci and predicted label xi do 4: Rbrci, xis \u00d0 Rbrci, xis ` 1 5: end for 6: for each class c P t1, .",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 0,
+        "char_end": 152,
+        "quote": "3: for each training example with ground- truth label ci and predicted label xi do 4: Rbrci, xis \u00d0 Rbrci, xis ` 1 5: end for 6: for each class c P t1, ."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0004",
+    "topic": "Grounded Teacher",
+    "text": ".",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 157,
+        "char_end": 158,
+        "quote": "."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0005",
+    "topic": "Grounded Teacher",
+    "text": ".",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 157,
+        "char_end": 158,
+        "quote": "."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0006",
+    "topic": "Grounded Teacher",
+    "text": ", Cu do 7: Normalize Rbrc, :s to sum to 1.",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 0,
+        "char_end": 42,
+        "quote": ", Cu do 7: Normalize Rbrc, :s to sum to 1."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  },
+  {
+    "id": "c0007",
+    "topic": "Grounded Teacher",
+    "text": "8: Update Rrc, :s \u00d0 \u03b2\u00a8Rrc, :s`p1\u00b4\u03b2q\u00a8Rbrc, : s 9: end for 10: end while instance crops, referred to as the Cropbank [140].",
+    "citations": [
+      {
+        "source_id": "SFDA_Grounded_Teacher__Rebuttal_ (1)",
+        "page": 8,
+        "char_start": 0,
+        "char_end": 121,
+        "quote": "8: Update Rrc, :s \u00d0 \u03b2\u00a8Rrc, :s`p1\u00b4\u03b2q\u00a8Rbrc, : s 9: end for 10: end while instance crops, referred to as the Cropbank [140]."
+      }
+    ],
+    "confidence": 0.65,
+    "status": "draft"
+  }
+]
