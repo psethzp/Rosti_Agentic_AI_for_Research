@@ -1,0 +1,110 @@
+{% extends "base.html" %} {% block content %}
+<div class="max-w-4xl mx-auto">
+  <!-- Header Section -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold text-white mb-2">Processing Results</h1>
+    <p class="text-gray-300">Your request is being processed by our agents</p>
+  </div>
+
+  <!-- Results Card -->
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden mb-6"
+  >
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4">
+      <h2 class="text-xl font-semibold text-white flex items-center">
+        <svg
+          class="w-6 h-6 mr-3 animate-spin"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          ></path>
+        </svg>
+        Live Updates
+      </h2>
+    </div>
+
+    <div class="p-8" hx-ext="sse" sse-connect="/events/{{ run_id }}">
+      <div id="stream" sse-swap="message" hx-swap="beforeend" class="space-y-3">
+        <div class="flex items-center text-gray-400 italic">
+          <svg
+            class="w-5 h-5 mr-2 animate-pulse"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+          Waiting for updates…
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="flex justify-between items-center">
+    <a
+      href="/"
+      class="inline-flex items-center px-6 py-3 bg-gray-700 border-2 border-gray-600 rounded-lg font-semibold text-gray-200 hover:bg-gray-600 hover:border-gray-500 transition-all shadow-md"
+    >
+      <svg
+        class="w-5 h-5 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        ></path>
+      </svg>
+      New Query
+    </a>
+  </div>
+</div>
+
+<style>
+  #stream > div {
+    padding: 12px 16px;
+    background-color: #1f2937;
+    border-left: 4px solid #6366f1;
+    border-radius: 8px;
+    animation: slideIn 0.3s ease-out;
+    color: #e5e7eb;
+  }
+
+  #stream > div:last-child {
+    background-color: #064e3b;
+    border-left-color: #22c55e;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media print {
+    header,
+    footer,
+    button {
+      display: none !important;
+    }
+  }
+</style>
+{% endblock %}
