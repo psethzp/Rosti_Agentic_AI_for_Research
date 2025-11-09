@@ -6,8 +6,10 @@ import logging
 import re
 from typing import Dict, List
 
+from chromadb.errors import InvalidDimensionException
+
 from .utils import configure_logging
-from .vectorstore import build_embeddings, get_collection
+from .vectorstore import build_embeddings, get_collection, reset_vector_store
 
 configure_logging()
 logger = logging.getLogger(__name__)
@@ -85,8 +87,17 @@ def search(query: str, k: int = 6) -> List[Dict]:
         if results:
             results.sort(key=lambda item: (-item["score"], item["id"]))
             return results[:k]
+    except InvalidDimensionException:
+        logger.error(
+            "Chroma collection dimension mismatch detected. Resetting store; please re-ingest documents."
+        )
+        reset_vector_store()
+        raise RuntimeError(
+            "Vector store reset due to embedding dimension mismatch. "
+            "Run ingestion again to rebuild the index."
+        )
     except Exception as exc:  # noqa: BLE001
-        logger.warning("Dense retrieval failed (%s); falling back to keyword search", exc)
+        logger.warning("Dense retrieval failed (%s); attempting keyword fallback", exc)
 
     fallback_results = _keyword_fallback(query, k)
     if not fallback_results:

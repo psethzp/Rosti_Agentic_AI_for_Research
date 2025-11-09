@@ -11,7 +11,12 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-from app.agents import load_claims_from_artifacts, run_reviewer, run_synthesizer
+from app.agents import (
+    load_claims_from_artifacts,
+    run_action_planner,
+    run_reviewer,
+    run_synthesizer,
+)
 from app.schemas import Claim, ReviewedClaim
 from app.utils import configure_logging
 
@@ -53,10 +58,14 @@ def main() -> None:
     topic = args.topic or (claims[0].topic if claims else "Untitled Topic")
     insights = run_synthesizer(topic, reviewed)
     logging.getLogger(__name__).info("Synthesized %d insights", len(insights))
+    actions = run_action_planner(topic, reviewed, insights)
+    logging.getLogger(__name__).info("Generated %d suggested actions", len(actions))
     if insights:
         print("Saved output to artifacts/claims_reviewed.json and artifacts/report.{json,html}")
     else:
         print("No insights generated; check reviewer verdicts or add more documents.")
+    if actions:
+        print("Suggested actions saved to artifacts/actions.json")
 
 
 if __name__ == "__main__":

@@ -35,6 +35,16 @@ class Insight(BaseModel):
     id: str
     topic: str
     claim_ids: List[str]
+    summary: str
     text: str
     confidence: float
     provenance: List[EvidenceSpan]
+
+
+class ActionItem(BaseModel):
+    id: str
+    topic: str
+    title: str
+    detail: str
+    tag: Literal["Hypothesis", "NextStep", "Clarification"]
+    related_claims: List[str] = Field(default_factory=list)

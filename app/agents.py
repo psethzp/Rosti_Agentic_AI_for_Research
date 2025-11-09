@@ -12,15 +12,15 @@ from typing import Iterable, Iterator, List, Optional, Sequence, Tuple
 from .llm import call_llm_json
 from .reporting import render_report_html
 from .retrieval import search
-from .schemas import Claim, EvidenceSpan, Insight, ReviewedClaim
+from .schemas import ActionItem, Claim, EvidenceSpan, Insight, ReviewedClaim
 from .utils import configure_logging, ensure_dirs
 from .validator import assess_span_support, verify_span
 
 configure_logging()
 logger = logging.getLogger(__name__)
 
-MIN_CLAIMS = 3
-MAX_CLAIMS = 7
+MIN_CLAIMS = 5
+MAX_CLAIMS = 15
 
 
 def _artifacts_dir() -> Path:
@@ -45,9 +45,18 @@ def _report_html_path() -> Path:
     return _artifacts_dir() / "report.html"
 
 
+def _actions_path() -> Path:
+    return _artifacts_dir() / "actions.json"
+
+
 def reset_artifacts(include_claims: bool = False) -> None:
     """Remove downstream artifact files to avoid stale UI state."""
-    for path in (_claims_reviewed_path(), _report_json_path(), _report_html_path()):
+    for path in (
+        _claims_reviewed_path(),
+        _report_json_path(),
+        _report_html_path(),
+        _actions_path(),
+    ):
         if path.exists():
             path.unlink()
             logger.info("Removed artifact %s", path)
@@ -121,6 +130,18 @@ def load_claims_from_artifacts() -> List[Claim]:
     return [Claim.model_validate(entry) for entry in data]
 
 
+def load_insights_from_artifacts() -> List[Insight]:
+    path = _report_json_path()
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(data, list):
+        raw_insights = data
+    else:
+        raw_insights = data.get("insights", [])
+    return [Insight.model_validate(entry) for entry in raw_insights]
+
+
 def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
     path = _claims_reviewed_path()
     payload = [claim.model_dump() for claim in claims]
@@ -128,16 +149,42 @@ def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
     logger.info("Wrote %d reviewed claims to %s", len(payload), path)
 
 
-def _persist_report(insights: List[Insight], claims: List[ReviewedClaim]) -> None:
+def _actions_path() -> Path:
+    return _artifacts_dir() / "actions.json"
+
+
+def _persist_report(
+    insights: List[Insight],
+    claims: List[ReviewedClaim],
+    actions: Optional[List[ActionItem]] = None,
+) -> None:
     json_path = _report_json_path()
     html_path = _report_html_path()
-    json_path.write_text(
-        json.dumps([insight.model_dump() for insight in insights], indent=2),
-        encoding="utf-8",
-    )
-    html = render_report_html(insights, claims)
+    payload = {
+        "insights": [insight.model_dump() for insight in insights],
+        "actions": [action.model_dump() for action in (actions or [])],
+    }
+    json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    html = render_report_html(insights, claims, actions or [])
     html_path.write_text(html, encoding="utf-8")
     logger.info("Wrote report artifacts to %s and %s", json_path, html_path)
+
+
+def _persist_actions(actions: List[ActionItem]) -> None:
+    path = _actions_path()
+    path.write_text(
+        json.dumps([action.model_dump() for action in actions], indent=2),
+        encoding="utf-8",
+    )
+    logger.info("Wrote %d action items to %s", len(actions), path)
+
+
+def _load_actions_from_artifacts() -> List[ActionItem]:
+    path = _actions_path()
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [ActionItem.model_validate(entry) for entry in data]
 
 
 def run_researcher(topic: str) -> List[Claim]:
@@ -194,8 +241,77 @@ def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
     if not insights:
         logger.warning("No insights synthesized; falling back to deterministic grouping.")
         insights = _fallback_insights(topic, reviewed)
-    _persist_report(insights, reviewed)
+    existing_actions = _load_actions_from_artifacts()
+    _persist_report(insights, reviewed, existing_actions)
     return insights
+
+
+def run_action_planner(
+    topic: str,
+    reviewed: List[ReviewedClaim],
+    insights: Optional[List[Insight]] = None,
+) -> List[ActionItem]:
+    if not reviewed:
+        raise ValueError("No reviewed claims available. Run reviewer first.")
+    if insights is None:
+        insights = load_insights_from_artifacts()
+
+    insight_lines = [
+        f"{insight.id}: {insight.summary} (claims: {', '.join(insight.claim_ids)})"
+        for insight in insights
+    ]
+    claim_lines = [
+        f"{claim.id} ({claim.verdict}): {claim.text}" for claim in reviewed
+    ]
+    system_prompt = (
+        "You are a strategic planner. Propose 3-5 actionable follow-ups (mix of hypotheses, "
+        "next steps, or clarifications) based on the claims and insights. "
+        "Output JSON list with objects {\"title\": \"...\", \"detail\": \"...\", "
+        "\"tag\": \"Hypothesis\"|\"NextStep\"|\"Clarification\", "
+        "\"related_claims\": [\"c0001\", ...] }."
+    )
+    user_prompt = (
+        f"Topic: {topic}\nReviewed claims:\n" + "\n".join(claim_lines) + "\n\n"
+        "Insights:\n" + ("\n".join(insight_lines) if insight_lines else "None yet.")
+    )
+    try:
+        llm_output = call_llm_json(system_prompt, user_prompt)
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Action planner LLM failed: %s", exc)
+        return []
+
+    actions: List[ActionItem] = []
+    allowed_tags = {"Hypothesis", "NextStep", "Clarification"}
+    for entry in llm_output:
+        title = _normalize_text(entry.get("title", ""))
+        detail = _normalize_text(entry.get("detail", entry.get("description", "")))
+        if not title or not detail:
+            continue
+        tag = str(entry.get("tag", "NextStep")).title()
+        if tag not in allowed_tags:
+            tag = "NextStep"
+        related = [
+            cid for cid in entry.get("related_claims", []) if any(c.id == cid for c in reviewed)
+        ]
+        actions.append(
+            ActionItem(
+                id=f"a{len(actions) + 1:04d}",
+                topic=topic,
+                title=title,
+                detail=detail if detail.endswith(".") else f"{detail}.",
+                tag=tag, 
+                related_claims=related,
+            )
+        )
+        if len(actions) >= 5:
+            break
+
+    if actions:
+        _persist_actions(actions)
+        _persist_report(insights or [], reviewed, actions)
+    else:
+        logger.warning("No action items generated; retaining previous suggestions.")
+    return actions
 
 
 def _llm_researcher(topic: str, hits: Sequence[dict]) -> List[Claim]:
@@ -213,10 +329,11 @@ def _llm_researcher(topic: str, hits: Sequence[dict]) -> List[Claim]:
         return []
 
     system_prompt = (
-        "You are Researcher. Use the provided evidence snippets to write factual claims. "
-        "Output JSON list where each item has fields: "
-        "'text' (string), 'evidence_refs' (array of evidence IDs like E1), "
-        "and optional 'confidence' (0-1). Produce between 3 and 7 claims."
+        "You are Researcher. Use the evidence snippets to draft factual, well-phrased claims "
+        "about the topic. Each claim should be 1-3 sentences and cite one or more evidence IDs "
+        "(E1, E2, ...). Output JSON list with objects containing: "
+        "'text', 'evidence_refs' (array of IDs), optional 'confidence' (0-1). "
+        "Produce between 8 and 15 diverse claims."
     )
     user_prompt = f"Topic: {topic}\nEvidence:\n" + "\n".join(evidence_lines)
     try:
@@ -325,9 +442,10 @@ def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]
         f"{claim.id} ({claim.verdict}): {claim.text}" for claim in usable_claims
     ]
     system_prompt = (
-        "You are Synthesizer. Combine the reviewed claims into 2-5 high-level insights. "
-        "Output JSON list with objects {\"text\":..., \"claim_ids\": [\"c0001\"...], "
-        "\"confidence\": 0-1}. Only reference claim IDs provided."
+        "You are Synthesizer. Combine the reviewed claims into 3-5 high-level insights. "
+        "Each insight should have a short summary sentence and a detailed explanation. "
+        "Output JSON list with objects {\"summary\": \"...\", \"detail\": \"...\", "
+        "\"claim_ids\": [\"c0001\"...], \"confidence\": 0-1}. Only reference claim IDs provided."
     )
     user_prompt = f"Topic: {topic}\nReviewed claims:\n" + "\n".join(claim_lines)
     try:
@@ -339,8 +457,9 @@ def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]
     claim_lookup = {claim.id: claim for claim in reviewed}
     insights: List[Insight] = []
     for entry in llm_output:
-        text = _normalize_text(entry.get("text", ""))
-        if not text:
+        summary = _normalize_text(entry.get("summary", ""))
+        detail = _normalize_text(entry.get("detail", entry.get("text", "")))
+        if not summary or not detail:
             continue
         claim_ids = [cid for cid in entry.get("claim_ids", []) if cid in claim_lookup]
         if not claim_ids:
@@ -352,12 +471,15 @@ def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]
             confidence = float(entry.get("confidence", 0.75))
         except (TypeError, ValueError):
             confidence = 0.75
+        detail_text = detail if detail.endswith(".") else f"{detail}."
+        summary_text = summary if summary.endswith(".") else f"{summary}."
         insights.append(
             Insight(
                 id=f"i{len(insights) + 1:04d}",
                 topic=topic,
                 claim_ids=claim_ids,
-                text=text if text.endswith(".") else f"{text}.",
+                summary=summary_text,
+                text=detail_text,
                 confidence=max(0.0, min(1.0, confidence)),
                 provenance=provenance,
             )
@@ -381,10 +503,12 @@ def _fallback_insights(topic: str, reviewed: List[ReviewedClaim]) -> List[Insigh
         text = " ".join(claim.text for claim in group)
         claim_ids = [claim.id for claim in group]
         provenance = [span for claim in group for span in claim.citations]
+        summary = group[0].text.split(".")[0]
         insight = Insight(
             id=f"i{len(insights) + 1:04d}",
             topic=topic,
             claim_ids=claim_ids,
+            summary=summary if summary.endswith(".") else f"{summary}.",
             text=text,
             confidence=min(0.95, sum((claim.confidence or 0.6) for claim in group) / len(group)),
             provenance=provenance,

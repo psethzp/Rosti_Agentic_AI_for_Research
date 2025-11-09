@@ -6,7 +6,7 @@ import html
 from pathlib import Path
 from typing import Iterable, List
 
-from .schemas import Insight, ReviewedClaim
+from .schemas import ActionItem, Insight, ReviewedClaim
 
 TEMPLATE_PATH = Path("assets/report_template.html")
 
@@ -39,6 +39,7 @@ def _render_insight_cards(insights: Iterable[Insight]) -> str:
         cards.append(
             "<section class='insight'>"
             f"<h3>{html.escape(insight.id)} · Confidence {insight.confidence:.2f}</h3>"
+            f"<p><strong>Summary:</strong> {html.escape(insight.summary)}</p>"
             f"<p>{html.escape(insight.text)}</p>"
             f"<p class='provenance'><strong>Provenance:</strong> {html.escape(citations)}</p>"
             "</section>"
@@ -46,11 +47,28 @@ def _render_insight_cards(insights: Iterable[Insight]) -> str:
     return "\n".join(cards)
 
 
-def render_report_html(insights: List[Insight], claims: List[ReviewedClaim]) -> str:
+def _render_actions(actions: Iterable[ActionItem]) -> str:
+    sections = []
+    for action in actions:
+        sections.append(
+            "<section class='action'>"
+            f"<h4>{html.escape(action.title)} · {html.escape(action.tag)}</h4>"
+            f"<p>{html.escape(action.detail)}</p>"
+            "</section>"
+        )
+    return "\n".join(sections)
+
+
+def render_report_html(
+    insights: List[Insight],
+    claims: List[ReviewedClaim],
+    actions: List[ActionItem],
+) -> str:
     """Render a simple HTML report using the template."""
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
     rendered = template.format(
         insight_cards=_render_insight_cards(insights),
         claims_table=_render_claims_table(claims),
+        actions_section=_render_actions(actions),
     )
     return rendered

@@ -67,6 +67,14 @@ def get_collection() -> Collection:
 def reset_vector_store() -> None:
     """Delete the current Chroma directory to reset embeddings."""
     chroma_dir = get_chroma_dir()
+    client = chromadb.PersistentClient(
+        path=str(chroma_dir),
+        settings=Settings(anonymized_telemetry=False),
+    )
+    try:
+        client.delete_collection(name=get_collection_name())
+    except Exception:
+        pass
     if chroma_dir.exists():
         shutil.rmtree(chroma_dir)
     ensure_dirs(chroma_dir)
@@ -80,7 +88,7 @@ def _hash_to_embedding(text: str, dim: int = 32) -> List[float]:
 
 
 def build_embeddings(texts: Iterable[str]) -> List[List[float]]:
-    """Return embeddings for the provided texts via Gemini or a deterministic fallback."""
+    """Return embeddings for the provided texts via Gemini."""
     texts = list(texts)
     if not texts:
         return []
@@ -89,19 +97,22 @@ def build_embeddings(texts: Iterable[str]) -> List[List[float]]:
     gemini_model = _env("EMBED_MODEL_GEMINI", "models/embedding-001") or "models/embedding-001"
     if gemini_model and not gemini_model.startswith(("models/", "tunedModels/")):
         gemini_model = f"models/{gemini_model}"
-    if gemini_key:
-        try:
-            import google.generativeai as genai
+    if not gemini_key:
+        raise RuntimeError("GEMINI_API_KEY is required for embeddings.")
+    try:
+        import google.generativeai as genai
 
-            genai.configure(api_key=gemini_key)
-            embeddings: List[List[float]] = []
-            for text in texts:
-                response = genai.embed_content(model=gemini_model, content=text)
-                embeddings.append(response["embedding"])
-            logger.info("Generated %d embeddings via Gemini %s", len(embeddings), gemini_model)
-            return embeddings
-        except Exception as exc:  # noqa: BLE001
-            logger.warning("Gemini embeddings failed: %s", exc)
-
-    logger.warning("Using deterministic embeddings for %d texts", len(texts))
-    return [_hash_to_embedding(text) for text in texts]
+        genai.configure(api_key=gemini_key)
+        embeddings: List[List[float]] = []
+        for text in texts:
+            response = genai.embed_content(model=gemini_model, content=text)
+            embeddings.append(response["embedding"])
+        logger.info(
+            "Generated %d embeddings via Gemini %s (dimension %d)",
+            len(embeddings),
+            gemini_model,
+            len(embeddings[0]) if embeddings else 0,
+        )
+        return embeddings
+    except Exception as exc:  # noqa: BLE001
+        raise RuntimeError(f"Gemini embeddings failed: {exc}") from exc

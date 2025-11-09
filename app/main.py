@@ -18,14 +18,16 @@ if str(PROJECT_ROOT) not in sys.path:
 
 from app.agents import (  # type: ignore  # noqa: E402
     load_claims_from_artifacts,
+    load_insights_from_artifacts,
     reset_artifacts,
+    run_action_planner,
     run_researcher,
     run_reviewer,
     run_synthesizer,
 )
 from app.graph import build_reasoning_graph  # type: ignore  # noqa: E402
 from app.ingestion import ingest_dir  # type: ignore  # noqa: E402
-from app.schemas import Insight, ReviewedClaim  # type: ignore  # noqa: E402
+from app.schemas import ActionItem, Insight, ReviewedClaim  # type: ignore  # noqa: E402
 from app.utils import configure_logging, ensure_dirs  # type: ignore  # noqa: E402
 
 configure_logging()
@@ -69,7 +71,19 @@ def _load_insights() -> List[Insight]:
     if not path.exists():
         return []
     data = json.loads(path.read_text(encoding="utf-8"))
-    return [Insight.model_validate(entry) for entry in data]
+    if isinstance(data, list):
+        raw_insights = data
+    else:
+        raw_insights = data.get("insights", [])
+    return [Insight.model_validate(entry) for entry in raw_insights]
+
+
+def _load_actions() -> List[ActionItem]:
+    path = Path("artifacts/actions.json")
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [ActionItem.model_validate(entry) for entry in data]
 
 
 def main() -> None:
@@ -96,31 +110,32 @@ def main() -> None:
             st.success("Uploaded PDFs ingested successfully.")
 
         topic = st.text_input("Topic / Prompt", "")
-        run_researcher_btn = st.button("Run Researcher")
-        run_reviewer_btn = st.button("Run Reviewer + Synthesizer")
+        run_pipeline_btn = st.button("Run Researcher + Reviewer")
+        generate_insights_btn = st.button("Generate Insights & Actions")
 
-    if run_researcher_btn:
+    if run_pipeline_btn:
         if not topic.strip():
-            st.error("Please enter a topic before running the Researcher.")
+            st.error("Please enter a topic before running the pipeline.")
         else:
-            with st.spinner("Generating claims..."):
+            with st.spinner("Running Researcher and Reviewer..."):
                 run_researcher(topic)
-            st.success("Researcher finished. Check artifacts/claims.json.")
-
-    if run_reviewer_btn:
-        try:
-            claims = load_claims_from_artifacts()
-        except FileNotFoundError:
-            st.error("claims.json not found. Run the Researcher first.")
-        else:
-            current_topic = topic or (claims[0].topic if claims else "Untitled Topic")
-            with st.spinner("Reviewing claims and synthesizing insights..."):
+                claims = load_claims_from_artifacts()
                 reviewed = run_reviewer(claims)
+            st.success("Researcher + Reviewer finished. Reviewed claims table updated.")
+
+    if generate_insights_btn:
+        reviewed = _load_reviewed_claims()
+        if not reviewed:
+            st.error("No reviewed claims found. Run the pipeline first.")
+        else:
+            current_topic = topic or reviewed[0].topic
+            with st.spinner("Generating insights and suggested actions..."):
                 insights = run_synthesizer(current_topic, reviewed)
+                actions = run_action_planner(current_topic, reviewed, insights)
             if insights:
-                st.success("Reviewer + Synthesizer finished. Check artifacts folder.")
-            else:
-                st.warning("Reviewer finished but no insights were produced. Verify claim verdicts.")
+                st.success("Insights generated and report updated.")
+            if actions:
+                st.info("Suggested actions refreshed.")
 
     st.subheader("Reasoning Graph")
     st.graphviz_chart(build_reasoning_graph(include_red_team=True))
@@ -131,7 +146,7 @@ def main() -> None:
         st.info("No insights available. Run the pipeline to generate them.")
     else:
         for insight in insights:
-            with st.expander(f"{insight.id} · Confidence {insight.confidence:.2f}"):
+            with st.expander(f"{insight.id} · {insight.summary} · Confidence {insight.confidence:.2f}"):
                 st.write(insight.text)
                 st.caption(
                     ", ".join(
@@ -158,6 +173,18 @@ def main() -> None:
                 for claim in reviewed_claims
             ]
         )
+
+    st.subheader("Suggested Actions & Next Hypotheses")
+    actions = _load_actions()
+    if not actions:
+        st.info("Generate insights to see suggested actions.")
+    else:
+        for action in actions:
+            label = f"{action.title} · {action.tag}"
+            with st.expander(label):
+                st.write(action.detail)
+                if action.related_claims:
+                    st.caption(f"Related claims: {', '.join(action.related_claims)}")
 
 
 if __name__ == "__main__":
