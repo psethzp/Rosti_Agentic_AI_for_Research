@@ -1,0 +1,367 @@
+[
+  {
+    "id": "c0001",
+    "topic": "Why stroke?",
+    "summary": "The NeuroReach VR system aims to improve stroke rehabilitation by training arm muscle activation through mixed-reality tasks with multimodal feedback.",
+    "text": "The NeuroReach VR system is a proof-of-concept mixed-reality application designed to enhance selective muscle activation in the arms for stroke rehabilitation. It utilizes an ARAT-aligned pouring task and an MX Ink tracing task, incorporating visual, auditory, and haptic feedback to aid in the rehabilitation process. The system is intended to be intuitive and motivational, leveraging gamified elements for a more engaging user experience. The project aims to improve motor control and functional recovery in stroke survivors through targeted exercises within a virtual environment.",
+    "subpoints": [
+      "The NeuroReach VR system is a proof-of-concept mixed-reality application designed to enhance selective muscle activation in the arms for stroke rehabilitation.",
+      "It utilizes an ARAT-aligned pouring task and an MX Ink tracing task, incorporating visual, auditory, and haptic feedback to aid in the rehabilitation process.",
+      "The system is intended to be intuitive and motivational, leveraging gamified elements for a more engaging user experience.",
+      "The project aims to improve motor control and functional recovery in stroke survivors through targeted exercises within a virtual environment."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 2345,
+        "quote": "1 NeuroReach VR Mixed Reality Project Proposal Supervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic October 6, 2025 GROUP MEMBERS Partha Sarathi Purkayastha Alexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon Khoshimov I. DESCRIPTION OF THE PROJECT Goal: To build NeuroReach VR \u2013 a proof-of-concept mixed-realit...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0000",
+        "chunk_text": "1\nNeuroReach VR\nMixed Reality Project Proposal\nSupervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic\nOctober 6, 2025\nGROUP MEMBERS\nPartha Sarathi\nPurkayastha\nAlexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon\nKhoshimov\nI. DESCRIPTION OF THE PROJECT\nGoal: To build NeuroReach VR \u2013 a proof-of-concept mixed-reality system that trains stroke reach and grasp using\nan ARAT-aligned pouring task [1] and an MX Ink tracing task with visual, auditory and haptic feedback [6], to\nimprove selective muscle activation in the arms for stroke rehabilitation. [2].\nIdea: Quest 3S with Shared Spatial Anchors pins virtual halos to a real cup and jug while MX Ink provides stylus\npose and pressure for tracing with haptic ticks via Unity SendHapticImpulse. We compute on path, time in tilt\nwindow, spill proxy and smoothness with SPARC, and adapt difficulty to keep the user in a target corridor.\nRationale: The design draws on motor learning and control theory, emphasizing that stroke recovery combines\nadaptation and skill learning to achieve specific task goals [5]. Guided by optimal feedback control, path corri-\ndors, goal halos, and error-contingent cues support goal-directed corrections. Task-specific ADL movements with\nvalidated kinematic metrics use SPARC for smoothness, while conservative auditory pacing maintains performance\nconsistency [3].\nII. WORK PACKAGES AND TIMELINE\nHardware & Software: The system runs on Meta Quest 3S using Logitech MX Ink for precision input and haptic\nfeedback, with an optional Myo armband for EMG biofeedback. It is developed in Unity (C#) for Android, logs\ndata in CSV and JSON formats, and uses Python notebooks for quick analysis and visualization.\nWork Package 1 : Data Anchors, Integration and Calibration (Weeks 1\u20132)\nMembers Responsible: R. Khoshimov, A. Elsig\nDescription: Set up Quest 3 passthrough and Spatial Anchors; integrate MX Ink input and haptics; implement\nCSV logger. Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks"
+      }
+    ],
+    "confidence": 1.0,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "c0002",
+    "topic": "Why stroke?",
+    "summary": "NeuroReach VR employs adaptive difficulty and fading feedback mechanisms to personalize the rehabilitation experience based on user performance.",
+    "text": "The system features an adaptive controller that adjusts task difficulty, such as the corridor, tilt window, and tracing tunnel, based on user performance. Feedback mechanisms are designed to fade from providing knowledge of performance to knowledge of results as the user progresses. A projected dashboard will display real-time metrics like on path, tilt window, spills proxy, RMS error, and SPARC to observe adaptive difficulty and feedback fading. This adaptive approach aims to prevent overreactive difficulty oscillations and metric drift across sessions by using solutions like moving averages.",
+    "subpoints": [
+      "The system features an adaptive controller that adjusts task difficulty, such as the corridor, tilt window, and tracing tunnel, based on user performance.",
+      "Feedback mechanisms are designed to fade from providing knowledge of performance to knowledge of results as the user progresses.",
+      "A projected dashboard will display real-time metrics like on path, tilt window, spills proxy, RMS error, and SPARC to observe adaptive difficulty and feedback fading.",
+      "This adaptive approach aims to prevent overreactive difficulty oscillations and metric drift across sessions by using solutions like moving averages."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 0,
+        "char_end": 2496,
+        "quote": "2 Work Package 3 : Adaptive controller & logging (Weeks 6\u20138) Members Responsible: A. Elsig, R. Fl\u00a8uckiger Description: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of performance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz l...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0000",
+        "chunk_text": "2\nWork Package 3 : Adaptive controller & logging (Weeks 6\u20138)\nMembers Responsible: A. Elsig, R. Fl\u00a8uckiger\nDescription: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of\nperformance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz logging with rolling\nsummaries. Challenges: Overreactive difficulty oscillation; metric drift across sessions. Solutions: Moving average\nwith gates and floors; buffered asynchronous writes and per trial files. Alternatives: Manual override switches;\nlightweight local database if CSV grows; fixed difficulty presets.\nWork Package 4 : Pilot study and analysis (Weeks 9\u201312)\nMembers Responsible: P. S. Purkayastha, R. Khoshimov\nDescription: Evaluate the system with a 5-10 participant pilot study; Test usability and performance using a baseline,\ntraining, retention protocol to inform final refinements. Outcomes: A polished system with documentation; A formal\nstudy protocol with a performance dataset; A completed usability and analysis report. Challenges: Participant\nrecruitment delays; Technical instability. Solutions: Recruit early; Conduct internal dry runs to fix bugs. Alternatives:\nUse a smaller cohort; Simplify the protocol if technical issues arise.\nIII. OUTCOMES AND DEMONSTRATION\nExpected outcomes: (i) A working proof-of-concept prototype that turns kinematics into adaptive multimodal\nfeedback during pouring and tracing (ii) A logging and analytics tool that summarizes on path, tilt window, spills\nproxy and SPARC smoothness (iii) A small pilot indicating increased time in tilt window and reduced RMS path\nerror with improved SPARC, consistent with drinking task kinematics and smoothness literature [5].\nEvaluation plans: (i) A preliminary usability study with physiotherapists, collecting qualitative feedback through a\nthink-aloud protocol and post-session questionnaires. (ii) Assess the system\u2019s perceived effectiveness, ease of use,\nand fit to ARAT aligned tasks, with specific focus on clarity of halos, ticks and result cards (iii) Focus on the\nintuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error"
+      }
+    ],
+    "confidence": 1.0,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "c0003",
+    "topic": "Why stroke?",
+    "summary": "The development of NeuroReach VR involves addressing technical challenges related to mixed-reality implementation, including anchor stability and sensor data accuracy.",
+    "text": "Key outcomes include a Unity project with anchors and passthrough capabilities, a functional MX Ink tracing sample with haptic feedback, and a one-tap calibration UI. Challenges such as anchor drift, noisy tilt estimation, and inconsistent haptic support are being addressed through specific solutions. To mitigate anchor drift, the system will relocalize anchors at the session start, and low-pass filtering and event debouncing are used for tilt estimation. Alternative solutions considered include using fiducials instead of anchors and running tracing tasks without haptics if support is inconsistent.",
+    "subpoints": [
+      "Key outcomes include a Unity project with anchors and passthrough capabilities, a functional MX Ink tracing sample with haptic feedback, and a one-tap calibration UI.",
+      "Challenges such as anchor drift, noisy tilt estimation, and inconsistent haptic support are being addressed through specific solutions.",
+      "To mitigate anchor drift, the system will relocalize anchors at the session start, and low-pass filtering and event debouncing are used for tilt estimation.",
+      "Alternative solutions considered include using fiducials instead of anchors and running tracing tasks without haptics if support is inconsistent."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 1923,
+        "char_end": 2912,
+        "quote": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic ticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions: Relocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials ...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0001",
+        "chunk_text": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks 3\u20135)\nMembers Responsible: P. S. Purkayastha, R. Fl\u00a8uckiger\nDescription: Build Passthrough Pouring task; build MX Ink Tracing task; add neon halos and virtual liquid particles;\nOutcomes: Playable pouring with on path, tilt window and spill proxy; tracing with tunnel and live error; UI to\nconfigure thresholds and BPM; single screen results card. Challenges: Stable spill detection; tunnel width and tilt\nwindow tuning. Solutions: One trial calibration; on device tooltips and ghost path. Alternatives: Use geometric spill\nproxy; reduce tracing set to line and spiral."
+      }
+    ],
+    "confidence": 1.0,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "c0004",
+    "topic": "Why stroke?",
+    "summary": "The NeuroReach VR system is designed for potential clinical application, with a demonstration plan that includes live on-headset interaction and offline video presentations.",
+    "text": "The system's intuitiveness and motivational aspects suggest potential for clinical application in stroke rehabilitation. A live on-headset demonstration will showcase quick anchor calibration, pouring blocks, and tracing blocks with real-time feedback like halos and ticks. A projected dashboard will provide real-time observation of adaptive difficulty and fading feedback based on user muscle activation. An offline video presentation will be used to showcase the full functionality and capabilities of the NeuroReach VR system.",
+    "subpoints": [
+      "The system's intuitiveness and motivational aspects suggest potential for clinical application in stroke rehabilitation.",
+      "A live on-headset demonstration will showcase quick anchor calibration, pouring blocks, and tracing blocks with real-time feedback like halos and ticks.",
+      "A projected dashboard will provide real-time observation of adaptive difficulty and fading feedback based on user muscle activation.",
+      "An offline video presentation will be used to showcase the full functionality and capabilities of the NeuroReach VR system."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 2345,
+        "quote": "1 NeuroReach VR Mixed Reality Project Proposal Supervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic October 6, 2025 GROUP MEMBERS Partha Sarathi Purkayastha Alexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon Khoshimov I. DESCRIPTION OF THE PROJECT Goal: To build NeuroReach VR \u2013 a proof-of-concept mixed-realit...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0000",
+        "chunk_text": "1\nNeuroReach VR\nMixed Reality Project Proposal\nSupervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic\nOctober 6, 2025\nGROUP MEMBERS\nPartha Sarathi\nPurkayastha\nAlexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon\nKhoshimov\nI. DESCRIPTION OF THE PROJECT\nGoal: To build NeuroReach VR \u2013 a proof-of-concept mixed-reality system that trains stroke reach and grasp using\nan ARAT-aligned pouring task [1] and an MX Ink tracing task with visual, auditory and haptic feedback [6], to\nimprove selective muscle activation in the arms for stroke rehabilitation. [2].\nIdea: Quest 3S with Shared Spatial Anchors pins virtual halos to a real cup and jug while MX Ink provides stylus\npose and pressure for tracing with haptic ticks via Unity SendHapticImpulse. We compute on path, time in tilt\nwindow, spill proxy and smoothness with SPARC, and adapt difficulty to keep the user in a target corridor.\nRationale: The design draws on motor learning and control theory, emphasizing that stroke recovery combines\nadaptation and skill learning to achieve specific task goals [5]. Guided by optimal feedback control, path corri-\ndors, goal halos, and error-contingent cues support goal-directed corrections. Task-specific ADL movements with\nvalidated kinematic metrics use SPARC for smoothness, while conservative auditory pacing maintains performance\nconsistency [3].\nII. WORK PACKAGES AND TIMELINE\nHardware & Software: The system runs on Meta Quest 3S using Logitech MX Ink for precision input and haptic\nfeedback, with an optional Myo armband for EMG biofeedback. It is developed in Unity (C#) for Android, logs\ndata in CSV and JSON formats, and uses Python notebooks for quick analysis and visualization.\nWork Package 1 : Data Anchors, Integration and Calibration (Weeks 1\u20132)\nMembers Responsible: R. Khoshimov, A. Elsig\nDescription: Set up Quest 3 passthrough and Spatial Anchors; integrate MX Ink input and haptics; implement\nCSV logger. Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks"
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      }
+    ],
+    "confidence": 1.0,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "d0001",
+    "topic": "Why stroke?",
+    "summary": "The NeuroReach VR system is a proof-of-concept mixed-reality application designed for stroke rehabilitation, focusing on improving arm muscle activation through specific training tasks.",
+    "text": "The NeuroReach VR system aims to train stroke patients in reach and grasp movements using a mixed-reality environment. It incorporates an ARAT-aligned pouring task and an MX Ink tracing task to enhance selective muscle activation in the arms. The system utilizes visual, auditory, and haptic feedback to support the rehabilitation process. The project is currently in a proof-of-concept stage, with a focus on developing the core functionalities and technical aspects. The system is intended to be used with the Quest 3S headset, leveraging shared spatial anchors for its mixed-reality capabilities.",
+    "subpoints": [
+      "The NeuroReach VR system aims to train stroke patients in reach and grasp movements using a mixed-reality environment.",
+      "It incorporates an ARAT-aligned pouring task and an MX Ink tracing task to enhance selective muscle activation in the arms.",
+      "The system utilizes visual, auditory, and haptic feedback to support the rehabilitation process.",
+      "The project is currently in a proof-of-concept stage, with a focus on developing the core functionalities and technical aspects.",
+      "The system is intended to be used with the Quest 3S headset, leveraging shared spatial anchors for its mixed-reality capabilities."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 2345,
+        "quote": "1 NeuroReach VR Mixed Reality Project Proposal Supervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic October 6, 2025 GROUP MEMBERS Partha Sarathi Purkayastha Alexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon Khoshimov I. DESCRIPTION OF THE PROJECT Goal: To build NeuroReach VR \u2013 a proof-of-concept mixed-realit...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0000",
+        "chunk_text": "1\nNeuroReach VR\nMixed Reality Project Proposal\nSupervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic\nOctober 6, 2025\nGROUP MEMBERS\nPartha Sarathi\nPurkayastha\nAlexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon\nKhoshimov\nI. DESCRIPTION OF THE PROJECT\nGoal: To build NeuroReach VR \u2013 a proof-of-concept mixed-reality system that trains stroke reach and grasp using\nan ARAT-aligned pouring task [1] and an MX Ink tracing task with visual, auditory and haptic feedback [6], to\nimprove selective muscle activation in the arms for stroke rehabilitation. [2].\nIdea: Quest 3S with Shared Spatial Anchors pins virtual halos to a real cup and jug while MX Ink provides stylus\npose and pressure for tracing with haptic ticks via Unity SendHapticImpulse. We compute on path, time in tilt\nwindow, spill proxy and smoothness with SPARC, and adapt difficulty to keep the user in a target corridor.\nRationale: The design draws on motor learning and control theory, emphasizing that stroke recovery combines\nadaptation and skill learning to achieve specific task goals [5]. Guided by optimal feedback control, path corri-\ndors, goal halos, and error-contingent cues support goal-directed corrections. Task-specific ADL movements with\nvalidated kinematic metrics use SPARC for smoothness, while conservative auditory pacing maintains performance\nconsistency [3].\nII. WORK PACKAGES AND TIMELINE\nHardware & Software: The system runs on Meta Quest 3S using Logitech MX Ink for precision input and haptic\nfeedback, with an optional Myo armband for EMG biofeedback. It is developed in Unity (C#) for Android, logs\ndata in CSV and JSON formats, and uses Python notebooks for quick analysis and visualization.\nWork Package 1 : Data Anchors, Integration and Calibration (Weeks 1\u20132)\nMembers Responsible: R. Khoshimov, A. Elsig\nDescription: Set up Quest 3 passthrough and Spatial Anchors; integrate MX Ink input and haptics; implement\nCSV logger. Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks"
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 2345,
+        "quote": "1 NeuroReach VR Mixed Reality Project Proposal Supervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic October 6, 2025 GROUP MEMBERS Partha Sarathi Purkayastha Alexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon Khoshimov I. DESCRIPTION OF THE PROJECT Goal: To build NeuroReach VR \u2013 a proof-of-concept mixed-realit...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0000",
+        "chunk_text": "1\nNeuroReach VR\nMixed Reality Project Proposal\nSupervised by: Marwen Mokni, Christoph Bauer, Petar Lukovic\nOctober 6, 2025\nGROUP MEMBERS\nPartha Sarathi\nPurkayastha\nAlexandre Elsig Raphael Fl\u00a8uckiger Rakhmatillokhon\nKhoshimov\nI. DESCRIPTION OF THE PROJECT\nGoal: To build NeuroReach VR \u2013 a proof-of-concept mixed-reality system that trains stroke reach and grasp using\nan ARAT-aligned pouring task [1] and an MX Ink tracing task with visual, auditory and haptic feedback [6], to\nimprove selective muscle activation in the arms for stroke rehabilitation. [2].\nIdea: Quest 3S with Shared Spatial Anchors pins virtual halos to a real cup and jug while MX Ink provides stylus\npose and pressure for tracing with haptic ticks via Unity SendHapticImpulse. We compute on path, time in tilt\nwindow, spill proxy and smoothness with SPARC, and adapt difficulty to keep the user in a target corridor.\nRationale: The design draws on motor learning and control theory, emphasizing that stroke recovery combines\nadaptation and skill learning to achieve specific task goals [5]. Guided by optimal feedback control, path corri-\ndors, goal halos, and error-contingent cues support goal-directed corrections. Task-specific ADL movements with\nvalidated kinematic metrics use SPARC for smoothness, while conservative auditory pacing maintains performance\nconsistency [3].\nII. WORK PACKAGES AND TIMELINE\nHardware & Software: The system runs on Meta Quest 3S using Logitech MX Ink for precision input and haptic\nfeedback, with an optional Myo armband for EMG biofeedback. It is developed in Unity (C#) for Android, logs\ndata in CSV and JSON formats, and uses Python notebooks for quick analysis and visualization.\nWork Package 1 : Data Anchors, Integration and Calibration (Weeks 1\u20132)\nMembers Responsible: R. Khoshimov, A. Elsig\nDescription: Set up Quest 3 passthrough and Spatial Anchors; integrate MX Ink input and haptics; implement\nCSV logger. Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks"
+      }
+    ],
+    "confidence": 1.0,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "d0002",
+    "topic": "Why stroke?",
+    "summary": "The NeuroReach VR system employs adaptive control and feedback fading mechanisms to personalize the rehabilitation experience, though these features face development challenges.",
+    "text": "The system is designed with an adaptive controller that adjusts task difficulty based on user performance. Feedback mechanisms are intended to fade from providing knowledge of performance to knowledge of results. Challenges such as overreactive difficulty oscillation and metric drift across sessions are being addressed. Solutions like moving averages with gates and floors are proposed to mitigate these adaptive controller issues. The effectiveness of these adaptive features and their solutions is still under development and requires further validation.",
+    "subpoints": [
+      "The system is designed with an adaptive controller that adjusts task difficulty based on user performance.",
+      "Feedback mechanisms are intended to fade from providing knowledge of performance to knowledge of results.",
+      "Challenges such as overreactive difficulty oscillation and metric drift across sessions are being addressed.",
+      "Solutions like moving averages with gates and floors are proposed to mitigate these adaptive controller issues.",
+      "The effectiveness of these adaptive features and their solutions is still under development and requires further validation."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 0,
+        "char_end": 2496,
+        "quote": "2 Work Package 3 : Adaptive controller & logging (Weeks 6\u20138) Members Responsible: A. Elsig, R. Fl\u00a8uckiger Description: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of performance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz l...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0000",
+        "chunk_text": "2\nWork Package 3 : Adaptive controller & logging (Weeks 6\u20138)\nMembers Responsible: A. Elsig, R. Fl\u00a8uckiger\nDescription: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of\nperformance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz logging with rolling\nsummaries. Challenges: Overreactive difficulty oscillation; metric drift across sessions. Solutions: Moving average\nwith gates and floors; buffered asynchronous writes and per trial files. Alternatives: Manual override switches;\nlightweight local database if CSV grows; fixed difficulty presets.\nWork Package 4 : Pilot study and analysis (Weeks 9\u201312)\nMembers Responsible: P. S. Purkayastha, R. Khoshimov\nDescription: Evaluate the system with a 5-10 participant pilot study; Test usability and performance using a baseline,\ntraining, retention protocol to inform final refinements. Outcomes: A polished system with documentation; A formal\nstudy protocol with a performance dataset; A completed usability and analysis report. Challenges: Participant\nrecruitment delays; Technical instability. Solutions: Recruit early; Conduct internal dry runs to fix bugs. Alternatives:\nUse a smaller cohort; Simplify the protocol if technical issues arise.\nIII. OUTCOMES AND DEMONSTRATION\nExpected outcomes: (i) A working proof-of-concept prototype that turns kinematics into adaptive multimodal\nfeedback during pouring and tracing (ii) A logging and analytics tool that summarizes on path, tilt window, spills\nproxy and SPARC smoothness (iii) A small pilot indicating increased time in tilt window and reduced RMS path\nerror with improved SPARC, consistent with drinking task kinematics and smoothness literature [5].\nEvaluation plans: (i) A preliminary usability study with physiotherapists, collecting qualitative feedback through a\nthink-aloud protocol and post-session questionnaires. (ii) Assess the system\u2019s perceived effectiveness, ease of use,\nand fit to ARAT aligned tasks, with specific focus on clarity of halos, ticks and result cards (iii) Focus on the\nintuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error"
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 0,
+        "char_end": 2496,
+        "quote": "2 Work Package 3 : Adaptive controller & logging (Weeks 6\u20138) Members Responsible: A. Elsig, R. Fl\u00a8uckiger Description: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of performance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz l...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0000",
+        "chunk_text": "2\nWork Package 3 : Adaptive controller & logging (Weeks 6\u20138)\nMembers Responsible: A. Elsig, R. Fl\u00a8uckiger\nDescription: Rule based adaptation of corridor, tilt window and tracing tunnel; feedback fading from knowledge of\nperformance to knowledge of results; Outcomes: Adaptive controller with hysteresis; 50 to 90 Hz logging with rolling\nsummaries. Challenges: Overreactive difficulty oscillation; metric drift across sessions. Solutions: Moving average\nwith gates and floors; buffered asynchronous writes and per trial files. Alternatives: Manual override switches;\nlightweight local database if CSV grows; fixed difficulty presets.\nWork Package 4 : Pilot study and analysis (Weeks 9\u201312)\nMembers Responsible: P. S. Purkayastha, R. Khoshimov\nDescription: Evaluate the system with a 5-10 participant pilot study; Test usability and performance using a baseline,\ntraining, retention protocol to inform final refinements. Outcomes: A polished system with documentation; A formal\nstudy protocol with a performance dataset; A completed usability and analysis report. Challenges: Participant\nrecruitment delays; Technical instability. Solutions: Recruit early; Conduct internal dry runs to fix bugs. Alternatives:\nUse a smaller cohort; Simplify the protocol if technical issues arise.\nIII. OUTCOMES AND DEMONSTRATION\nExpected outcomes: (i) A working proof-of-concept prototype that turns kinematics into adaptive multimodal\nfeedback during pouring and tracing (ii) A logging and analytics tool that summarizes on path, tilt window, spills\nproxy and SPARC smoothness (iii) A small pilot indicating increased time in tilt window and reduced RMS path\nerror with improved SPARC, consistent with drinking task kinematics and smoothness literature [5].\nEvaluation plans: (i) A preliminary usability study with physiotherapists, collecting qualitative feedback through a\nthink-aloud protocol and post-session questionnaires. (ii) Assess the system\u2019s perceived effectiveness, ease of use,\nand fit to ARAT aligned tasks, with specific focus on clarity of halos, ticks and result cards (iii) Focus on the\nintuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error"
+      },
+      {
+        "source_id": "r0003",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 1114,
+        "quote": "Challenge on claim c0002: The claim describes an adaptive controller and feedback fading mechanisms, but the evidence focuses on specific task implementations and technical challenges without detailing these adaptive features. The claim (c0002) extensively details an adaptive controller that adjusts task difficulty ...",
+        "chunk_id": "r0003-challenge",
+        "chunk_text": "Challenge on claim c0002: The claim describes an adaptive controller and feedback fading mechanisms, but the evidence focuses on specific task implementations and technical challenges without detailing these adaptive features. The claim (c0002) extensively details an adaptive controller that adjusts task difficulty and a feedback mechanism that fades from knowledge of performance to knowledge of results. It also mentions specific solutions like moving averages to prevent oscillations and metric drift. However, the provided evidence snippets (E1 and E2) primarily describe the technical implementation of specific tasks (pouring, tracing), the hardware used (Quest 3S), and the challenges encountered (anchor drift, noisy tilt estimation). While E1 mentions 'UI to configure thresholds,' it does not elaborate on how these thresholds are dynamically adjusted by an adaptive controller based on user performance, nor does it describe the fading feedback mechanism. The evidence does not confirm or deny the existence or functionality of the adaptive controller or the feedback fading as described in the claim."
+      },
+      {
+        "source_id": "r0002",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 828,
+        "quote": "Challenge on claim c0001: The system's ability to adapt difficulty and fade feedback is still under development and faces challenges. The claim states the system aims to improve motor control through targeted exercises. Evidence suggests the system incorporates adaptive difficulty and feedback fading. However, Work ...",
+        "chunk_id": "r0002-challenge",
+        "chunk_text": "Challenge on claim c0001: The system's ability to adapt difficulty and fade feedback is still under development and faces challenges. The claim states the system aims to improve motor control through targeted exercises. Evidence suggests the system incorporates adaptive difficulty and feedback fading. However, Work Package 3 explicitly lists 'Overreactive difficulty oscillation' and 'metric drift across sessions' as challenges for the adaptive controller. While solutions like 'Moving average with gates and floors' are proposed, the effectiveness of these solutions in achieving smooth and reliable adaptation is not yet demonstrated. The 'fading feedback from knowledge of performance to knowledge of results' is also part of the development, but its successful implementation and impact on user learning are not detailed."
+      }
+    ],
+    "confidence": 0.9,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "d0003",
+    "topic": "Why stroke?",
+    "summary": "Technical challenges related to spatial anchoring, motion tracking, and haptic feedback need to be overcome for the NeuroReach VR system to achieve reliable performance.",
+    "text": "Issues such as anchor drift and noisy tilt estimation are significant challenges in the system's development. Inconsistent haptic support has also been identified as a technical hurdle. Solutions proposed include realigning anchors at the start of a session and implementing low-pass tilt filtering. The system aims to provide real-time feedback, including halos, ticks, and error bars, which are dependent on accurate tracking and haptics. Alternative approaches, like using fiducials instead of anchors, are being considered if current solutions prove insufficient.",
+    "subpoints": [
+      "Issues such as anchor drift and noisy tilt estimation are significant challenges in the system's development.",
+      "Inconsistent haptic support has also been identified as a technical hurdle.",
+      "Solutions proposed include realigning anchors at the start of a session and implementing low-pass tilt filtering.",
+      "The system aims to provide real-time feedback, including halos, ticks, and error bars, which are dependent on accurate tracking and haptics.",
+      "Alternative approaches, like using fiducials instead of anchors, are being considered if current solutions prove insufficient."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 1923,
+        "char_end": 2912,
+        "quote": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic ticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions: Relocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials ...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0001",
+        "chunk_text": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks 3\u20135)\nMembers Responsible: P. S. Purkayastha, R. Fl\u00a8uckiger\nDescription: Build Passthrough Pouring task; build MX Ink Tracing task; add neon halos and virtual liquid particles;\nOutcomes: Playable pouring with on path, tilt window and spill proxy; tracing with tunnel and live error; UI to\nconfigure thresholds and BPM; single screen results card. Challenges: Stable spill detection; tunnel width and tilt\nwindow tuning. Solutions: One trial calibration; on device tooltips and ghost path. Alternatives: Use geometric spill\nproxy; reduce tracing set to line and spiral."
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 1,
+        "char_start": 1923,
+        "char_end": 2912,
+        "quote": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic ticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions: Relocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials ...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0001:c0001",
+        "chunk_text": "Outcomes: Unity project with anchors and passthrough; MX Ink tracing sample running with haptic\nticks; one tap calibration UI. Challenges: Anchor drift; noisy tilt estimation; inconsistent haptic support. Solutions:\nRelocalize anchors at session start; low pass tilt and debounce events;. Alternatives: Use fiducials instead of anchors;\nrun tracing without haptics.\nWork Package 2 : VR Task and Multimodal Feedback (Weeks 3\u20135)\nMembers Responsible: P. S. Purkayastha, R. Fl\u00a8uckiger\nDescription: Build Passthrough Pouring task; build MX Ink Tracing task; add neon halos and virtual liquid particles;\nOutcomes: Playable pouring with on path, tilt window and spill proxy; tracing with tunnel and live error; UI to\nconfigure thresholds and BPM; single screen results card. Challenges: Stable spill detection; tunnel width and tilt\nwindow tuning. Solutions: One trial calibration; on device tooltips and ghost path. Alternatives: Use geometric spill\nproxy; reduce tracing set to line and spiral."
+      },
+      {
+        "source_id": "r0007",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 913,
+        "quote": "Challenge on claim c0004: The claim overstates the system's readiness for clinical application by not acknowledging significant technical challenges and limitations. The claim suggests the system has potential for clinical application in stroke rehabilitation and will showcase its capabilities. However, the evidence...",
+        "chunk_id": "r0007-challenge",
+        "chunk_text": "Challenge on claim c0004: The claim overstates the system's readiness for clinical application by not acknowledging significant technical challenges and limitations. The claim suggests the system has potential for clinical application in stroke rehabilitation and will showcase its capabilities. However, the evidence highlights several significant challenges that are still being addressed, including anchor drift, noisy tilt estimation, inconsistent haptic support, and potential overreactive difficulty oscillation. These issues directly impact the reliability and accuracy of the system's feedback and adaptive features, which are crucial for clinical use. The evidence also mentions alternatives like running tracing without haptics or using fiducials instead of anchors, indicating that the current implementation may not be robust enough for its intended purpose without further development and validation."
+      }
+    ],
+    "confidence": 0.95,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "d0004",
+    "topic": "Why stroke?",
+    "summary": "The NeuroReach VR system integrates a projected dashboard for real-time monitoring of user performance and adaptive difficulty, though the full scope of displayed metrics is still being defined.",
+    "text": "A projected dashboard is planned to display key performance metrics during the rehabilitation tasks. Metrics such as 'on path', 'tilt window', 'spills proxy', 'RMS error', and 'SPARC' are intended to be shown. These metrics will be updated per trial to allow observation of real-time adaptive difficulty and feedback fading. Some of these metrics are outcomes of specific tasks like pouring and tracing, but the dashboard's comprehensive display is still under development. The dashboard's real-time updates are crucial for observing the system's adaptive capabilities.",
+    "subpoints": [
+      "A projected dashboard is planned to display key performance metrics during the rehabilitation tasks.",
+      "Metrics such as 'on path', 'tilt window', 'spills proxy', 'RMS error', and 'SPARC' are intended to be shown.",
+      "These metrics will be updated per trial to allow observation of real-time adaptive difficulty and feedback fading.",
+      "Some of these metrics are outcomes of specific tasks like pouring and tracing, but the dashboard's comprehensive display is still under development.",
+      "The dashboard's real-time updates are crucial for observing the system's adaptive capabilities."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      },
+      {
+        "source_id": "r0004",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 932,
+        "quote": "Challenge on claim c0002: The claim mentions a projected dashboard with real-time metrics, but the evidence only lists some of these metrics as outcomes of specific tasks. The claim (c0002) states that a 'projected dashboard will display real-time metrics like on path, tilt window, spills proxy, RMS error, and SPARC...",
+        "chunk_id": "r0004-challenge",
+        "chunk_text": "Challenge on claim c0002: The claim mentions a projected dashboard with real-time metrics, but the evidence only lists some of these metrics as outcomes of specific tasks. The claim (c0002) states that a 'projected dashboard will display real-time metrics like on path, tilt window, spills proxy, RMS error, and SPARC to observe adaptive difficulty and feedback fading.' Evidence E1 and E2 mention some of these metrics as outcomes of the pouring and tracing tasks, such as 'on path, tilt window and spill proxy' (E1) and 'on path, time in tilt window, spill proxy' (E2). However, neither snippet describes a 'projected dashboard' or confirms that these metrics are displayed in real-time for the purpose of observing adaptive difficulty and feedback fading. The existence and functionality of the dashboard, as well as the inclusion of metrics like RMS error and SPARC on this dashboard, remain unverified by the provided evidence."
+      }
+    ],
+    "confidence": 0.85,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  },
+  {
+    "id": "d0005",
+    "topic": "Why stroke?",
+    "summary": "While the NeuroReach VR system shows potential for clinical application due to its gamified environment and intuitive feedback, its effectiveness and clinical applicability are not yet proven.",
+    "text": "The system's design incorporates a gamified environment, which is expected to enhance user motivation. The intuitiveness of the feedback mechanisms is a key aspect of the system's design. Despite these features, the system is still in the proof-of-concept stage, and its clinical effectiveness has not been demonstrated. There is a lack of information regarding pilot studies or clinical trials to evaluate actual user outcomes. Significant technical challenges remain, which could impact its reliability and accuracy for clinical use.",
+    "subpoints": [
+      "The system's design incorporates a gamified environment, which is expected to enhance user motivation.",
+      "The intuitiveness of the feedback mechanisms is a key aspect of the system's design.",
+      "Despite these features, the system is still in the proof-of-concept stage, and its clinical effectiveness has not been demonstrated.",
+      "There is a lack of information regarding pilot studies or clinical trials to evaluate actual user outcomes.",
+      "Significant technical challenges remain, which could impact its reliability and accuracy for clinical use."
+    ],
+    "citations": [
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      },
+      {
+        "source_id": "r0001",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 798,
+        "quote": "Challenge on claim c0001: The system's effectiveness and clinical applicability are not yet proven, as it is still in the proof-of-concept stage. The claim describes the NeuroReach VR system as a 'proof-of-concept' application. While it outlines the intended features, tasks, and feedback mechanisms, the provided evi...",
+        "chunk_id": "r0001-challenge",
+        "chunk_text": "Challenge on claim c0001: The system's effectiveness and clinical applicability are not yet proven, as it is still in the proof-of-concept stage. The claim describes the NeuroReach VR system as a 'proof-of-concept' application. While it outlines the intended features, tasks, and feedback mechanisms, the provided evidence focuses on the development plan, technical challenges, and proposed solutions for creating the system. There is no mention of any pilot studies or clinical trials that have been conducted to evaluate the system's actual effectiveness, user outcomes, or its potential for clinical application beyond a proposed demonstration plan. The evidence mentions a 'pilot study and analysis' planned for weeks 9-12, indicating that the system is still in its early stages of evaluation."
+      },
+      {
+        "source_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov",
+        "page": 2,
+        "char_start": 2088,
+        "char_end": 4358,
+        "quote": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential for clinical application. Demonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute pouring blocks and two tracing blocks with real time halos, ticks a...",
+        "chunk_id": "MR_Proposal_Purkayastha_Elsig_Flueckiger_Khoshimov:p0002:c0001",
+        "chunk_text": "intuitiveness of the feedback mechanisms and the motivational aspect of the gamified environment, with potential\nfor clinical application.\nDemonstration plan: (i) Live on-headset demo with quick anchor calibration, where user performs two one minute\npouring blocks and two tracing blocks with real time halos, ticks and error bars (ii) Projected dashboard shows\non path, tilt window, spills proxy, RMS error and SPARC updated per trial to observe real-time adaptive difficulty\nand fading feedback based on the user\u2019s muscle activation. (iii) An offline video presentation showcasing the full\ndemonstration loop and summarized pilot metrics.\nIV. *OPTIONAL MYO ARMBAND EXTENSION\nGoal: EMG biofeedback for wrist extension to complement pouring and tracing [4]. Idea: Stream Myo sEMG into\nUnity, compute %MVC, show twin bars with target bands, add haptic tick and buzz feedback. Rationale: Improves\nengagement and selective activation. Outcome: Quick add-on with extra KPIs (time-in-target, ratio, co-contraction)\nand demo toggle mode.\nREFERENCES\n[1] Margit Alt Murphy, Carin Will\u00b4en, and Katharina Stibrant Sunnerhagen. Movement kinematics during a drinking task are associated with\nthe activity capacity level after stroke. Neurorehabilitation and Neural Repair, 26(9):1106\u20131115, 2012.\n[2] Daniel Berger and Andrea d\u2019Avella. Myoelectric control and virtual reality to enhance motor rehabilitation after stroke. Frontiers in\nBioengineering and Biotechnology, 12:1376000, 2024.\n[3] H. Huang, S. L. Wolf, and J. He. Recent developments in biofeedback for neuromotor rehabilitation. Journal of NeuroEngineering and\nRehabilitation, 3(11), 2006.\n[4] H. P. Lin et al. A usability study on mobile emg-guided wrist extension training in subacute stroke patients (myoguide). Journal of\nNeuroEngineering and Rehabilitation, 21:39, 2024.\n[5] Maike Maier, Bel\u00b4en R. Ballester, and Paul F. M. J. Verschure. Principles of neurorehabilitation after stroke based on motor learning and\nbrain plasticity mechanisms. Frontiers in Systems Neuroscience, 13:74, 2019.\n[6] Styrmir Saevarsson, Vala Gudmundsdottir, and Arni Kristjansson. Kinematic analysis of spiral drawing and clock drawing as measures\nof upper limb function after stroke. Neuropsychological Rehabilitation, 25(5):744\u2013763, 2015."
+      },
+      {
+        "source_id": "r0007",
+        "page": 1,
+        "char_start": 0,
+        "char_end": 913,
+        "quote": "Challenge on claim c0004: The claim overstates the system's readiness for clinical application by not acknowledging significant technical challenges and limitations. The claim suggests the system has potential for clinical application in stroke rehabilitation and will showcase its capabilities. However, the evidence...",
+        "chunk_id": "r0007-challenge",
+        "chunk_text": "Challenge on claim c0004: The claim overstates the system's readiness for clinical application by not acknowledging significant technical challenges and limitations. The claim suggests the system has potential for clinical application in stroke rehabilitation and will showcase its capabilities. However, the evidence highlights several significant challenges that are still being addressed, including anchor drift, noisy tilt estimation, inconsistent haptic support, and potential overreactive difficulty oscillation. These issues directly impact the reliability and accuracy of the system's feedback and adaptive features, which are crucial for clinical use. The evidence also mentions alternatives like running tracing without haptics or using fiducials instead of anchors, indicating that the current implementation may not be robust enough for its intended purpose without further development and validation."
+      }
+    ],
+    "confidence": 0.8,
+    "status": "reviewed",
+    "verdict": "Supported",
+    "reviewer_notes": "Auto-approved (review disabled)."
+  }
+]

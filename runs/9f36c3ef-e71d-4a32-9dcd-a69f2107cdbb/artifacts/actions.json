@@ -1,0 +1,49 @@
+[
+  {
+    "id": "a0001",
+    "topic": "Why stroke?",
+    "title": "Investigate the efficacy of proposed solutions for adaptive control stability",
+    "detail": "The evidence acknowledges challenges with overreactive difficulty oscillation and metric drift across sessions (c0001, d0003). While solutions like moving averages with gates and floors are proposed (d0003), the specific implementation and empirical validation of these solutions for the pouring and tracing tasks are not detailed. Further investigation is needed to confirm if these methods effectively prevent oscillations and drift in the context of the ARAT-aligned pouring and MX Ink tracing tasks.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "d0003"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "Why stroke?",
+    "title": "Hypothesize the impact of anchor drift mitigation on user experience",
+    "detail": "Relocalizing anchors at session start is proposed to address anchor drift (c0003, d0002). However, the frequency and intrusiveness of this relocalization process are not specified. It's hypothesized that frequent or complex relocalization could disrupt the user's flow and negatively impact the motivational aspect of the rehabilitation (c0001, d0004). Future work should explore user feedback on the relocalization process.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0003",
+      "d0002",
+      "d0004"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "Why stroke?",
+    "title": "Develop a comprehensive dashboard visualization strategy",
+    "detail": "The projected dashboard is intended to display various metrics (c0002, d0004). While some metrics are listed, the evidence does not fully detail the dashboard's design or how it will visually represent the adaptive difficulty and fading feedback in a way that is intuitive and motivational for users (d0004). A next step should be to design and prototype the dashboard, focusing on clear and actionable visualizations of these key performance indicators and adaptive changes.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0002",
+      "d0004"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "Why stroke?",
+    "title": "Clarify the relationship between tilt estimation solutions and metric drift",
+    "detail": "There appears to be a discrepancy or lack of clarity regarding the solutions for tilt estimation and metric drift. 'Noisy tilt estimation' is mentioned with a solution of low-pass filtering (c0003, d0002), while 'metric drift across sessions' is addressed with moving averages (d0003). It's unclear if noisy tilt estimation directly contributes to metric drift and if the proposed solutions are complementary or independent. Clarification is needed on how these technical challenges are interconnected and how the proposed solutions address them holistically.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0003",
+      "d0002",
+      "d0003"
+    ]
+  }
+]

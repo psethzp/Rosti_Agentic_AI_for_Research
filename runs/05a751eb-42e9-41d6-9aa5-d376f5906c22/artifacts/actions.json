@@ -1,0 +1,53 @@
+[
+  {
+    "id": "a0001",
+    "topic": "Why stroke?",
+    "title": "Investigate the specific neurological mechanisms targeted by NeuroReach VR for stroke rehabilitation.",
+    "detail": "While claims c0001 and i0001 highlight the goal of improving selective muscle activation in arms for stroke rehabilitation, there's a lack of detail on the underlying neurological principles or how the system's feedback mechanisms (visual, auditory, haptic) specifically address common neurological deficits post-stroke. Clarifying this will strengthen the clinical rationale.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "Why stroke?",
+    "title": "Hypothesize the correlation between NeuroReach VR's adaptive difficulty parameters and specific stroke recovery milestones.",
+    "detail": "Claim c0002 and challenge c0002 mention adaptive difficulty adjustments based on muscle activation and task-specific parameters. A hypothesis could be formed that specific ranges or patterns of adaptive difficulty adjustments (e.g., corridor width, tilt window) directly correlate with observable improvements in specific stroke recovery milestones (e.g., range of motion, force generation, functional independence). This would bridge the gap between technical adaptation and clinical outcomes.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "Why stroke?",
+    "title": "Develop a plan to measure and report on clinical rehabilitation outcomes beyond technical metrics.",
+    "detail": "Insight i0003 correctly identifies that current demonstration and outcome reporting focus on technical deliverables. To address this, a next step is to define and integrate specific clinical outcome measures (e.g., Fugl-Meyer Assessment, ARAT scores) into the project's evaluation framework, moving beyond metrics like 'on path' or 'RMS error' mentioned in c0002 and c0004. This will provide evidence of actual rehabilitation efficacy.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0002",
+      "c0004"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "Why stroke?",
+    "title": "Clarify the long-term stability and robustness of anchor and tilt estimation solutions in real-world clinical settings.",
+    "detail": "Claim c0003 and challenge c0001 highlight technical challenges like anchor drift and noisy tilt estimation, with proposed solutions. However, the long-term effectiveness and robustness of these solutions in diverse clinical environments and over extended use periods are not detailed. Further clarification is needed on how these solutions will maintain performance and prevent system downtime or inaccurate feedback in a clinical deployment.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0003"
+    ]
+  },
+  {
+    "id": "a0005",
+    "topic": "Why stroke?",
+    "title": "Explore the potential for NeuroReach VR to address specific types of motor impairments beyond arm activation.",
+    "detail": "Claim c0001 focuses on selective muscle activation in the arms. However, stroke rehabilitation often involves a broader range of motor deficits, including trunk control, balance, and lower limb function. A forward-looking action could be to hypothesize how the NeuroReach VR system's core principles (mixed reality, adaptive feedback, gamification) could be extended or adapted to address these other critical areas of stroke recovery.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001"
+    ]
+  }
+]

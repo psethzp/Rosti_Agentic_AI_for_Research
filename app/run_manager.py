@@ -6,6 +6,7 @@ import os
 import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
+import shutil
 from typing import Dict, Iterable, List, Optional, Protocol
 
 from .agents import (
@@ -21,7 +22,7 @@ from .schemas import ReviewedClaim
 RUNS_DIR = Path(os.getenv("RUNS_DIR", "runs")).expanduser()
 RUNS_DIR.mkdir(parents=True, exist_ok=True)
 
-PIPELINE_STAGES = ["ingestion", "researcher", "red_team", "synthesizer"]
+PIPELINE_STAGES = ["ingestion", "researcher", "red_team", "debate", "synthesizer"]
 
 
 @dataclass
@@ -153,8 +154,10 @@ async def _execute_run(run: RunRecord) -> None:
         with env:
             await _maybe_ingest(run)
             reviewed = await asyncio.to_thread(_run_claim_pipeline, run)
+            _snapshot_initial_claims(run)
             findings = await asyncio.to_thread(_run_red_team, run, reviewed)
-            await asyncio.to_thread(_run_synthesis, run, reviewed, findings)
+            debated = await asyncio.to_thread(_run_debate, run, reviewed, findings)
+            await asyncio.to_thread(_run_synthesis, run, debated, findings)
         run.payload = _build_payload(run)
         run.status = "completed"
         _queue_json(run, "completed", {"run_id": run.id})
@@ -184,11 +187,69 @@ def _run_claim_pipeline(run: RunRecord) -> List[ReviewedClaim]:
     return reviewed
 
 
+def _snapshot_initial_claims(run: RunRecord) -> None:
+    source = run.artifacts_dir / "claims_reviewed.json"
+    target = run.artifacts_dir / "claims_reviewed_original.json"
+    if source.exists():
+        try:
+            shutil.copyfile(source, target)
+        except OSError:
+            pass
+
+
 def _run_red_team(run: RunRecord, reviewed: List[ReviewedClaim]):
     _set_stage(run, "red_team", "running", "Running Red Team agent…")
     findings = run_red_team(run.prompt, reviewed)
     _set_stage(run, "red_team", "done", f"Red Team generated {len(findings)} findings.")
     return findings
+
+
+def _run_debate(
+    run: RunRecord,
+    reviewed: List[ReviewedClaim],
+    findings,
+) -> List[ReviewedClaim]:
+    if not findings:
+        _set_stage(run, "debate", "done", "No findings to debate; keeping original claims.")
+        return reviewed
+
+    _set_stage(
+        run,
+        "debate",
+        "running",
+        "Red Team challenging claims; Researcher drafting rebuttals…",
+    )
+    debate_hits = _collect_debate_hits(findings)
+    if not debate_hits:
+        _set_stage(run, "debate", "done", "No supporting evidence for debate; keeping original claims.")
+        return reviewed
+
+    try:
+        debate_claims = run_researcher(
+            run.prompt,
+            supplemental_hits=debate_hits,
+            reset_artifacts_flag=False,
+            persist=False,
+        )
+    except Exception as exc:  # noqa: BLE001
+        _set_stage(run, "debate", "done", f"Debate failed ({exc}); keeping original claims.")
+        return reviewed
+
+    if not debate_claims:
+        _set_stage(run, "debate", "done", "Researcher had no rebuttals; keeping original claims.")
+        return reviewed
+
+    rebuttals = run_reviewer(debate_claims, persist=False)
+    relabeled = _relabel_rebuttals(rebuttals)
+    combined = reviewed + relabeled
+    _persist_debate_sets(run, relabeled, combined)
+    _set_stage(
+        run,
+        "debate",
+        "done",
+        f"Debate added {len(relabeled)} rebuttal claim(s).",
+    )
+    return combined
 
 
 def _run_synthesis(run: RunRecord, reviewed: List[ReviewedClaim], findings):
@@ -203,6 +264,88 @@ def _run_synthesis(run: RunRecord, reviewed: List[ReviewedClaim], findings):
     )
 
 
+def _collect_debate_hits(findings) -> List[dict]:
+    hits: List[dict] = []
+    seen_ids: set[str] = set()
+    for finding in findings or []:
+        data = _ensure_mapping(finding)
+        fid = data.get("id") or f"finding-{len(hits) + 1}"
+        claim_id = data.get("claim_id", "unknown")
+        summary = data.get("summary", "")
+        detail = data.get("detail", "")
+        challenge_text = f"Challenge on claim {claim_id}: {summary} {detail}".strip()
+        if challenge_text:
+            hits.append(
+                {
+                    "id": f"{fid}-challenge",
+                    "text": challenge_text,
+                    "source_id": fid,
+                    "page": 1,
+                    "char_start": 0,
+                    "char_end": len(challenge_text),
+                }
+            )
+        for evidence in data.get("evidence") or []:
+            ev = _ensure_mapping(evidence)
+            chunk_id = ev.get("chunk_id") or f"{fid}-e{len(seen_ids) + 1}"
+            if chunk_id in seen_ids:
+                continue
+            seen_ids.add(chunk_id)
+            text = ev.get("chunk_text") or ev.get("quote")
+            if not text:
+                continue
+            hits.append(
+                {
+                    "id": chunk_id,
+                    "text": text,
+                    "source_id": ev.get("source_id", fid),
+                    "page": ev.get("page", 1),
+                    "char_start": ev.get("char_start", 0),
+                    "char_end": ev.get("char_end", 0),
+                }
+            )
+    return hits
+
+
+def _relabel_rebuttals(claims: List[ReviewedClaim]) -> List[ReviewedClaim]:
+    relabeled: List[ReviewedClaim] = []
+    for idx, claim in enumerate(claims, start=1):
+        data = claim.model_dump()
+        data["id"] = f"d{idx:04d}"
+        relabeled.append(ReviewedClaim.model_validate(data))
+    return relabeled
+
+
+def _persist_debate_sets(
+    run: RunRecord,
+    rebuttals: List[ReviewedClaim],
+    combined: List[ReviewedClaim],
+) -> None:
+    base = run.artifacts_dir
+    _write_claims(base / "claims_reviewed.json", combined)
+    _write_claims(base / "claims_reviewed_debated.json", combined)
+    _write_claims(base / "claims_reviewed_rebuttals.json", rebuttals)
+
+
+def _write_claims(path: Path, claims: List[ReviewedClaim]) -> None:
+    payload = [
+        claim.model_dump() if hasattr(claim, "model_dump") else claim for claim in claims
+    ]
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+
+
+def _ensure_mapping(obj):
+    if obj is None:
+        return {}
+    if isinstance(obj, dict):
+        return obj
+    if hasattr(obj, "model_dump"):
+        return obj.model_dump()
+    if hasattr(obj, "__dict__"):
+        return dict(obj.__dict__)
+    return {}
+
+
 def _load_json(path: Path, default):
     if not path.exists():
         return default
@@ -215,6 +358,11 @@ def _load_json(path: Path, default):
 def _build_payload(run: RunRecord) -> dict:
     artifacts = run.artifacts_dir
     claims_raw = _load_json(artifacts / "claims_reviewed.json", [])
+    claims_original = _load_json(artifacts / "claims_reviewed_original.json", [])
+    claims_debated = _load_json(artifacts / "claims_reviewed_debated.json", [])
+    claims_rebuttals = _load_json(artifacts / "claims_reviewed_rebuttals.json", [])
+    if claims_debated:
+        claims_raw = claims_debated
     report_raw = _load_json(artifacts / "report.json", {})
     challenges = _load_json(artifacts / "challenges.json", [])
     actions = _load_json(artifacts / "actions.json", [])
@@ -248,6 +396,9 @@ def _build_payload(run: RunRecord) -> dict:
         "insights": insights,
         "challenges": challenges,
         "actions": actions,
+        "claims": claims_raw,
+        "claims_original": claims_original,
+        "claims_rebuttals": claims_rebuttals,
         "pdfs": [
             {"source_id": source_id, "filename": filename}
             for source_id, filename in run.source_map.items()

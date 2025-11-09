@@ -164,8 +164,11 @@ def _load_challenges_from_artifacts() -> List[RedTeamFinding]:
     return [RedTeamFinding.model_validate(entry) for entry in data]
 
 
-def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
-    path = _claims_reviewed_path()
+def _persist_reviewed_claims(
+    claims: Iterable[ReviewedClaim],
+    target: Optional[Path] = None,
+) -> None:
+    path = target or _claims_reviewed_path()
     payload = [claim.model_dump() for claim in claims]
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     logger.info("Wrote %d reviewed claims to %s", len(payload), path)
@@ -212,14 +215,23 @@ def _persist_challenges(challenges: List[RedTeamFinding]) -> None:
     logger.info("Wrote %d red-team findings to %s", len(challenges), path)
 
 
-def run_researcher(topic: str) -> List[Claim]:
-    """Generate claims for a topic using retrieval results."""
+def run_researcher(
+    topic: str,
+    supplemental_hits: Optional[List[dict]] = None,
+    *,
+    reset_artifacts_flag: bool = True,
+    persist: bool = True,
+) -> List[Claim]:
+    """Generate claims for a topic using retrieval results and optional extra evidence."""
     if not topic.strip():
         raise ValueError("Topic must not be empty")
 
-    reset_artifacts(include_claims=False)
+    if reset_artifacts_flag:
+        reset_artifacts(include_claims=False)
 
-    hits = search(topic, k=MAX_CLAIMS * 4)
+    hits = list(search(topic, k=MAX_CLAIMS * 4))
+    if supplemental_hits:
+        hits.extend(supplemental_hits)
     if not hits:
         raise RuntimeError("No retrieval results available. Ingest documents first.")
 
@@ -227,7 +239,8 @@ def run_researcher(topic: str) -> List[Claim]:
     if len(claims) < MIN_CLAIMS:
         logger.warning("LLM provided %d claims; using fallback extraction.", len(claims))
         claims = _fallback_claims(topic, hits)
-    _persist_claims(claims)
+    if persist:
+        _persist_claims(claims)
     log_trace_event(
         agent="Researcher",
         stage="researcher",
@@ -240,7 +253,12 @@ def run_researcher(topic: str) -> List[Claim]:
     return claims
 
 
-def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
+def run_reviewer(
+    claims: List[Claim],
+    *,
+    persist: bool = True,
+    output_path: Optional[Path] = None,
+) -> List[ReviewedClaim]:
     """Review claims and assign verdicts."""
     reviewed = []
     for claim in claims:
@@ -253,7 +271,8 @@ def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
                 reviewer_notes="Auto-approved (review disabled).",
             )
         )
-    _persist_reviewed_claims(reviewed)
+    if persist:
+        _persist_reviewed_claims(reviewed, output_path)
     return reviewed
 
 
