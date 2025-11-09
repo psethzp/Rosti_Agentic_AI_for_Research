@@ -455,27 +455,29 @@ def _render_graph(container: DeltaGenerator) -> None:
 
 def _render_claims(container: DeltaGenerator) -> None:
     container.empty()
+    body = container.container()
     reviewed_claims = _load_reviewed_claims()
     if not reviewed_claims:
-        container.info("No reviewed claims yet. Run the pipeline to populate this section.")
+        body.info("No reviewed claims yet. Run the pipeline to populate this section.")
     else:
         for claim in reviewed_claims:
             summary = claim.summary or claim.text.split(".")[0]
             label = f"{claim.id} · {summary}"
-            with container.expander(label):
+            with body.expander(label):
                 st.write(claim.text)
                 st.caption(", ".join(f"{span.source_id} p{span.page}" for span in claim.citations))
 
 
 def _render_challenges(container: DeltaGenerator) -> None:
     container.empty()
+    body = container.container()
     challenges = _load_challenges()
     if not challenges:
-        container.info("Run the Red Team to discover contradictions or gaps.")
+        body.info("Run the Red Team to discover contradictions or gaps.")
     else:
         for finding in challenges:
             label = f"{finding.summary} · {finding.severity} (Claim {finding.claim_id})"
-            with container.expander(label):
+            with body.expander(label):
                 st.write(finding.detail)
                 st.caption(", ".join(f"{span.source_id} p{span.page}" for span in finding.evidence))
                 if finding.actions:
@@ -486,25 +488,27 @@ def _render_challenges(container: DeltaGenerator) -> None:
 
 def _render_insights(container: DeltaGenerator) -> None:
     container.empty()
+    body = container.container()
     insights = _load_insights()
     if not insights:
-        container.info("No insights available. Generate them after running Red Team.")
+        body.info("No insights available. Generate them after running Red Team.")
     else:
         for insight in insights:
-            with container.expander(f"{insight.id} · {insight.summary} · Confidence {insight.confidence:.2f}"):
+            with body.expander(f"{insight.id} · {insight.summary} · Confidence {insight.confidence:.2f}"):
                 st.write(insight.text)
                 st.caption(", ".join(f"{span.source_id} p{span.page}" for span in insight.provenance))
 
 
 def _render_actions(container: DeltaGenerator) -> None:
     container.empty()
+    body = container.container()
     actions = _load_actions()
     if not actions:
-        container.info("Generate insights to see suggested actions.")
+        body.info("Generate insights to see suggested actions.")
     else:
         for action in actions:
             label = f"{action.title} · {action.tag}"
-            with container.expander(label):
+            with body.expander(label):
                 st.write(action.detail)
                 if action.related_claims:
                     st.caption(f"Related claims: {', '.join(action.related_claims)}")

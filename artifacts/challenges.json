@@ -3,9 +3,9 @@
     "id": "r0001",
     "topic": "What are some areas in which LLms today fail?",
     "claim_id": "c0001",
-    "claim_text": "Models trained on biased data may produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can disproportionately affect minority groups or specific cultures, potentially leading to the fading of local knowledge. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review outputs. Educators need training to recognize and address potential biases and other failures in model outputs.",
-    "summary": "LLMs can exacerbate educational inequalities due to biased data and unequal access.",
-    "detail": "The claim states that biased data in LLMs can lead to unfair or discriminatory results, disproportionately affecting minority groups and potentially causing local knowledge to fade. Evidence E1 supports this by highlighting that LLMs can create unfair access for non-English speaking users and that financial barriers to accessing and maintaining these models can widen the education gap. This suggests a failure of LLMs to provide equitable educational opportunities, particularly for marginalized linguistic and socio-economic groups.",
+    "claim_text": "LLMs trained on biased data can produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can lead to the fading of local knowledge about minorities, such as small ethnic groups or cultures. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review results. Educators need training to recognize and address potential biases and other failures in model outputs.",
+    "summary": "LLMs can exacerbate educational disparities due to access and cost barriers, particularly for non-English speakers.",
+    "detail": "The claim focuses on bias within LLMs leading to the fading of local knowledge. However, E1 highlights a more fundamental failure: LLMs can widen the education gap due to financial barriers for access, training, and maintenance, and also due to unfair access for non-English speaking users. This suggests a systemic issue of inequity that predates or coexists with data bias, potentially impacting a broader range of users and institutions.",
     "evidence": [
       {
         "source_id": "1-ChatGPT_for_Good",
@@ -19,77 +19,51 @@
     ],
     "severity": "High",
     "actions": [
-      "Investigate specific examples of LLM bias negatively impacting minority groups or local knowledge.",
-      "Explore the effectiveness of proposed solutions like governmental regulation for equitable access.",
-      "Assess the current state of multilingual fairness in LLMs and identify remaining challenges."
-    ]
-  },
-  {
-    "id": "r0003",
-    "topic": "What are some areas in which LLms today fail?",
-    "claim_id": "c0002",
-    "claim_text": "Students may become too reliant on models, which can negatively impact their critical thinking and problem-solving abilities. The effortless acquisition of information from models can simplify learning to the point where deeper cognitive skills are not adequately developed. Models cannot replace the creativity, critical thinking, and problem-solving skills fostered through human instruction. Curricula should encourage the creative and complementary use of LLMs rather than their outright replacement of human teaching.",
-    "summary": "The claim asserts that LLMs hinder critical thinking, but evidence suggests they can be used to foster it.",
-    "detail": "The claim (c0002) states that LLMs can negatively impact critical thinking and problem-solving abilities by simplifying learning and preventing the development of deeper cognitive skills. However, evidence snippets E3 and E2 suggest the opposite. E3 explicitly mentions that LLMs can assist in the development of critical thinking skills by generating questions and prompts that encourage students to analyze and interpret information. E2 discusses adaptive learning technologies and customization of LLM output to align with teaching styles, implying a potential for LLMs to support, rather than hinder, cognitive development when integrated thoughtfully.",
-    "evidence": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 2,
-        "char_start": 1901,
-        "char_end": 4241,
-        "quote": "these mod- els, opportunities for enhancement of learning and teaching experiences may be possible for individuals at all levels of edu- cation, including primary, secondary, tertiary and professional development. For elementary school students, large language models can assist in the development of reading and writ...",
-        "chunk_id": "1-ChatGPT_for_Good:p0002:c0001",
-        "chunk_text": "these mod-\nels, opportunities for enhancement of learning and teaching\nexperiences may be possible for individuals at all levels of edu-\ncation, including primary, secondary, tertiary and professional\ndevelopment.\nFor elementary school students, large language models\ncan assist in the development of reading and writing skills\n(e.g., by suggesting syntactic and grammatical corrections), as\nwell as in the development of writing style and critical think-\ning skills. These models can be used to generate questions\nand prompts that encourage students to think critically about\nwhat they are reading and writing, and to analyze and inter-\npret the information presented to them. Additionally, large\nlanguage models can also assist in the development of reading\ncomprehension skills by providing students with summaries\nand explanations of complex texts, which can make reading\nand understanding the material easier.\nFor middle and high school students, large language\nmodels can assist in the learning of a language and of writ-\ning styles for various subjects and topics, e.g., mathematics,\nphysics, language and literature, and other subjects. These\nmodels can be used to generate practice problems and quizzes,\nwhich can help students to better understand, contextual-\nize and retain the material they are learning. Additionally,\nlarge language models can also assist in the development of\nproblem-solving skills by providing students with explana-\ntions, step-by-step solutions, and interesting related questions\nto problems, which can help them to understand the reasoning\nbehind the solutions and develop analytical and out-of-the-box\nthinking.\nFor university students, large language models can assist\nin the research and writing tasks, as well as in the development\nof critical thinking and problem-solving skills. These models\ncan be used to generate summaries and outlines of texts, which\ncan help students to quickly understand the main points of a\ntext and to organize their thoughts for writing. Additionally,\nlarge language models can also assist in the development of\nresearch skills by providing students with information and re-\nsources on a particular topic and hinting at unexplored aspects\nand current research topics, which can help them to better\nunderstand and analyze the material.\nFor group & remote learning, large"
-      },
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 9,
-        "char_start": 3895,
-        "char_end": 5102,
-        "quote": "ogy, but it is conceivable that with more advanced models, the adaptability will increase. More specifically, a sensible mitigation strategy would be comprised of: \u2022 Use of adaptive learning technologies to personalize the output of the model to the needs of individual students by using student data (e.g., about lea...",
-        "chunk_id": "1-ChatGPT_for_Good:p0009:c0002",
-        "chunk_text": "ogy, but it is conceivable that with more advanced models, the\nadaptability will increase.\nMore specifically, a sensible mitigation strategy would be\ncomprised of:\n\u2022 Use of adaptive learning technologies to personalize the\noutput of the model to the needs of individual students\nby using student data (e.g., about learning style, prior\nknowledge, and performance, etc.)\n\u2022 Customization of the language model\u2019s output to align\nwith the teaching style and curriculum (by using data\nprovided by the teacher)\n\u2022 Use of multi-modal learning and teaching approaches,\nwhich combine text, audio, video, and experimentation\nto provide a more engaging and personalized experience\nfor students and teachers\n\u2022 Use of hybrid approaches, which combine the strengths\nof both human teachers and language models to gener-\nate targeted and personalized learning materials (based\non feedback, guidance, and support provided by the\nteachers)\n\u2022 Regular review of the model and continual improve-\nment for curriculum-related uses cases to ensure ade-\nquate and accurate functioning for education purposes\n\u2022 Research and development to create more advanced\nmodels that can better adapt to the diverse needs of\nstudents and teachers"
-      }
-    ],
-    "severity": "High",
-    "actions": [
-      "Investigate specific examples or research that demonstrate LLMs hindering critical thinking.",
-      "Explore how LLMs are being used in educational settings to actively promote critical thinking.",
-      "Clarify the conditions under which LLMs might hinder versus enhance critical thinking development."
+      "Investigate the extent to which financial and linguistic barriers limit LLM access in education.",
+      "Explore potential regulatory or governmental interventions to ensure equitable access to LLM technology for educational purposes.",
+      "Research the impact of LLM use on non-English speaking students and communities."
     ]
   },
   {
     "id": "r0005",
     "topic": "What are some areas in which LLms today fail?",
     "claim_id": "c0003",
-    "claim_text": "Current LLMs often favor English speakers, creating unfair access for non-English speaking users and highlighting a need for multilingual fairness improvements. The financial burden of accessing, training, and maintaining LLMs can create inequities, necessitating governmental regulation for equitable access. Integrating LLMs requires understanding their capabilities and limitations, and developing appropriate user interfaces for diverse learners. The cost of training and maintaining LLMs can be a significant financial burden for schools with limited budgets.",
-    "summary": "LLMs can perpetuate societal biases, leading to unfair outcomes, especially for minority groups.",
-    "detail": "Evidence E2 explicitly states that LLMs can perpetuate and amplify existing societal biases and unfairness. This can negatively impact teaching and learning, particularly if the training data is biased. For instance, local knowledge of minority groups or cultures might be marginalized. Therefore, ensuring diverse and representative training data is crucial for fairness.",
+    "claim_text": "LLMs can create unfair access for non-English speaking users, and significant improvements are still needed in multilingual fairness for AI technologies. Financial burdens associated with accessing, training, and maintaining LLMs may require governmental regulation to ensure equitable access for all educational entities. Further research is necessary in Human-Computer Interaction and User Interface Design to effectively integrate LLMs into educational workflows, considering user maturity and skills. Educators require professional training and resources to understand LLM capabilities, limitations, and how to integrate them effectively into teaching practices.",
+    "summary": "The claim asserts LLMs create unfair access for non-English speakers, but the provided evidence does not directly address multilingual fairness.",
+    "detail": "The claim (c0003) explicitly states that LLMs can create unfair access for non-English speaking users and that significant improvements are needed in multilingual fairness. However, neither E1 nor E2 offers any information or discussion regarding the performance or fairness of LLMs across different languages. The evidence focuses on sustainable usage, computational demands, energy consumption, ethical data collection, and the potential of LLMs to integrate digital applications and create immersive educational experiences.",
     "evidence": [
       {
         "source_id": "1-ChatGPT_for_Good",
+        "page": 9,
+        "char_start": 0,
+        "char_end": 2392,
+        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 9/13 Sustainable usage. Large language models have high com- putational demands, which can result in high energy consump- tion. Hence, energy-efficient hardware and shared (e.g., cloud) infrastructure based on renewable energy...",
+        "chunk_id": "1-ChatGPT_for_Good:p0009:c0000",
+        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 9/13\nSustainable usage.\nLarge language models have high com-\nputational demands, which can result in high energy consump-\ntion. Hence, energy-efficient hardware and shared (e.g., cloud)\ninfrastructure based on renewable energy are crucial for their\nenvironmentally sustainable operation and scaling needed in\nthe context of education.\nFor model training and updates, only data that has been\ncollected and annotated in a regulatory compliant and ethical\nway should be considered. Therefore, governance frameworks\nthat include policies, procedures, and controls to ensure such\nappropriate use of such models are key to their successful\nadoption.\nLikewise, for the long-term trustworthy and responsible\nuse of the models, transparency, bias mitigation, and ongoing\nmonitoring are indispensable.\nIn summary, the mitigation strategy for this risk would\ninclude:\n\u2022 Energy-efficient hardware and shared infrastructure\nbased on renewable energy as well as research on reduc-\ning the cost of training and maintenance (i.e., efficient\nalgorithms, representation, and storage)\n\u2022 Collection, annotation, storage, and processing of data\nin a regulatory compliant and ethical way\n\u2022 Transparency and explanation techniques to identify\nand mitigate biases and prevent unfairness\n\u2022 Governance frameworks that include policies, proce-\ndures, and controls to ensure the above points and the\nappropriate use in education\nCost to verify information and maintain integrity.\nIt is\nimportant to verify the information provided by the model by\nconsulting external authoritative sources to ensure accuracy\nand integrity. Additionally, there may be financial costs asso-\nciated with maintaining and updating the model to ensure it is\nproviding accurate up-to-date information.\nA responsible mitigation strategy for this risk would con-\nsider the following key aspects:\n\u2022 Regularly updates of the model with new and accurate\ninformation to ensure it is providing up-to-date and\naccurate information\n\u2022 Use of multiple authoritative sources to verify the in-\nformation provided by the model to ensure correctness\nand integrity\n\u2022 Use of the model in conjunction with human expertise,\ne.g., teachers or subject matter experts, who review and\nvalidate the information provided by the model\n\u2022 Development of protocol and standards for"
+      },
+      {
+        "source_id": "1-ChatGPT_for_Good",
         "page": 6,
-        "char_start": 3861,
-        "char_end": 5568,
-        "quote": "con- tent \u2022 Inheritance and detailed terms of use for the content generated by the model \u2022 Informing and raising awareness of the users about these policies Bias and fairness. Large language models can perpetuate and amplify existing biases and unfairness in society, which can negatively impact teaching and learning...",
-        "chunk_id": "1-ChatGPT_for_Good:p0006:c0002",
-        "chunk_text": "con-\ntent\n\u2022 Inheritance and detailed terms of use for the content\ngenerated by the model\n\u2022 Informing and raising awareness of the users about\nthese policies\nBias and fairness.\nLarge language models can perpetuate\nand amplify existing biases and unfairness in society, which\ncan negatively impact teaching and learning processes and\noutcomes. For example, if a model is trained on data that\nis biased towards certain groups of people, it may produce\nresults that are unfair or discriminatory towards those groups\n(e.g., local knowledge about minorities such as small ethnic\ngroups or cultures can fade into the background). Thus, it is\nimportant to ensure that the training data or the data used for\nfine-tuning on down-stream tasks for the model is diverse and\nrepresentative of different groups of people. Regular monitor-\ning and testing of the model\u2019s performance on different groups\nof people can help identify and address any biases early on.\nHence, human oversight in the process is indispensable and\ncritical for the mitigation of bias and beneficial application of\nlarge language models in education.\nMore specifically, a responsible mitigation strategy would\nfocus on the following key aspects:\n\u2022 A diverse set of data to train or fine-tune the model, to\nensure that it is not biased towards any particular group\n\u2022 Regular monitoring and evaluation of the model\u2019s per-\nformance (on diverse groups of people) to identify and\naddress any biases that may arise\n\u2022 Fairness measures and bias-correction techniques, such\nas pre-processing or post-processing methods\n\u2022 Transparency mechanisms that enable users to compre-\nhend the model\u2019s output, and the data and assumptions\nthat were used to generate it"
+        "char_start": 1977,
+        "char_end": 4238,
+        "quote": "users. Fur- thermore, their ability to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework or application, which is also critical for expanding the bounds of educational possibilities and experiences [52, 49]. In general, th...",
+        "chunk_id": "1-ChatGPT_for_Good:p0006:c0001",
+        "chunk_text": "users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation\ntasks [53] as well as various types of multimedia content\n(e.g., in combination with other AI systems, such as DALL-\nE [54]) can enable and scale the creation of compelling and\nimmersive digital (e.g., AR/VR) experiences. From gamifica-\ntion to detailed simulations for immersive learning in digital\nenvironments, large language models are a key enabling tech-\nnology. To fully realize this potential, however, it is important\nto consider not only technical aspects but also ethical, legal,\necological and social implications.\nIn the following section, we take a brief look at the risks re-\nlated to the application on large language models in education\nand provide corresponding mitigation strategies.\n4. Key Challenges and Risks Related to\nthe Application of Large Language\nModels in Education\nCopyright Issues.\nWhen we train large language models on\na task to produce education-related content \u2013 course syllabus,\nquizzes, scientific paper \u2013 the mode should be trained on\nexamples of such texts. During the generation for a new\nprompt, the answer may contain a full sentence or even a\nparagraph seen in the training set, leading to copyright and\nplagiarism issues.\nImportant steps to responsibly mitigate such an issue can\nbe the following:\n\u2022 Asking the authors of the original documents trans-\nparently (i.e., purpose and policy of data usage) for\npermission to use their content for training the model\n\u2022 Compliance with copyright terms for open-source con-\ntent\n\u2022 Inheritance and detailed terms of use for the content\ngenerated by the model\n\u2022 Informing and raising awareness of the users about\nthese policies\nBias and fairness.\nLarge language models can perpetuate\nand amplify existing biases and unfairness in society, which\ncan negatively impact teaching and learning processes and\noutcomes. For example, if a model is trained"
       }
     ],
     "severity": "High",
     "actions": [
-      "Investigate specific examples of how LLMs perpetuate bias against minority groups.",
-      "Explore methods for identifying and mitigating bias in LLM training data and outputs.",
-      "Assess the effectiveness of current strategies for ensuring diverse and representative training data."
+      "Seek evidence that directly addresses the multilingual capabilities and fairness of LLMs.",
+      "Investigate if LLMs exhibit biases or performance disparities based on language."
     ]
   },
   {
     "id": "r0007",
     "topic": "What are some areas in which LLms today fail?",
     "claim_id": "c0004",
-    "claim_text": "It is crucial to use multiple authoritative sources to verify information provided by LLMs to ensure correctness and integrity. The use of LLMs should be integrated with human expertise, such as teachers or subject matter experts, who review and validate the model's output. Developing protocols and standards for fact-checking and corroborating information is essential for maintaining accuracy. Clear and transparent communication about the model's performance, capabilities, and limitations is necessary for responsible use.",
+    "claim_text": "It is crucial to use multiple authoritative sources to verify the information provided by LLMs to ensure its correctness and integrity. LLMs should be used in conjunction with human expertise, such as teachers or subject matter experts, who can review and validate the model's output. Clear and transparent information about the model's performance, capabilities, and limitations is essential for responsible use. Protocols and standards for fact-checking and corroborating information from LLMs need to be developed.",
     "summary": "LLMs can negatively impact critical thinking and problem-solving skills by providing effortless answers.",
-    "detail": "The claim emphasizes the need for human expertise to validate LLM output and prevent over-reliance. Evidence E2 directly supports this by stating that learners may rely too heavily on LLMs, and the 'effortlessly generated information' can negatively impact their critical thinking and problem-solving skills. This happens because LLMs simplify the acquisition of answers, potentially leading to laziness and discouraging independent investigation and conclusion-drawing.",
+    "detail": "The effortless generation of information by LLMs can lead learners to rely too heavily on the model, potentially hindering the development of their critical thinking and problem-solving abilities. This ease of access to answers might discourage independent investigation and the process of reaching conclusions or solutions through personal effort, thus amplifying laziness and diminishing the learner's intrinsic interest in the subject matter.",
     "evidence": [
       {
         "source_id": "1-ChatGPT_for_Good",
@@ -103,17 +77,43 @@
     ],
     "severity": "High",
     "actions": [
-      "Highlight the risk of LLMs hindering the development of critical thinking and problem-solving skills.",
-      "Emphasize the importance of human educators guiding students to use LLMs as tools for deeper understanding rather than as replacements for their own cognitive processes."
+      "Emphasize the importance of independent research and critical evaluation of LLM outputs.",
+      "Design learning activities that require higher-order thinking skills beyond simple information retrieval.",
+      "Educate learners on the potential downsides of over-reliance on LLMs."
     ]
   },
   {
     "id": "r0002",
     "topic": "What are some areas in which LLms today fail?",
     "claim_id": "c0001",
-    "claim_text": "Models trained on biased data may produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can disproportionately affect minority groups or specific cultures, potentially leading to the fading of local knowledge. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review outputs. Educators need training to recognize and address potential biases and other failures in model outputs.",
-    "summary": "LLMs require significant human oversight and educator training to mitigate failures.",
-    "detail": "The claim emphasizes the need for continuous model updates with diverse data, expert human supervision, and educator training to recognize and address biases and other failures in LLM outputs. Evidence E2 outlines strategies for ensuring correctness and integrity, including using multiple authoritative sources, human expertise to validate information, and developing fact-checking protocols. Evidence E3 suggests adaptive learning and customization to personalize outputs, implying that LLMs alone are not sufficient and require integration with human pedagogical approaches. These points collectively indicate a limitation in LLMs' ability to function autonomously and reliably in educational settings without substantial human intervention and training.",
+    "claim_text": "LLMs trained on biased data can produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can lead to the fading of local knowledge about minorities, such as small ethnic groups or cultures. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review results. Educators need training to recognize and address potential biases and other failures in model outputs.",
+    "summary": "Over-reliance on LLMs by educators could diminish critical thinking and problem-solving skills.",
+    "detail": "The claim mentions the need for educators to be trained to recognize biases and other failures. E3 introduces a related but distinct failure: teachers becoming too reliant on LLMs, potentially replacing human instruction and hindering the development of crucial skills like creativity, critical thinking, and problem-solving. This suggests a risk of LLMs undermining core educational objectives if not used as a supplement rather than a replacement.",
+    "evidence": [
+      {
+        "source_id": "1-ChatGPT_for_Good",
+        "page": 7,
+        "char_start": 1918,
+        "char_end": 4277,
+        "quote": "is important to note that the use of large language models should be integrated into the curriculum in a way that com- plements and enhances the learning experience, rather than replacing it. Teachers may become too reliant on the models. Using large language models can provide accurate and relevant infor- mation, b...",
+        "chunk_id": "1-ChatGPT_for_Good:p0007:c0001",
+        "chunk_text": "is important to note that the use of large language models\nshould be integrated into the curriculum in a way that com-\nplements and enhances the learning experience, rather than\nreplacing it.\nTeachers may become too reliant on the models.\nUsing\nlarge language models can provide accurate and relevant infor-\nmation, but they cannot replace the creativity, critical thinking,\nand problem-solving skills that are developed through human\ninstruction. It is therefore important for teachers to use these\nmodels as a supplement to their instruction, rather than a\nreplacement. Thus, crucial aspects to mitigate the risk of\nbecoming too reliant on large language models are:\n\u2022 The use of language models only as as a complementary\nsupplement to the generation of instructions\n\u2022 Ongoing training and professional development for\nteachers, enabling them to stay up-to-date on the best-\npractise use of language models in the classroom to\nelicit and promote creativity and critical thinking\n\u2022 Critical thinking and problem-solving activities through\nthe assistance of digital technologies as an integral part\nof the curriculum to ensure that students are developing\nthese skills\n\u2022 Engagement of students in creative and independent\nprojects that allow them to develop their own ideas and\nsolutions\n\u2022 Monitoring and evaluating the use of language models\nin the classroom to ensure that they are being used ef-\nfectively and not negatively impacting student learning\n\u2022 Incentives for teachers and schools to develop (inclu-\nsive, collaborative, and personalized) teaching strate-\ngies based on large language models and engage stu-\ndents in problem-solving processes such as retrieving\nand evaluating course/assignment-relevant information\nusing the models and other sources\nLack of understanding and expertise.\nMany educators and\neducational institutions may not have the knowledge or exper-\ntise to effectively integrate new technologies in their teaching\n[56]. This particularly applies to the use and integration of\nlarge language models into teaching practice. Educational\ntheory has long since suggested ways of integrating novel\ntools into educational practice (e.g., [57]). As with any other\ntechnological innovation, integrating large language models\ninto effective teaching practice requires understanding their\ncapabilities and limitations, as well as how to"
+      }
+    ],
+    "severity": "Medium",
+    "actions": [
+      "Assess the prevalence of teacher over-reliance on LLMs in educational settings.",
+      "Develop pedagogical strategies and training programs to ensure LLMs are used as complementary tools that enhance, rather than replace, human instruction.",
+      "Evaluate the impact of LLM integration on students' development of creativity, critical thinking, and problem-solving skills."
+    ]
+  },
+  {
+    "id": "r0003",
+    "topic": "What are some areas in which LLms today fail?",
+    "claim_id": "c0002",
+    "claim_text": "Learners may become too reliant on LLMs, negatively impacting their critical thinking and problem-solving abilities. The effortless generation of information by LLMs can simplify the acquisition of answers, potentially reducing the need for deeper cognitive engagement. LLMs cannot replace the creativity, critical thinking, and problem-solving skills developed through human instruction. Curricula should encourage the creative and complementary use of LLMs rather than their complete replacement of human instruction.",
+    "summary": "The claim that LLMs negatively impact critical thinking is not directly contradicted, but the evidence suggests mitigation strategies focus on complementary use rather than outright replacement.",
+    "detail": "The claim (c0002) posits that learners may become too reliant on LLMs, hindering their critical thinking and problem-solving skills due to the effortless generation of information. While none of the provided evidence snippets directly refute this claim, they consistently emphasize the importance of using LLMs in conjunction with human expertise and instruction. Evidence E1, E2, and E3 all highlight strategies like \"use of the model in conjunction with human expertise,\" \"hybrid approaches, which combine the strengths of both human teachers and language models,\" and understanding LLM \"capabilities and limitations, as well as how to effectively use them to supplement or enhance specific learning processes.\" This suggests a consensus that LLMs should be integrated as tools to support, rather than replace, human-led development of these cognitive skills, aligning with the claim's concern about over-reliance.",
     "evidence": [
       {
         "source_id": "1-ChatGPT_for_Good",
@@ -132,13 +132,21 @@
         "quote": "ogy, but it is conceivable that with more advanced models, the adaptability will increase. More specifically, a sensible mitigation strategy would be comprised of: \u2022 Use of adaptive learning technologies to personalize the output of the model to the needs of individual students by using student data (e.g., about lea...",
         "chunk_id": "1-ChatGPT_for_Good:p0009:c0002",
         "chunk_text": "ogy, but it is conceivable that with more advanced models, the\nadaptability will increase.\nMore specifically, a sensible mitigation strategy would be\ncomprised of:\n\u2022 Use of adaptive learning technologies to personalize the\noutput of the model to the needs of individual students\nby using student data (e.g., about learning style, prior\nknowledge, and performance, etc.)\n\u2022 Customization of the language model\u2019s output to align\nwith the teaching style and curriculum (by using data\nprovided by the teacher)\n\u2022 Use of multi-modal learning and teaching approaches,\nwhich combine text, audio, video, and experimentation\nto provide a more engaging and personalized experience\nfor students and teachers\n\u2022 Use of hybrid approaches, which combine the strengths\nof both human teachers and language models to gener-\nate targeted and personalized learning materials (based\non feedback, guidance, and support provided by the\nteachers)\n\u2022 Regular review of the model and continual improve-\nment for curriculum-related uses cases to ensure ade-\nquate and accurate functioning for education purposes\n\u2022 Research and development to create more advanced\nmodels that can better adapt to the diverse needs of\nstudents and teachers"
+      },
+      {
+        "source_id": "1-ChatGPT_for_Good",
+        "page": 7,
+        "char_start": 3847,
+        "char_end": 5202,
+        "quote": "in their teaching [56]. This particularly applies to the use and integration of large language models into teaching practice. Educational theory has long since suggested ways of integrating novel tools into educational practice (e.g., [57]). As with any other technological innovation, integrating large language mode...",
+        "chunk_id": "1-ChatGPT_for_Good:p0007:c0002",
+        "chunk_text": "in their teaching\n[56]. This particularly applies to the use and integration of\nlarge language models into teaching practice. Educational\ntheory has long since suggested ways of integrating novel\ntools into educational practice (e.g., [57]). As with any other\ntechnological innovation, integrating large language models\ninto effective teaching practice requires understanding their\ncapabilities and limitations, as well as how to effectively use\nthem to supplement or enhance specific learning processes.\nThere are several ways to address these challenges and\nencounter this risk:\n\u2022 Research on the challenges of large language models in\neducation by investigating existing educational models\nof technology integration, students\u2019 learning processes\nand transfer them to the context of large language mod-\nels, as well as developing a new educational theory\nspecifically for the context of large language models\n\u2022 Assessing the needs of the educators and students and\nprovide case-based guidance (e.g., for the secure ethical\nuse of large language models in education scenarios)\n\u2022 Demand-oriented Training and professional develop-\nment opportunities for educators and institutions to\nlearn about the capabilities and potential uses of large\nlanguage models in education, as well as providing\nbest practices for integrating them into their teaching\nmethods"
       }
     ],
     "severity": "Medium",
     "actions": [
-      "Evaluate the practical challenges and effectiveness of implementing continuous human supervision for LLM outputs in education.",
-      "Research the development and impact of training programs for educators on LLM usage and bias detection.",
-      "Examine the feasibility and effectiveness of adaptive learning and customization strategies mentioned in E3 for mitigating LLM failures."
+      "Investigate how the proposed mitigation strategies in the evidence (e.g., hybrid approaches, human oversight) directly address the risk of reduced critical thinking.",
+      "Explore research that quantifies the impact of LLM use on critical thinking skills in educational settings."
     ]
   }
 ]

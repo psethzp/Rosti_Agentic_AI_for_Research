@@ -2,12 +2,12 @@
   {
     "id": "c0001",
     "topic": "What are some areas in which LLms today fail?",
-    "summary": "Large language models can perpetuate and amplify societal biases, leading to unfair or discriminatory outcomes in educational settings.",
-    "text": "Models trained on biased data may produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can disproportionately affect minority groups or specific cultures, potentially leading to the fading of local knowledge. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review outputs. Educators need training to recognize and address potential biases and other failures in model outputs.",
+    "summary": "Large language models can perpetuate and amplify societal biases, leading to unfair or discriminatory outcomes, particularly for minority groups or those with less common cultural knowledge.",
+    "text": "LLMs trained on biased data can produce unfair or discriminatory results, negatively impacting teaching and learning processes. This bias can lead to the fading of local knowledge about minorities, such as small ethnic groups or cultures. Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review results. Educators need training to recognize and address potential biases and other failures in model outputs.",
     "subpoints": [
-      "Models trained on biased data may produce unfair or discriminatory results, negatively impacting teaching and learning processes.",
-      "This bias can disproportionately affect minority groups or specific cultures, potentially leading to the fading of local knowledge.",
-      "Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review outputs.",
+      "LLMs trained on biased data can produce unfair or discriminatory results, negatively impacting teaching and learning processes.",
+      "This bias can lead to the fading of local knowledge about minorities, such as small ethnic groups or cultures.",
+      "Addressing bias requires continuous model updates with diverse, unbiased data and expert human supervision to review results.",
       "Educators need training to recognize and address potential biases and other failures in model outputs."
     ],
     "citations": [
@@ -47,13 +47,13 @@
   {
     "id": "c0002",
     "topic": "What are some areas in which LLms today fail?",
-    "summary": "Over-reliance on large language models can hinder the development of essential human skills like critical thinking and problem-solving.",
-    "text": "Students may become too reliant on models, which can negatively impact their critical thinking and problem-solving abilities. The effortless acquisition of information from models can simplify learning to the point where deeper cognitive skills are not adequately developed. Models cannot replace the creativity, critical thinking, and problem-solving skills fostered through human instruction. Curricula should encourage the creative and complementary use of LLMs rather than their outright replacement of human teaching.",
+    "summary": "Over-reliance on LLMs can hinder the development of critical thinking and problem-solving skills in learners, as the models simplify information acquisition.",
+    "text": "Learners may become too reliant on LLMs, negatively impacting their critical thinking and problem-solving abilities. The effortless generation of information by LLMs can simplify the acquisition of answers, potentially reducing the need for deeper cognitive engagement. LLMs cannot replace the creativity, critical thinking, and problem-solving skills developed through human instruction. Curricula should encourage the creative and complementary use of LLMs rather than their complete replacement of human instruction.",
     "subpoints": [
-      "Students may become too reliant on models, which can negatively impact their critical thinking and problem-solving abilities.",
-      "The effortless acquisition of information from models can simplify learning to the point where deeper cognitive skills are not adequately developed.",
-      "Models cannot replace the creativity, critical thinking, and problem-solving skills fostered through human instruction.",
-      "Curricula should encourage the creative and complementary use of LLMs rather than their outright replacement of human teaching."
+      "Learners may become too reliant on LLMs, negatively impacting their critical thinking and problem-solving abilities.",
+      "The effortless generation of information by LLMs can simplify the acquisition of answers, potentially reducing the need for deeper cognitive engagement.",
+      "LLMs cannot replace the creativity, critical thinking, and problem-solving skills developed through human instruction.",
+      "Curricula should encourage the creative and complementary use of LLMs rather than their complete replacement of human instruction."
     ],
     "citations": [
       {
@@ -92,13 +92,13 @@
   {
     "id": "c0003",
     "topic": "What are some areas in which LLms today fail?",
-    "summary": "Access to and effective implementation of large language models in education face challenges related to language barriers and financial equity.",
-    "text": "Current LLMs often favor English speakers, creating unfair access for non-English speaking users and highlighting a need for multilingual fairness improvements. The financial burden of accessing, training, and maintaining LLMs can create inequities, necessitating governmental regulation for equitable access. Integrating LLMs requires understanding their capabilities and limitations, and developing appropriate user interfaces for diverse learners. The cost of training and maintaining LLMs can be a significant financial burden for schools with limited budgets.",
+    "summary": "Access to and effective integration of LLMs in education face challenges related to multilingualism, financial barriers, and the need for appropriate user interfaces and educator training.",
+    "text": "LLMs can create unfair access for non-English speaking users, and significant improvements are still needed in multilingual fairness for AI technologies. Financial burdens associated with accessing, training, and maintaining LLMs may require governmental regulation to ensure equitable access for all educational entities. Further research is necessary in Human-Computer Interaction and User Interface Design to effectively integrate LLMs into educational workflows, considering user maturity and skills. Educators require professional training and resources to understand LLM capabilities, limitations, and how to integrate them effectively into teaching practices.",
     "subpoints": [
-      "Current LLMs often favor English speakers, creating unfair access for non-English speaking users and highlighting a need for multilingual fairness improvements.",
-      "The financial burden of accessing, training, and maintaining LLMs can create inequities, necessitating governmental regulation for equitable access.",
-      "Integrating LLMs requires understanding their capabilities and limitations, and developing appropriate user interfaces for diverse learners.",
-      "The cost of training and maintaining LLMs can be a significant financial burden for schools with limited budgets."
+      "LLMs can create unfair access for non-English speaking users, and significant improvements are still needed in multilingual fairness for AI technologies.",
+      "Financial burdens associated with accessing, training, and maintaining LLMs may require governmental regulation to ensure equitable access for all educational entities.",
+      "Further research is necessary in Human-Computer Interaction and User Interface Design to effectively integrate LLMs into educational workflows, considering user maturity and skills.",
+      "Educators require professional training and resources to understand LLM capabilities, limitations, and how to integrate them effectively into teaching practices."
     ],
     "citations": [
       {
@@ -121,6 +121,15 @@
       },
       {
         "source_id": "1-ChatGPT_for_Good",
+        "page": 7,
+        "char_start": 3847,
+        "char_end": 5202,
+        "quote": "in their teaching [56]. This particularly applies to the use and integration of large language models into teaching practice. Educational theory has long since suggested ways of integrating novel tools into educational practice (e.g., [57]). As with any other technological innovation, integrating large language mode...",
+        "chunk_id": "1-ChatGPT_for_Good:p0007:c0002",
+        "chunk_text": "in their teaching\n[56]. This particularly applies to the use and integration of\nlarge language models into teaching practice. Educational\ntheory has long since suggested ways of integrating novel\ntools into educational practice (e.g., [57]). As with any other\ntechnological innovation, integrating large language models\ninto effective teaching practice requires understanding their\ncapabilities and limitations, as well as how to effectively use\nthem to supplement or enhance specific learning processes.\nThere are several ways to address these challenges and\nencounter this risk:\n\u2022 Research on the challenges of large language models in\neducation by investigating existing educational models\nof technology integration, students\u2019 learning processes\nand transfer them to the context of large language mod-\nels, as well as developing a new educational theory\nspecifically for the context of large language models\n\u2022 Assessing the needs of the educators and students and\nprovide case-based guidance (e.g., for the secure ethical\nuse of large language models in education scenarios)\n\u2022 Demand-oriented Training and professional develop-\nment opportunities for educators and institutions to\nlearn about the capabilities and potential uses of large\nlanguage models in education, as well as providing\nbest practices for integrating them into their teaching\nmethods"
+      },
+      {
+        "source_id": "1-ChatGPT_for_Good",
         "page": 8,
         "char_start": 1893,
         "char_end": 4239,
@@ -137,13 +146,13 @@
   {
     "id": "c0004",
     "topic": "What are some areas in which LLms today fail?",
-    "summary": "Ensuring the accuracy and integrity of information provided by large language models requires robust verification and human oversight.",
-    "text": "It is crucial to use multiple authoritative sources to verify information provided by LLMs to ensure correctness and integrity. The use of LLMs should be integrated with human expertise, such as teachers or subject matter experts, who review and validate the model's output. Developing protocols and standards for fact-checking and corroborating information is essential for maintaining accuracy. Clear and transparent communication about the model's performance, capabilities, and limitations is necessary for responsible use.",
+    "summary": "Ensuring the accuracy and integrity of information provided by LLMs requires verification through multiple authoritative sources and human expertise.",
+    "text": "It is crucial to use multiple authoritative sources to verify the information provided by LLMs to ensure its correctness and integrity. LLMs should be used in conjunction with human expertise, such as teachers or subject matter experts, who can review and validate the model's output. Clear and transparent information about the model's performance, capabilities, and limitations is essential for responsible use. Protocols and standards for fact-checking and corroborating information from LLMs need to be developed.",
     "subpoints": [
-      "It is crucial to use multiple authoritative sources to verify information provided by LLMs to ensure correctness and integrity.",
-      "The use of LLMs should be integrated with human expertise, such as teachers or subject matter experts, who review and validate the model's output.",
-      "Developing protocols and standards for fact-checking and corroborating information is essential for maintaining accuracy.",
-      "Clear and transparent communication about the model's performance, capabilities, and limitations is necessary for responsible use."
+      "It is crucial to use multiple authoritative sources to verify the information provided by LLMs to ensure its correctness and integrity.",
+      "LLMs should be used in conjunction with human expertise, such as teachers or subject matter experts, who can review and validate the model's output.",
+      "Clear and transparent information about the model's performance, capabilities, and limitations is essential for responsible use.",
+      "Protocols and standards for fact-checking and corroborating information from LLMs need to be developed."
     ],
     "citations": [
       {
