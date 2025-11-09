@@ -1,0 +1,54 @@
+[
+  {
+    "id": "a0001",
+    "topic": "Why stroke?",
+    "title": "Validate the direct impact of NeuroReach VR on selective muscle activation in stroke survivors.",
+    "detail": "While c0001 states the system aims to improve selective muscle activation, the current evidence (c0001, i0001) focuses on the system's design and technical development. A crucial next step is to design and conduct studies that directly measure and validate the improvement in selective muscle activation in stroke survivors using the NeuroReach VR system. This would involve defining specific metrics for 'selective muscle activation' and demonstrating their improvement through the system's use.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "Why stroke?",
+    "title": "Clarify the mechanism of adaptive difficulty based on muscle activation.",
+    "detail": "Challenge c0002 highlights a discrepancy between the claim of adaptive difficulty based on muscle activation and the evidence which details adaptation based on performance metrics and feedback fading (c0002). Further clarification is needed on how muscle activation data is captured, processed, and translated into adaptive difficulty adjustments within the system. This could involve detailing the specific sensors used and the algorithms that link muscle activation levels to changes in task parameters.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "Why stroke?",
+    "title": "Hypothesize the long-term clinical efficacy and user adherence of NeuroReach VR.",
+    "detail": "The current evidence (c0001, i0001) focuses on the proof-of-concept and technical development of NeuroReach VR. A forward-looking hypothesis is that the gamified environment, intuitive feedback, and adaptive nature of the system (c0002, c0003) will lead to sustained user engagement and improved long-term rehabilitation outcomes for stroke survivors. Future research should aim to test this hypothesis through longitudinal studies.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0002",
+      "c0003"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "Why stroke?",
+    "title": "Investigate the integration and effectiveness of the adaptive controller in a holistic rehabilitation context.",
+    "detail": "Challenge c0003 points out that the evidence focuses on technical solutions for individual components of the adaptive controller rather than its overall system-level function and impact. A next step is to investigate how the adaptive controller, as described in c0003, functions as a cohesive unit to dynamically adjust rehabilitation parameters based on user performance. This would involve evaluating its effectiveness in providing a personalized and progressive rehabilitation experience beyond individual component optimizations.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0003"
+    ]
+  },
+  {
+    "id": "a0005",
+    "topic": "Why stroke?",
+    "title": "Clarify the specific biofeedback mechanisms beyond general biofeedback for selective muscle activation.",
+    "detail": "Challenge c0001 raises the point that the evidence does not explicitly detail how selective muscle activation is measured or achieved beyond general biofeedback. A clarification is needed on the specific types of biofeedback (e.g., visual, auditory, haptic) that are directly linked to and designed to enhance selective muscle activation. Understanding these specific mechanisms will be crucial for assessing the system's targeted therapeutic approach.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001"
+    ]
+  }
+]

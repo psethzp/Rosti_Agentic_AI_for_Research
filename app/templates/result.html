@@ -56,6 +56,11 @@
 
   <!-- Main Results Section (Hidden until processing completes) -->
   <div id="resultsContainer" class="hidden">
+    <section id="promptSummary" class="hidden mb-8 bg-gray-800 border border-gray-700 rounded-xl p-6">
+      <p class="text-sm uppercase tracking-wide text-indigo-300 font-semibold mb-2">Prompt</p>
+      <p id="promptText" class="text-gray-100 text-lg"></p>
+    </section>
+
     <!-- Key Insights Section -->
     <section class="mb-8">
       <div class="flex items-center mb-4">
@@ -480,6 +485,7 @@
 
   let currentRunData = null;
   let currentRunId = null;
+  let currentRunPrompt = "";
 
   function initializeResults(runId) {
     currentRunId = runId;
@@ -511,9 +517,14 @@
     fetch(`/api/runs/${runId}`)
       .then((res) => res.json())
       .then((payload) => {
+        currentRunPrompt = payload.prompt || "";
         currentRunData = payload.payload || null;
         document.getElementById("processingStatus").classList.add("hidden");
         document.getElementById("resultsContainer").classList.remove("hidden");
+        if (currentRunPrompt) {
+          document.getElementById("promptText").textContent = currentRunPrompt;
+          document.getElementById("promptSummary").classList.remove("hidden");
+        }
         if (currentRunData) {
           renderResults(currentRunData);
         }
@@ -589,6 +600,24 @@
     renderActions(actions);
   }
 
+  function shortSummary(text) {
+    if (!text) return "";
+    const cleaned = text.trim();
+    if (cleaned.length <= 200) return cleaned;
+    return `${cleaned.slice(0, 197)}...`;
+  }
+
+  function firstSentence(text) {
+    if (!text) return "";
+    const sentence = text.split(/[.!?]/)[0];
+    return sentence ? sentence.trim() : text.trim();
+  }
+
+  function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>\"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c] || c));
+  }
+
   function renderInsights(insights) {
     const container = document.getElementById("insightsContainer");
     container.innerHTML = insights
@@ -596,7 +625,7 @@
         (insight) => `
       <div class="insight-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-green-500/50 transition-all" onclick="openInsightModal('${insight.id}')">
         <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-white flex-1">${insight.topic}</h3>
+          <h3 class="text-xl font-bold text-white flex-1">${escapeHtml(insight.topic || firstSentence(insight.summary) || "Insight")}</h3>
           <button class="ml-4 w-10 h-10 bg-green-600/20 hover:bg-green-600/40 rounded-full flex items-center justify-center transition-all group">
             <svg class="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
@@ -604,7 +633,6 @@
             </svg>
           </button>
         </div>
-        <p class="text-gray-300 mb-4">${insight.summary}</p>
         <div class="flex items-center justify-between">
           <div class="flex flex-wrap gap-2">
             ${(insight.provenance || [])
@@ -615,7 +643,7 @@
                 <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
                 </svg>
-                ${p.source_id}
+                ${escapeHtml(p.source_id || "Source")}
               </span>`
               )
               .join("")}
@@ -646,7 +674,7 @@
         (challenge) => `
       <div class="challenge-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-red-500/50 transition-all" onclick="openChallengeModal('${challenge.id}')">
         <div class="flex items-start justify-between mb-3">
-          <h3 class="text-xl font-bold text-white flex-1">${challenge.topic}</h3>
+          <h3 class="text-xl font-bold text-white flex-1">${escapeHtml(challenge.topic || challenge.summary || "Challenge")}</h3>
           <div class="flex items-center gap-3">
             <span class="severity-${challenge.severity.toLowerCase()} px-3 py-1 rounded-full text-xs font-bold border">
               ${challenge.severity.toUpperCase()}
@@ -659,7 +687,6 @@
             </button>
           </div>
         </div>
-        <p class="text-gray-300 mb-3">${challenge.summary}</p>
         ${
           (challenge.evidence || []).length > 0
             ? `
@@ -672,7 +699,7 @@
                 <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
                 </svg>
-                ${e.source_id}
+                ${escapeHtml(e.source_id || "Source")}
               </span>`
               )
               .join("")}
@@ -711,7 +738,7 @@
         return `
         <div class="action-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-${color}-500/50 transition-all" onclick="openActionModal('${action.id}')">
           <div class="flex items-start justify-between mb-3">
-            <h3 class="text-xl font-bold text-white flex-1">${action.title}</h3>
+            <h3 class="text-xl font-bold text-white flex-1">${escapeHtml(action.title || "Action item")}</h3>
             <div class="flex items-center gap-3">
               <span class="bg-${color}-600/20 text-${color}-400 border border-${color}-600/50 px-3 py-1 rounded-full text-xs font-bold">
                 ${action.tag}
@@ -724,7 +751,7 @@
               </button>
             </div>
           </div>
-          <p class="text-gray-300 mb-3">${action.detail}</p>
+          <p class="text-gray-300 mb-3">${escapeHtml(shortSummary(action.detail))}</p>
           <div class="text-xs text-gray-500">
             Related to ${relatedCount} claim${relatedCount === 1 ? "" : "s"}
           </div>

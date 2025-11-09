@@ -225,6 +225,22 @@ def _build_payload(run: RunRecord) -> dict:
     for insight in insights:
         claim_ids = insight.get("claim_ids", [])
         insight["claims"] = [claims_index[cid] for cid in claim_ids if cid in claims_index]
+        insight["topic"] = _derive_topic(
+            candidate=insight.get("topic"),
+            summary=insight.get("summary"),
+            fallback_claims=insight["claims"],
+            prompt=run.prompt,
+        )
+        insight["summary"] = _derive_summary(insight.get("summary"), insight.get("text"))
+
+    for finding in challenges:
+        finding["topic"] = _derive_topic(
+            candidate=finding.get("topic"),
+            summary=finding.get("summary"),
+            fallback_claims=[claims_index.get(finding.get("claim_id"))] if finding.get("claim_id") else [],
+            prompt=run.prompt,
+        )
+        finding["summary"] = _derive_summary(finding.get("summary"), finding.get("detail"))
 
     payload = {
         "insights": insights,
@@ -236,6 +252,35 @@ def _build_payload(run: RunRecord) -> dict:
         ],
     }
     return payload
+
+
+def _derive_topic(
+    candidate: Optional[str],
+    summary: Optional[str],
+    fallback_claims: List[dict],
+    prompt: str,
+) -> str:
+    text = candidate or summary or _first_claim_text(fallback_claims) or "Insight"
+    if text.strip().lower() == prompt.strip().lower():
+        text = summary or _first_claim_text(fallback_claims) or "Insight"
+    return text.strip()
+
+
+def _derive_summary(summary: Optional[str], detail: Optional[str]) -> str:
+    if summary and summary.strip():
+        return summary.strip()
+    if detail and detail.strip():
+        first_sentence = detail.split(".")[0].strip()
+        return first_sentence or detail.strip()
+    return ""
+
+
+def _first_claim_text(claims: List[dict]) -> Optional[str]:
+    for claim in claims or []:
+        text = claim.get("summary") or claim.get("text")
+        if text:
+            return text
+    return None
 
 
 # Typing helper for UploadFile-like objects
