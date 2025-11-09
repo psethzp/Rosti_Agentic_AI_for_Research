@@ -12,7 +12,7 @@ from typing import Iterable, Iterator, List, Optional, Sequence, Tuple
 from .llm import call_llm_json
 from .reporting import render_report_html
 from .retrieval import search
-from .schemas import ActionItem, Claim, EvidenceSpan, Insight, ReviewedClaim
+from .schemas import ActionItem, Claim, EvidenceSpan, Insight, RedTeamFinding, ReviewedClaim
 from .utils import configure_logging, ensure_dirs
 from .validator import assess_span_support, verify_span
 
@@ -49,6 +49,10 @@ def _actions_path() -> Path:
     return _artifacts_dir() / "actions.json"
 
 
+def _challenges_path() -> Path:
+    return _artifacts_dir() / "challenges.json"
+
+
 def reset_artifacts(include_claims: bool = False) -> None:
     """Remove downstream artifact files to avoid stale UI state."""
     for path in (
@@ -56,6 +60,7 @@ def reset_artifacts(include_claims: bool = False) -> None:
         _report_json_path(),
         _report_html_path(),
         _actions_path(),
+        _challenges_path(),
     ):
         if path.exists():
             path.unlink()
@@ -142,6 +147,22 @@ def load_insights_from_artifacts() -> List[Insight]:
     return [Insight.model_validate(entry) for entry in raw_insights]
 
 
+def _load_actions_from_artifacts() -> List[ActionItem]:
+    path = _actions_path()
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [ActionItem.model_validate(entry) for entry in data]
+
+
+def _load_challenges_from_artifacts() -> List[RedTeamFinding]:
+    path = _challenges_path()
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [RedTeamFinding.model_validate(entry) for entry in data]
+
+
 def _persist_reviewed_claims(claims: Iterable[ReviewedClaim]) -> None:
     path = _claims_reviewed_path()
     payload = [claim.model_dump() for claim in claims]
@@ -157,15 +178,17 @@ def _persist_report(
     insights: List[Insight],
     claims: List[ReviewedClaim],
     actions: Optional[List[ActionItem]] = None,
+    challenges: Optional[List[RedTeamFinding]] = None,
 ) -> None:
     json_path = _report_json_path()
     html_path = _report_html_path()
     payload = {
         "insights": [insight.model_dump() for insight in insights],
         "actions": [action.model_dump() for action in (actions or [])],
+        "challenges": [challenge.model_dump() for challenge in (challenges or [])],
     }
     json_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    html = render_report_html(insights, claims, actions or [])
+    html = render_report_html(insights, claims, actions or [], challenges or [])
     html_path.write_text(html, encoding="utf-8")
     logger.info("Wrote report artifacts to %s and %s", json_path, html_path)
 
@@ -179,12 +202,13 @@ def _persist_actions(actions: List[ActionItem]) -> None:
     logger.info("Wrote %d action items to %s", len(actions), path)
 
 
-def _load_actions_from_artifacts() -> List[ActionItem]:
-    path = _actions_path()
-    if not path.exists():
-        return []
-    data = json.loads(path.read_text(encoding="utf-8"))
-    return [ActionItem.model_validate(entry) for entry in data]
+def _persist_challenges(challenges: List[RedTeamFinding]) -> None:
+    path = _challenges_path()
+    path.write_text(
+        json.dumps([challenge.model_dump() for challenge in challenges], indent=2),
+        encoding="utf-8",
+    )
+    logger.info("Wrote %d red-team findings to %s", len(challenges), path)
 
 
 def run_researcher(topic: str) -> List[Claim]:
@@ -242,7 +266,7 @@ def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
         logger.warning("No insights synthesized; falling back to deterministic grouping.")
         insights = _fallback_insights(topic, reviewed)
     existing_actions = _load_actions_from_artifacts()
-    _persist_report(insights, reviewed, existing_actions)
+    _persist_report(insights, reviewed, existing_actions, _load_challenges_from_artifacts())
     return insights
 
 
@@ -308,10 +332,99 @@ def run_action_planner(
 
     if actions:
         _persist_actions(actions)
-        _persist_report(insights or [], reviewed, actions)
+        _persist_report(insights or [], reviewed, actions, _load_challenges_from_artifacts())
     else:
         logger.warning("No action items generated; retaining previous suggestions.")
     return actions
+
+
+def run_red_team(
+    topic: str,
+    reviewed: List[ReviewedClaim],
+    max_per_claim: int = 2,
+) -> List[RedTeamFinding]:
+    candidates = [claim for claim in reviewed if claim.verdict in {"Supported", "Weak"}]
+    findings: List[RedTeamFinding] = []
+    for claim in candidates:
+        evidence_hits = _gather_counter_evidence(claim)
+        if not evidence_hits:
+            continue
+        system_prompt = (
+            "You are Red Team. Given a claim and independent evidence snippets, "
+            "identify contradictions, limitations, or open questions. "
+            "Output JSON list where each object has fields: "
+            "{\"summary\": \"short sentence\", \"detail\": \"multi-sentence explanation\", "
+            "\"evidence_refs\": [\"E1\"...], \"actions\": [\"bullet\", ...] }. "
+            f"Return at most {max_per_claim} items."
+        )
+        evidence_lines = []
+        evidence_map = {}
+        for idx, hit in enumerate(evidence_hits):
+            evid_id = f"E{idx + 1}"
+            snippet = _normalize_text(hit.get("text", ""))[:800]
+            evidence_lines.append(
+                f"{evid_id}: Source={hit.get('source_id')} p{hit.get('page')} -> {snippet}"
+            )
+            evidence_map[evid_id] = hit
+        user_prompt = (
+            f"Topic: {topic}\nClaim ({claim.id}): {claim.text}\n\n"
+            "Candidate evidence:\n" + "\n".join(evidence_lines)
+        )
+        try:
+            llm_output = call_llm_json(system_prompt, user_prompt)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("Red Team LLM failed for %s: %s", claim.id, exc)
+            continue
+        for entry in llm_output:
+            summary = _normalize_text(entry.get("summary", ""))
+            detail = _normalize_text(entry.get("detail", entry.get("text", "")))
+            if not summary or not detail:
+                continue
+            evidence_refs = entry.get("evidence_refs", [])
+            provenance: List[EvidenceSpan] = []
+            for ref in evidence_refs:
+                hit = evidence_map.get(ref)
+                if not hit:
+                    continue
+                provenance.append(
+                    EvidenceSpan(
+                        source_id=hit.get("source_id", "unknown"),
+                        page=hit.get("page", 1),
+                        char_start=hit.get("char_start", 0),
+                        char_end=hit.get("char_end", 0),
+                        quote=_clip_quote(hit.get("text", "")),
+                        chunk_id=hit.get("id"),
+                        chunk_text=hit.get("text"),
+                    )
+                )
+            if not provenance:
+                continue
+            actions = entry.get("actions", [])
+            detail_text = detail if detail.endswith(".") else f"{detail}."
+            summary_text = summary if summary.endswith(".") else f"{summary}."
+            findings.append(
+                RedTeamFinding(
+                    id=f"r{len(findings) + 1:04d}",
+                    topic=topic,
+                    claim_id=claim.id,
+                    claim_text=claim.text,
+                    summary=summary_text,
+                    detail=detail_text,
+                    evidence=provenance,
+                    actions=[_normalize_text(a) for a in actions if a],
+                )
+            )
+    if findings:
+        _persist_challenges(findings)
+        _persist_report(
+            load_insights_from_artifacts(),
+            reviewed,
+            _load_actions_from_artifacts(),
+            findings,
+        )
+    else:
+        logger.warning("Red Team found no contradictions.")
+    return findings
 
 
 def _llm_researcher(topic: str, hits: Sequence[dict]) -> List[Claim]:
@@ -517,3 +630,27 @@ def _fallback_insights(topic: str, reviewed: List[ReviewedClaim]) -> List[Insigh
         if len(insights) >= 5:
             break
     return insights
+
+
+def _gather_counter_evidence(claim: ReviewedClaim, total: int = 6) -> List[dict]:
+    queries = [
+        claim.text,
+        f"limitations of: {claim.text[:180]}",
+        f"counter argument to: {claim.text[:180]}",
+    ]
+    seen = set()
+    hits: List[dict] = []
+    for query in queries:
+        results = search(query, k=total // len(queries) + 2)
+        for res in results:
+            chunk_id = res.get("id")
+            if chunk_id in seen:
+                continue
+            seen.add(chunk_id)
+            # skip evidence already cited
+            if any(span.chunk_id == chunk_id for span in claim.citations):
+                continue
+            hits.append(res)
+            if len(hits) >= total:
+                return hits
+    return hits

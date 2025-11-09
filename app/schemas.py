@@ -48,3 +48,14 @@ class ActionItem(BaseModel):
     detail: str
     tag: Literal["Hypothesis", "NextStep", "Clarification"]
     related_claims: List[str] = Field(default_factory=list)
+
+
+class RedTeamFinding(BaseModel):
+    id: str
+    topic: str
+    claim_id: str
+    claim_text: str
+    summary: str
+    detail: str
+    evidence: List[EvidenceSpan]
+    actions: List[str] = Field(default_factory=list)

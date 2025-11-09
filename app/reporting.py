@@ -6,7 +6,7 @@ import html
 from pathlib import Path
 from typing import Iterable, List
 
-from .schemas import ActionItem, Insight, ReviewedClaim
+from .schemas import ActionItem, Insight, RedTeamFinding, ReviewedClaim
 
 TEMPLATE_PATH = Path("assets/report_template.html")
 
@@ -59,10 +59,32 @@ def _render_actions(actions: Iterable[ActionItem]) -> str:
     return "\n".join(sections)
 
 
+def _render_challenges(challenges: Iterable["RedTeamFinding"]) -> str:
+    sections = []
+    for finding in challenges:
+        citations = ", ".join(
+            f"{span.source_id} p{span.page}" for span in finding.evidence
+        )
+        actions_html = ""
+        if finding.actions:
+            bullets = "".join(f"<li>{html.escape(item)}</li>" for item in finding.actions)
+            actions_html = f"<ul>{bullets}</ul>"
+        sections.append(
+            "<section class='challenge'>"
+            f"<h4>{html.escape(finding.summary)}</h4>"
+            f"<p>{html.escape(finding.detail)}</p>"
+            f"<p class='provenance'><strong>Evidence:</strong> {html.escape(citations)}</p>"
+            f"{actions_html}"
+            "</section>"
+        )
+    return "\n".join(sections)
+
+
 def render_report_html(
     insights: List[Insight],
     claims: List[ReviewedClaim],
     actions: List[ActionItem],
+    challenges: List["RedTeamFinding"],
 ) -> str:
     """Render a simple HTML report using the template."""
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
@@ -70,5 +92,6 @@ def render_report_html(
         insight_cards=_render_insight_cards(insights),
         claims_table=_render_claims_table(claims),
         actions_section=_render_actions(actions),
+        challenges_section=_render_challenges(challenges),
     )
     return rendered

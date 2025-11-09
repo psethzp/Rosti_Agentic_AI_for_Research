@@ -21,13 +21,14 @@ from app.agents import (  # type: ignore  # noqa: E402
     load_insights_from_artifacts,
     reset_artifacts,
     run_action_planner,
+    run_red_team,
     run_researcher,
     run_reviewer,
     run_synthesizer,
 )
 from app.graph import build_reasoning_graph  # type: ignore  # noqa: E402
 from app.ingestion import ingest_dir  # type: ignore  # noqa: E402
-from app.schemas import ActionItem, Insight, ReviewedClaim  # type: ignore  # noqa: E402
+from app.schemas import ActionItem, Insight, RedTeamFinding, ReviewedClaim  # type: ignore  # noqa: E402
 from app.utils import configure_logging, ensure_dirs  # type: ignore  # noqa: E402
 
 configure_logging()
@@ -86,6 +87,14 @@ def _load_actions() -> List[ActionItem]:
     return [ActionItem.model_validate(entry) for entry in data]
 
 
+def _load_challenges() -> List[RedTeamFinding]:
+    path = Path("artifacts/challenges.json")
+    if not path.exists():
+        return []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return [RedTeamFinding.model_validate(entry) for entry in data]
+
+
 def main() -> None:
     st.set_page_config(page_title="Collective Insight Lab", layout="wide")
     initialize_workspace()
@@ -112,6 +121,7 @@ def main() -> None:
         topic = st.text_input("Topic / Prompt", "")
         run_pipeline_btn = st.button("Run Researcher + Reviewer")
         generate_insights_btn = st.button("Generate Insights & Actions")
+        run_red_team_btn = st.button("Run Red Team")
 
     if run_pipeline_btn:
         if not topic.strip():
@@ -136,6 +146,19 @@ def main() -> None:
                 st.success("Insights generated and report updated.")
             if actions:
                 st.info("Suggested actions refreshed.")
+
+    if run_red_team_btn:
+        reviewed = _load_reviewed_claims()
+        if not reviewed:
+            st.error("No reviewed claims found. Run the pipeline first.")
+        else:
+            current_topic = topic or reviewed[0].topic
+            with st.spinner("Running Red Team to find contradictions..."):
+                findings = run_red_team(current_topic, reviewed)
+            if findings:
+                st.success("Red Team findings updated.")
+            else:
+                st.warning("Red Team did not find clear contradictions.")
 
     st.subheader("Reasoning Graph")
     st.graphviz_chart(build_reasoning_graph(include_red_team=True))
@@ -185,6 +208,25 @@ def main() -> None:
                 st.write(action.detail)
                 if action.related_claims:
                     st.caption(f"Related claims: {', '.join(action.related_claims)}")
+
+    st.subheader("Red Team Challenges")
+    challenges = _load_challenges()
+    if not challenges:
+        st.info("Run the Red Team to discover contradictions or gaps.")
+    else:
+        for finding in challenges:
+            label = f"{finding.summary} (Claim {finding.claim_id})"
+            with st.expander(label):
+                st.write(finding.detail)
+                st.caption(
+                    ", ".join(
+                        f"{span.source_id} p{span.page}" for span in finding.evidence
+                    )
+                )
+                if finding.actions:
+                    st.markdown("**Suggested follow-ups:**")
+                    for action in finding.actions:
+                        st.markdown(f"- {action}")
 
 
 if __name__ == "__main__":
