@@ -5,6 +5,7 @@ from __future__ import annotations
 import logging
 import os
 import re
+import time
 from pathlib import Path
 from typing import Dict, List
 
@@ -36,7 +37,11 @@ def load_pdf(path: str) -> List[Dict]:
     if not pdf_path.exists():
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
-    doc = fitz.open(str(pdf_path))
+    try:
+        doc = fitz.open(str(pdf_path))
+    except Exception as exc:
+        logger.error("Failed to open %s: %s", pdf_path.name, exc)
+        return []
     source_id = pdf_path.stem
     pages: List[Dict] = []
     for page_num in range(doc.page_count):
@@ -160,7 +165,7 @@ def ingest_dir(input_dir: str | Path) -> int:
         return 0
 
     total_chunks = 0
-    for pdf in pdf_files:
+    for idx, pdf in enumerate(pdf_files):
         pages = load_pdf(str(pdf))
         chunks = chunk_pages(pages)
         inserted = embed_chunks(chunks)
@@ -168,6 +173,8 @@ def ingest_dir(input_dir: str | Path) -> int:
         logger.info(
             "Ingested %d chunks from %s (running total: %d)", inserted, pdf.name, total_chunks
         )
+        if idx < len(pdf_files) - 1:
+            time.sleep(2)
 
     logger.info("Completed ingestion: %d chunks from %d PDFs", total_chunks, len(pdf_files))
     return total_chunks

@@ -77,14 +77,6 @@ def get_collection() -> Collection:
 def reset_vector_store() -> None:
     """Delete the current Chroma directory to reset embeddings."""
     chroma_dir = get_chroma_dir()
-    client = chromadb.PersistentClient(
-        path=str(chroma_dir),
-        settings=Settings(anonymized_telemetry=False),
-    )
-    try:
-        client.delete_collection(name=get_collection_name())
-    except Exception:
-        pass
     if chroma_dir.exists():
         shutil.rmtree(chroma_dir)
     ensure_dirs(chroma_dir)

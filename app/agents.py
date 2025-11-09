@@ -289,8 +289,9 @@ def run_action_planner(
         for challenge in _load_challenges_from_artifacts()
     ]
     system_prompt = (
-        "You are a strategic planner. Propose 3-5 actionable follow-ups (mix of hypotheses, "
-        "next steps, or clarifications) based on the claims and insights. "
+        "You are a strategic planner. Using the reviewed claims, synthesized insights, and red-team challenges, "
+        "propose 3-5 forward-looking actions (mix of hypotheses, next steps, clarifications). "
+        "Each action should directly address a gap or extend a finding, and cite relevant claim IDs. "
         "Output JSON list with objects {\"title\": \"...\", \"detail\": \"...\", "
         "\"tag\": \"Hypothesis\"|\"NextStep\"|\"Clarification\", "
         "\"related_claims\": [\"c0001\", ...] }."
@@ -609,11 +610,12 @@ def _llm_synthesizer(
         f"{challenge.claim_id}: {challenge.summary}" for challenge in (challenges or [])
     ]
     system_prompt = (
-        "You are Synthesizer. Combine the reviewed claims (and note any listed challenges) into 3-5 insights. "
-        "Each insight must include a brief summary plus a detailed explanation referencing supporting claims, "
-        "and should highlight contradictions if challenges exist. "
-        "Output JSON list with objects {\"summary\": \"...\", \"detail\": \"...\", "
-        "\"claim_ids\": [\"c0001\"...], \"confidence\": 0-1}. Only reference claim IDs provided."
+        "You are Synthesizer. Cluster related reviewed claims and challenges into 3-5 thematic insights. "
+        "For each cluster, write a concise summary sentence and a detailed 3-6 sentence explanation that "
+        "references the supporting claim IDs, acknowledges overlapping challenges, and explains the overall implication. "
+        "Do not repeat raw text; synthesize. Output JSON list with objects "
+        "{\"summary\": \"...\", \"detail\": \"...\", \"claim_ids\": [\"c0001\", ...], "
+        "\"confidence\": 0-1}. Only reference provided claim IDs."
     )
     user_prompt = (
         f"Topic: {topic}\nReviewed claims:\n"
