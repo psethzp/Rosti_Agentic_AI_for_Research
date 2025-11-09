@@ -1,20 +1,18 @@
-import asyncio
-import uuid
-from pathlib import Path
-from fastapi import FastAPI, Request, Form, UploadFile, File, HTTPException
-from fastapi.responses import RedirectResponse, StreamingResponse, FileResponse
+from __future__ import annotations
+
+from typing import List
+
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
-from typing import List
+
+from . import run_manager as runs
 
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
-
-# Create pdfs directory if it doesn't exist
-PDFS_DIR = Path("pdfs")
-PDFS_DIR.mkdir(exist_ok=True)
 
 
 @app.get("/")
@@ -28,58 +26,30 @@ async def start(
     prompt: str = Form(),
     pdf_files: List[UploadFile] = File(default=[]),
 ):
-    """
-    Handle the form submit and save uploaded PDFs
-    """
-    run_id = str(uuid.uuid4())
+    run = runs.create_run(prompt)
+    await runs.save_uploaded_files(run, pdf_files)
+    runs.start_run(run)
 
-    # Print the prompt
-    print(f"\n{'='*60}")
-    print(f"New Request - Run ID: {run_id}")
-    print(f"{'='*60}")
-    print(f"Prompt: {prompt}")
-
-    # Save uploaded PDF files
-    if pdf_files and len(pdf_files) > 0 and pdf_files[0].filename:
-        print(f"\nUploaded PDF files ({len(pdf_files)}):")
-        for i, file in enumerate(pdf_files, 1):
-            print(
-                f"  {i}. {file.filename} (Content-Type: {file.content_type}, Size: {file.size} bytes)"
-            )
-            
-            # Save the PDF file
-            file_path = PDFS_DIR / file.filename
-            with open(file_path, "wb") as f:
-                content = await file.read()
-                f.write(content)
-            print(f"     Saved to: {file_path}")
-    else:
-        print("\nNo PDF files uploaded")
-
-    print(f"{'='*60}\n")
-
-    url = request.url_for("result", run_id=run_id)
+    url = request.url_for("result", run_id=run.id)
 
     return RedirectResponse(url=url, status_code=303)
 
 
-@app.get("/pdfs/{filename}")
-async def get_pdf(filename: str):
-    """
-    Serve PDF files for viewing
-    """
-    file_path = PDFS_DIR / filename
-    
+@app.get("/pdfs/{run_id}/{filename}")
+async def get_pdf(run_id: str, filename: str):
+    run = runs.get_run(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    file_path = run.pdf_dir / filename
     if not file_path.exists():
-        raise HTTPException(status_code=404, detail=f"PDF file '{filename}' not found")
-    
+        raise HTTPException(status_code=404, detail="PDF file not found")
     return FileResponse(
         file_path,
         media_type="application/pdf",
         headers={
             "Content-Disposition": f"inline; filename={filename}",
-            "Access-Control-Allow-Origin": "*"
-        }
+            "Access-Control-Allow-Origin": "*",
+        },
     )
 
 
@@ -92,30 +62,23 @@ async def result(request: Request, run_id: str):
 
 @app.get("/events/{run_id}")
 async def sse_events(run_id: str):
-    """
-    SSE stream that sends HTML snippets for the result page to insert
-    """
+    run = runs.get_run(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    return StreamingResponse(runs.event_stream(run), media_type="text/event-stream")
 
-    async def event_gen():
-        yield "retry: 2000\n\n"
 
-        steps = [
-            "Booting agents…",
-            "Planning…",
-            "Fetching tools…",
-            "Coordinating…",
-            "Synthesizing answer…",
-        ]
-
-        for i, step in enumerate(steps, start=1):
-            await asyncio.sleep(1)
-            html = f"<div>Step {i}/{len(steps)}: {step}</div>"
-            yield f"event: message\ndata: {html}\n\n"
-
-        await asyncio.sleep(0.5)
-        yield "event: message\ndata: <div><strong>Done!</strong></div>\n\n"
-
-        while True:
-            await asyncio.sleep(60)
-
-    return StreamingResponse(event_gen(), media_type="text/event-stream")
+@app.get("/api/runs/{run_id}")
+async def get_run_details(run_id: str):
+    run = runs.get_run(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    return JSONResponse(
+        {
+            "run_id": run.id,
+            "prompt": run.prompt,
+            "status": run.status,
+            "error": run.error,
+            "payload": run.payload,
+        }
+    )

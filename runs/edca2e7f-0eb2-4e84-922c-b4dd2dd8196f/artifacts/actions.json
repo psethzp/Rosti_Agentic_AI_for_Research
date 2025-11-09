@@ -1,0 +1,55 @@
+[
+  {
+    "id": "a0001",
+    "topic": "What are LLMs used for?",
+    "title": "Investigate LLM's role in fostering critical thinking vs. independent investigation",
+    "detail": "While LLMs can generate prompts that encourage critical thinking (c0001), there's a risk of over-reliance and reduced independent investigation (c0001 challenge). We need to explore how LLMs can be used to *enhance* critical thinking without hindering students' ability to conduct their own research and analysis. This could involve developing prompts that require students to evaluate LLM-generated information or to use LLMs as a starting point for deeper inquiry.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "What are LLMs used for?",
+    "title": "Clarify the extent of LLM's personalization capabilities in education",
+    "detail": "The claims suggest LLMs can create personalized practice problems and quizzes (c0001, c0002). However, a challenge notes that LLMs may overstate their current capabilities in this area (c0002 challenge). We need to clarify the actual level of personalization achievable and identify the limitations. This might involve user studies or technical evaluations to understand how well LLMs can adapt to individual student needs and learning styles.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "What are LLMs used for?",
+    "title": "Explore LLM-driven professional skill development with a focus on supplementary roles",
+    "detail": "LLMs can assist in developing professional skills (c0003), but a challenge suggests they are primarily supplementary tools and overstate their ability to develop broader skills (c0003 challenge). The next step is to investigate how LLMs can be most effectively integrated as supplementary tools in professional training to support, rather than replace, human instruction and expertise. This could involve case studies of successful supplementary LLM use in professional development.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0003"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "What are LLMs used for?",
+    "title": "Develop strategies to mitigate bias and ensure equity in LLM-generated educational content",
+    "detail": "A significant challenge highlights the lack of attention to potential biases and equity issues in LLM-generated educational content (c0002 challenge). A crucial next step is to research and propose methods for identifying, mitigating, and actively correcting biases in LLM outputs used for educational purposes. This could involve developing evaluation frameworks for bias detection and exploring techniques for fine-tuning LLMs to produce more equitable content.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0005",
+    "topic": "What are LLMs used for?",
+    "title": "Hypothesize LLM's role in supporting, not replacing, human instruction",
+    "detail": "While LLMs offer significant assistance in education (c0001, c0002), there's a concern about teacher over-reliance and the irreplaceable role of human instruction (c0001 challenge). We hypothesize that LLMs are best positioned as tools to augment and support human educators, freeing them to focus on higher-level pedagogical tasks and personalized student interaction. Future research should focus on defining the optimal division of labor between LLMs and human teachers.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0002"
+    ]
+  }
+]

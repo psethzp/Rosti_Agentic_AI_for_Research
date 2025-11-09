@@ -10,11 +10,9 @@
   <div
     id="processingStatus"
     class="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden mb-6"
-    hx-ext="sse"
-    sse-connect="/events/{{ run_id }}"
   >
     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4">
-      <h2 class="text-xl font-semibold text-white flex items-center">
+      <h2 id="statusHeading" class="text-xl font-semibold text-white flex items-center">
         <svg
           class="w-6 h-6 mr-3 animate-spin"
           fill="none"
@@ -32,8 +30,12 @@
       </h2>
     </div>
 
+    <div id="statusBadges" class="px-8 py-4 border-b border-gray-700 text-sm text-gray-300 flex flex-wrap gap-3">
+      <span class="opacity-70">Preparing run...</span>
+    </div>
+
     <div class="p-8">
-      <div id="stream" sse-swap="message" hx-swap="beforeend" class="space-y-3">
+      <div id="stream" class="space-y-3">
         <div class="flex items-center text-gray-400 italic">
           <svg
             class="w-5 h-5 mr-2 animate-pulse"
@@ -437,6 +439,16 @@
     margin-bottom: 6px;
   }
 
+  .stage-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 600;
+    border-width: 1px;
+    border-style: solid;
+  }
+
   /* Severity badges */
   .severity-high {
     background-color: rgba(239, 68, 68, 0.2);
@@ -458,7 +470,7 @@
 </style>
 
 <script>
-  // PDF.js viewer state
+// PDF.js viewer state
   let pdfDoc = null;
   let pageNum = 1;
   let pageRendering = false;
@@ -466,144 +478,115 @@
   let scale = 1.5;
   let currentHighlight = null;
 
-  // Mock data for demonstration - Replace with actual backend data
-  const mockData = {
-    insights: [
-      {
-        id: "i0001",
-        topic: "VR Rehabilitation Effectiveness",
-        summary:
-          "VR-based rehabilitation shows significant improvement in motor recovery for stroke patients",
-        text: "Multiple studies demonstrate that VR rehabilitation interventions lead to measurable improvements in upper limb motor function, with effect sizes ranging from 0.4 to 0.8. The immersive nature of VR enhances patient engagement and enables more intensive training sessions.",
-        confidence: 0.85,
-        claim_ids: ["c0001", "c0002", "c0003"],
-        claims: [
-          {
-            id: "c0001",
-            summary: "VR improves motor function in stroke patients",
-            text: "Clinical trials show VR rehabilitation improves upper limb motor scores by 20-30%",
-            citations: [
-              {
-                source_id: "neurorehab_2024.pdf",
-                page: 5,
-                 "char_start": 125,
-                 "char_end": 420,
-                quote: "Patients using VR-based therapy showed a 25% improvement in motor function scores..."
-              }
-            ]
-          },
-          {
-            id: "c0002",
-            summary: "Higher engagement leads to better outcomes",
-            text: "VR environments increase patient motivation and training duration",
-            citations: [
-              {
-                source_id: "virtual_therapy.pdf",
-                page: 12,
-                quote: "Engagement rates in VR rehabilitation were 40% higher than traditional therapy..."
-              }
-            ]
-          },
-          {
-            id: "c0003",
-            summary: "Neuroplasticity enhanced through VR",
-            text: "Immersive VR activates multiple brain regions associated with motor learning",
-            citations: [
-              {
-                source_id: "brain_imaging_study.pdf",
-                page: 8,
-                quote: "fMRI scans revealed increased activation in motor cortex during VR therapy..."
-              }
-            ]
-          }
-        ],
-        provenance: [
-          { source_id: "neurorehab_2024.pdf", page: 5 },
-          { source_id: "virtual_therapy.pdf", page: 12 }
-        ]
-      },
-      {
-        id: "i0002",
-        topic: "Cost-Effectiveness Analysis",
-        summary: "VR rehabilitation is cost-effective compared to traditional therapy",
-        text: "Economic analyses indicate VR-based interventions reduce overall healthcare costs while maintaining or improving clinical outcomes.",
-        confidence: 0.72,
-        claim_ids: ["c0004", "c0005"],
-        claims: [
-          {
-            id: "c0004",
-            summary: "Lower operational costs",
-            text: "VR systems reduce therapist time requirements",
-            citations: []
-          },
-          {
-            id: "c0005",
-            summary: "Improved access to care",
-            text: "Home-based VR enables treatment in underserved areas",
-            citations: []
-          }
-        ],
-        provenance: []
-      }
-    ],
-    challenges: [
-      {
-        id: "r0001",
-        topic: "Sample Size Limitations",
-        claim_id: "c0001",
-        summary: "Many studies have small sample sizes limiting generalizability",
-        detail:
-          "Review of 15 VR rehabilitation studies found that 60% had fewer than 30 participants, which may limit the statistical power and generalizability of findings.",
-        severity: "Medium",
-        evidence: [
-          {
-            source_id: "meta_analysis_2024.pdf",
-            page: 18,
-            quote: "Sample sizes ranged from 12 to 85 participants (median = 24)..."
-          }
-        ],
-        actions: [
-          "Conduct multi-center trials with larger sample sizes",
-          "Perform meta-analyses to combine data across studies"
-        ]
-      }
-    ],
-    actions: [
-      {
-        id: "a0001",
-        topic: "Future Research Direction",
-        title: "Long-term efficacy study",
-        detail:
-          "Investigate whether VR rehabilitation benefits persist beyond 6 months post-intervention through longitudinal follow-up studies.",
-        tag: "Hypothesis",
-        related_claims: ["c0001", "c0002"]
-      },
-      {
-        id: "a0002",
-        topic: "Clinical Implementation",
-        title: "Standardize VR protocols",
-        detail:
-          "Develop standardized VR rehabilitation protocols to ensure consistency across clinical settings and enable better comparison of outcomes.",
-        tag: "NextStep",
-        related_claims: ["c0001"]
-      }
-    ]
-  };
+  let currentRunData = null;
+  let currentRunId = null;
 
-  // Initialize with mock data - Replace this with actual SSE data parsing
-  function initializeResults() {
-    // Simulate processing completion
-    setTimeout(() => {
-      document.getElementById("processingStatus").classList.add("hidden");
-      document.getElementById("resultsContainer").classList.remove("hidden");
-      renderResults(mockData);
-    }, 3000);
+  function initializeResults(runId) {
+    currentRunId = runId;
+    const streamContainer = document.getElementById("stream");
+    const source = new EventSource(`/events/${runId}`);
+
+    source.addEventListener("message", (evt) => {
+      if (evt.data) {
+        streamContainer.insertAdjacentHTML("beforeend", evt.data);
+      }
+    });
+
+    source.addEventListener("stage", (evt) => {
+      if (evt.data) {
+        updateStatusBanner(JSON.parse(evt.data));
+      }
+    });
+
+    source.addEventListener("completed", () => fetchRunPayload(runId, source));
+
+    source.addEventListener("failed", (evt) => {
+      const payload = evt.data ? JSON.parse(evt.data) : {};
+      showError(payload.error || "Run failed. Please try again.");
+      source.close();
+    });
+  }
+
+  function fetchRunPayload(runId, source) {
+    fetch(`/api/runs/${runId}`)
+      .then((res) => res.json())
+      .then((payload) => {
+        currentRunData = payload.payload || null;
+        document.getElementById("processingStatus").classList.add("hidden");
+        document.getElementById("resultsContainer").classList.remove("hidden");
+        if (currentRunData) {
+          renderResults(currentRunData);
+        }
+        source.close();
+      })
+      .catch((err) => {
+        console.error(err);
+        showError("Failed to load run results.");
+        source.close();
+      });
+  }
+
+  function showError(message) {
+    document.getElementById("processingStatus").classList.add("hidden");
+    const container = document.getElementById("resultsContainer");
+    container.classList.remove("hidden");
+    container.innerHTML = `<div class=\"bg-red-900/40 border border-red-500 rounded-xl p-6\">`
+      + `<p class=\"text-red-200 font-semibold\">${message}</p></div>`;
+  }
+
+  function resolvePdfFilename(sourceId) {
+    if (!currentRunData || !currentRunData.pdfs) {
+      return sourceId.endsWith(".pdf") ? sourceId : `${sourceId}.pdf`;
+    }
+    const entry = currentRunData.pdfs.find(
+      (pdf) => pdf.source_id === sourceId || pdf.filename === sourceId
+    );
+    if (entry) {
+      return entry.filename;
+    }
+    return sourceId.endsWith(".pdf") ? sourceId : `${sourceId}.pdf`;
+  }
+
+  function updateStatusBanner(eventData) {
+    const heading = document.getElementById("statusHeading");
+    const badges = document.getElementById("statusBadges");
+    if (heading && eventData.message) {
+      heading.innerHTML = `<svg class=\"w-6 h-6 mr-3 animate-spin\" fill=\"none\" stroke=\"currentColor\" viewBox=\"0 0 24 24\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15\"></path></svg> ${eventData.message}`;
+    }
+    if (badges && eventData.tracker) {
+      badges.innerHTML = renderStageBadges(eventData.tracker);
+    }
+  }
+
+  function renderStageBadges(tracker) {
+    const stages = [
+      { id: "ingestion", label: "Ingestion" },
+      { id: "researcher", label: "Researcher & Reviewer" },
+      { id: "red_team", label: "Red Team" },
+      { id: "synthesizer", label: "Synthesizer & Actions" }
+    ];
+    const colors = {
+      pending: "bg-gray-700/60 text-gray-300 border-gray-600",
+      running: "bg-amber-500/20 text-amber-200 border-amber-400/70",
+      done: "bg-green-500/20 text-green-200 border-green-400/70"
+    };
+    return stages
+      .map((stage) => {
+        const status = tracker[stage.id] || "pending";
+        const icon = status === "done" ? "✓" : status === "running" ? "⟳" : "○";
+        return `<span class=\"stage-pill border ${colors[status] || colors.pending}\">${icon} ${stage.label}</span>`;
+      })
+      .join("");
   }
 
   function renderResults(data) {
-    renderInsights(data.insights);
-    renderChallenges(data.challenges);
-    renderActions(data.actions);
+    currentRunData = data;
+    const insights = (data && data.insights) || [];
+    const challenges = (data && data.challenges) || [];
+    const actions = (data && data.actions) || [];
+    renderInsights(insights);
+    renderChallenges(challenges);
+    renderActions(actions);
   }
 
   function renderInsights(insights) {
@@ -624,7 +607,7 @@
         <p class="text-gray-300 mb-4">${insight.summary}</p>
         <div class="flex items-center justify-between">
           <div class="flex flex-wrap gap-2">
-            ${insight.provenance
+            ${(insight.provenance || [])
               .slice(0, 2)
               .map(
                 (p) =>
@@ -637,7 +620,7 @@
               )
               .join("")}
             ${
-              insight.provenance.length > 2
+              (insight.provenance || []).length > 2
                 ? `<span class="pdf-badge">+${insight.provenance.length - 2} more</span>`
                 : ""
             }
@@ -678,10 +661,10 @@
         </div>
         <p class="text-gray-300 mb-3">${challenge.summary}</p>
         ${
-          challenge.evidence.length > 0
+          (challenge.evidence || []).length > 0
             ? `
           <div class="flex flex-wrap gap-2">
-            ${challenge.evidence
+            ${(challenge.evidence || [])
               .slice(0, 2)
               .map(
                 (e) =>
@@ -694,7 +677,7 @@
               )
               .join("")}
             ${
-              challenge.evidence.length > 2
+              (challenge.evidence || []).length > 2
                 ? `<span class="pdf-badge">+${challenge.evidence.length - 2} more</span>`
                 : ""
             }
@@ -724,6 +707,7 @@
     container.innerHTML = actions
       .map((action) => {
         const color = tagColors[action.tag] || "gray";
+        const relatedCount = (action.related_claims || []).length;
         return `
         <div class="action-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-${color}-500/50 transition-all" onclick="openActionModal('${action.id}')">
           <div class="flex items-start justify-between mb-3">
@@ -742,7 +726,7 @@
           </div>
           <p class="text-gray-300 mb-3">${action.detail}</p>
           <div class="text-xs text-gray-500">
-            Related to ${action.related_claims.length} claim${action.related_claims.length > 1 ? "s" : ""}
+            Related to ${relatedCount} claim${relatedCount === 1 ? "" : "s"}
           </div>
         </div>
       `;
@@ -751,7 +735,8 @@
   }
 
   function openInsightModal(insightId) {
-    const insight = mockData.insights.find((i) => i.id === insightId);
+    if (!currentRunData) return;
+    const insight = (currentRunData.insights || []).find((i) => i.id === insightId);
     if (!insight) return;
 
     // Populate modal content
@@ -848,7 +833,8 @@
   }
 
   function openChallengeModal(challengeId) {
-    const challenge = mockData.challenges.find((c) => c.id === challengeId);
+    if (!currentRunData) return;
+    const challenge = (currentRunData.challenges || []).find((c) => c.id === challengeId);
     if (!challenge) return;
 
     // Populate modal content
@@ -974,7 +960,8 @@
   }
 
   function openActionModal(actionId) {
-    const action = mockData.actions.find((a) => a.id === actionId);
+    if (!currentRunData) return;
+    const action = (currentRunData.actions || []).find((a) => a.id === actionId);
     if (!action) return;
 
     const tagColors = {
@@ -992,7 +979,9 @@
     document.querySelector("#insightModal .bg-gradient-to-br").parentElement.querySelector(".border-t").style.display = "none";
 
     // Render related claims
-    const relatedClaims = mockData.insights.flatMap(i => i.claims).filter(c => action.related_claims.includes(c.id));
+    const relatedClaims = (currentRunData.insights || [])
+      .flatMap(i => i.claims || [])
+      .filter(c => action.related_claims && action.related_claims.includes(c.id));
     const claimsHtml = relatedClaims
       .map(
         (claim, index) => `
@@ -1079,8 +1068,12 @@
     }
   }
 
-  // Initialize on page load
-  initializeResults();
+  document.addEventListener("DOMContentLoaded", () => {
+    const runId = "{{ run_id }}";
+    if (runId) {
+      initializeResults(runId);
+    }
+  });
 
   // Handle ESC key to close modal
   document.addEventListener("keydown", (e) => {
@@ -1110,10 +1103,10 @@
     // Store highlight info
     currentHighlight = citation;
     
-    // In a real implementation, you would fetch the PDF from your server
-    // For now, we'll show a message about PDF loading
-    // Replace '/pdfs/' with your actual PDF serving endpoint
-    const pdfUrl = `/pdfs/${citation.source_id}`;
+    const pdfFilename = resolvePdfFilename(citation.source_id);
+    const pdfUrl = currentRunId
+      ? `/pdfs/${currentRunId}/${pdfFilename}`
+      : `/pdfs/${pdfFilename}`;
     
     try {
       // Load the PDF
