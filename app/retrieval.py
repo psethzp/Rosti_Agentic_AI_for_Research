@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import re
 from typing import Dict, List
 
+from .cache import search_cache_get, search_cache_set
 from .utils import configure_logging
 from .vectorstore import build_embeddings, get_collection
 
@@ -73,9 +75,14 @@ def _keyword_fallback(query: str, k: int = 6) -> List[Dict]:
 
 
 def search(query: str, k: int = 6) -> List[Dict]:
-    """Return ranked chunk metadata for a query."""
     if not query.strip():
         raise ValueError("Query must be non-empty")
+
+    cache_key = hashlib.sha256(f"{query}:{k}".encode("utf-8")).hexdigest()
+    cached = search_cache_get(cache_key)
+    if cached:
+        logger.info("Search results served from cache for query: %s", query[:50])
+        return cached
 
     collection = get_collection()
     embeddings = build_embeddings([query])
@@ -84,11 +91,15 @@ def search(query: str, k: int = 6) -> List[Dict]:
         results = _format_results(response)
         if results:
             results.sort(key=lambda item: (-item["score"], item["id"]))
-            return results[:k]
-    except Exception as exc:  # noqa: BLE001
+            results = results[:k]
+            search_cache_set(cache_key, results)
+            return results
+    except Exception as exc:
         logger.warning("Dense retrieval failed (%s); falling back to keyword search", exc)
 
     fallback_results = _keyword_fallback(query, k)
-    if not fallback_results:
+    if fallback_results:
+        search_cache_set(cache_key, fallback_results)
+    else:
         logger.info("No results found for query '%s'", query)
     return fallback_results
