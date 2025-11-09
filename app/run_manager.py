@@ -7,6 +7,8 @@ import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 import shutil
+import unicodedata
+import re
 from typing import Dict, Iterable, List, Optional, Protocol
 
 from .agents import (
@@ -40,6 +42,7 @@ class RunRecord:
     error: Optional[str] = None
     payload: Optional[dict] = None
     source_map: Dict[str, str] = field(default_factory=dict)
+    source_display: Dict[str, str] = field(default_factory=dict)
     event_queue: asyncio.Queue[str] = field(default_factory=asyncio.Queue)
 
 
@@ -118,13 +121,14 @@ async def save_uploaded_files(run: RunRecord, files: Iterable["UploadFileLike"])
     for file in files:
         if not file.filename:
             continue
-        safe_name = Path(file.filename).name
-        target = run.pdf_dir / safe_name
+        target_name = _generate_safe_filename(run, file.filename)
+        target = run.pdf_dir / target_name
         content = await file.read()
         target.write_bytes(content)
-        source_id = Path(safe_name).stem
-        run.source_map[source_id] = safe_name
-        saved.append(safe_name)
+        source_id = Path(target_name).stem
+        run.source_map[source_id] = target_name
+        run.source_display[source_id] = file.filename
+        saved.append(target_name)
     return saved
 
 
@@ -400,11 +404,41 @@ def _build_payload(run: RunRecord) -> dict:
         "claims_original": claims_original,
         "claims_rebuttals": claims_rebuttals,
         "pdfs": [
-            {"source_id": source_id, "filename": filename}
+            {
+                "source_id": source_id,
+                "filename": filename,
+                "display_name": run.source_display.get(source_id, filename),
+            }
             for source_id, filename in run.source_map.items()
         ],
     }
     return payload
+
+
+_SAFE_CHARS = re.compile(r"[^a-z0-9]+")
+
+
+def _slugify_filename(value: str) -> str:
+    normalized = (
+        unicodedata.normalize("NFKD", value).encode("ascii", "ignore").decode("ascii")
+    )
+    lowered = normalized.lower()
+    slug = _SAFE_CHARS.sub("-", lowered).strip("-")
+    return slug or f"document-{uuid.uuid4().hex[:8]}"
+
+
+def _generate_safe_filename(run: RunRecord, original_name: str) -> str:
+    path = Path(original_name)
+    ext = path.suffix.lower() or ".pdf"
+    base = _slugify_filename(path.stem)
+    candidate = base
+    counter = 1
+    while True:
+        filename = f"{candidate}{ext}"
+        if not (run.pdf_dir / filename).exists() and candidate not in run.source_map:
+            return filename
+        candidate = f"{base}-{counter}"
+        counter += 1
 
 
 def _derive_topic(

@@ -554,17 +554,29 @@
       + `<p class=\"text-red-200 font-semibold\">${message}</p></div>`;
   }
 
-  function resolvePdfFilename(sourceId) {
+  function findPdfEntry(sourceId) {
     if (!currentRunData || !currentRunData.pdfs) {
-      return sourceId.endsWith(".pdf") ? sourceId : `${sourceId}.pdf`;
+      return null;
     }
-    const entry = currentRunData.pdfs.find(
+    return currentRunData.pdfs.find(
       (pdf) => pdf.source_id === sourceId || pdf.filename === sourceId
-    );
-    if (entry) {
+    ) || null;
+  }
+
+  function resolvePdfFilename(sourceId) {
+    const entry = findPdfEntry(sourceId);
+    if (entry && entry.filename) {
       return entry.filename;
     }
     return sourceId.endsWith(".pdf") ? sourceId : `${sourceId}.pdf`;
+  }
+
+  function resolvePdfDisplayName(sourceId) {
+    const entry = findPdfEntry(sourceId);
+    if (entry && entry.display_name) {
+      return entry.display_name;
+    }
+    return sourceId;
   }
 
   function setCitationContext(citations) {
@@ -1322,13 +1334,14 @@
     updateCitationCounter();
 
     // Update modal title
-    document.getElementById("pdfModalTitle").textContent = citation.source_id;
+    document.getElementById("pdfModalTitle").textContent = resolvePdfDisplayName(citation.source_id);
     pdfInfo.textContent = `Page ${citation.page} • Characters ${citation.char_start ?? "?"}-${citation.char_end ?? "?"}`;
 
     const pdfFilename = resolvePdfFilename(citation.source_id);
+    const encodedSourceId = encodeURIComponent(citation.source_id);
     const pdfUrl = currentRunId
-      ? `/pdfs/${currentRunId}/${pdfFilename}`
-      : `/pdfs/${pdfFilename}`;
+      ? `/pdfs/${currentRunId}/source/${encodedSourceId}`
+      : `/pdfs/${encodeURIComponent(pdfFilename)}`;
 
     const pageTextPromise = getPageTextForCitation(citation);
 

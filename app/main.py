@@ -55,6 +55,24 @@ async def get_pdf(run_id: str, filename: str):
     )
 
 
+@app.get("/pdfs/{run_id}/source/{source_id}")
+async def get_pdf_by_source(run_id: str, source_id: str):
+    run = runs.get_run(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    pdf_path = _resolve_pdf_path(run, source_id)
+    if not pdf_path:
+        raise HTTPException(status_code=404, detail="PDF file not found")
+    return FileResponse(
+        pdf_path,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename={pdf_path.name}",
+            "Access-Control-Allow-Origin": "*",
+        },
+    )
+
+
 @app.get("/result/{run_id}", name="result")
 async def result(request: Request, run_id: str):
     return templates.TemplateResponse(

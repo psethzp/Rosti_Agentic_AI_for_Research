@@ -1,0 +1,51 @@
+[
+  {
+    "id": "a0001",
+    "topic": "I dont think phones affect sleep, do they?",
+    "title": "Investigate the role of psychological arousal and behavioral factors in sleep disruption.",
+    "detail": "Given that direct biophysical effects of RF-EMF on sleep are not well-established (i0001), and psychological arousal from device use is a potential contributor to sleep disruption (c0002), further research should focus on quantifying the impact of these indirect mechanisms. This could involve studies that specifically measure psychological arousal (e.g., through self-report questionnaires or physiological markers) and behavioral patterns (e.g., time spent on engaging content, social media interaction) in relation to sleep quality and duration.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0002",
+      "d0002",
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "I dont think phones affect sleep, do they?",
+    "title": "Explore the dose-response relationship between screen time, stress, and sleep.",
+    "detail": "While increased screen time is linked to increased stress (i0002), the exact dose-response relationship and its subsequent impact on sleep quality needs further clarification. Studies should aim to establish thresholds of screen time that lead to significant stress increases and subsequently measurable sleep disturbances. This could involve longitudinal studies with detailed daily tracking of screen time, stress levels, and sleep metrics.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "d0002",
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "I dont think phones affect sleep, do they?",
+    "title": "Conduct larger-scale studies to address potential underpowering.",
+    "detail": "The limitation of small sample sizes in some studies (c0001) may be hindering the detection of smaller, yet potentially significant, effects of mobile phone use on sleep duration and quality. Future research should prioritize larger sample sizes to increase statistical power and provide more robust conclusions regarding the impact of RF-EMF and other phone-related factors on sleep.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "d0001",
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "I dont think phones affect sleep, do they?",
+    "title": "Differentiate between short-term and chronic effects of phone use on sleep.",
+    "detail": "The current evidence acknowledges that while short-term markers of RF-EMF exposure may not show clear associations with sleep (c0001), chronic sleep deprivation due to extended device use is a possibility (c0002). Future research should employ methodologies that can effectively distinguish between the immediate impact of phone use and the cumulative effects of prolonged usage patterns on sleep architecture and quality.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "c0002",
+      "d0001"
+    ]
+  }
+]

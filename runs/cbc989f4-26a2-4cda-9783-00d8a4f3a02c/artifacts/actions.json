@@ -1,0 +1,50 @@
+[
+  {
+    "id": "a0001",
+    "topic": "Do smartphones really impede sleep?",
+    "title": "Investigate the specific non-physical mechanisms driving negative psychological well-being from smartphone use.",
+    "detail": "Given that non-physical factors like addiction and night-time use are suggested to be more influential than RF-EMF exposure (i0001, c0003), future research should focus on dissecting these mechanisms. This could involve qualitative studies exploring user behaviors and motivations, or quantitative studies employing validated scales for smartphone addiction and sleep hygiene.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "d0001",
+      "c0003",
+      "d0002"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "Do smartphones really impede sleep?",
+    "title": "Hypothesize that chronic sleep deprivation, rather than acute RF-EMF exposure, is the primary driver of reported fatigue and mood disturbances.",
+    "detail": "The lack of consistent associations between short-term RF-EMF exposure and sleep quality (i0002, c0002) suggests that other factors are at play. The mention of chronic sleep deprivation not captured by daily variations (c0002) is a critical avenue. Future studies should employ longitudinal designs to assess the impact of cumulative sleep debt on HRQoL and cognitive function.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "Do smartphones really impede sleep?",
+    "title": "Clarify the temporal relationship between smartphone use, stress, and sleep onset.",
+    "detail": "While increased screen time is linked to increased stress (c0001, d0001), the exact timing and duration of this effect on sleep onset are not fully elucidated. Further research is needed to determine if the stress induced by smartphone use directly delays sleep onset, or if other factors associated with prolonged use (e.g., engaging content) contribute to this delay.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "d0001"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "Do smartphones really impede sleep?",
+    "title": "Explore the potential for subtle, long-term biophysical effects of RF-EMF exposure on sleep and cognition, despite current limitations in detection.",
+    "detail": "Although current studies haven't found consistent direct biophysical effects (i0002, c0002, c0004, d0004), the limitations in RF-EMF assessment (c0003, d0003) and small sample sizes (c0004) mean that such effects cannot be definitively ruled out. Future research could focus on developing more sophisticated RF-EMF measurement techniques and conducting larger, more robust studies to investigate potential subtle or cumulative biophysical impacts.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0002",
+      "d0004",
+      "c0004",
+      "c0003",
+      "d0003"
+    ]
+  }
+]

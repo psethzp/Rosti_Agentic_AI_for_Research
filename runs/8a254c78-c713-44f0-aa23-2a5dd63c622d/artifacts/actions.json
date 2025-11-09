@@ -1,0 +1,54 @@
+[
+  {
+    "id": "a0001",
+    "topic": "Sleep and Phone links?",
+    "title": "Investigate non-physical pathways for sleep disruption and well-being impacts",
+    "detail": "Given that non-physical pathways like addiction or night-time use are suggested to be more influential than RF-EMF exposure (c0002, d0001, d0004), and that screen time is linked to stress (c0001, d0001, d0003), a deeper investigation into how specific phone usage patterns (e.g., social media scrolling, gaming, late-night use) impact sleep quality and subsequent psychological well-being is warranted. This could involve qualitative research or more detailed quantitative tracking of usage types.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0002",
+      "d0001",
+      "d0004"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "Sleep and Phone links?",
+    "title": "Clarify the statistical significance of fatigue and mood impacts",
+    "detail": "While stress shows a statistically significant increase with increased screen time (c0001, d0001, d0003), the impacts on fatigue and mood are not consistently statistically significant (c0001, d0001, d0003, d0004). Further research with larger sample sizes is needed to confirm or refute the trend towards negative effects on fatigue and mood, as suggested by c0001 and d0004.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "d0001",
+      "d0003",
+      "d0004"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "Sleep and Phone links?",
+    "title": "Conduct a power analysis for future studies",
+    "detail": "The consistent mention of small sample sizes and potential underpowering (c0001, c0004, d0003, d0004) is a significant limitation. Future research should begin with a robust power analysis to ensure adequate sample sizes are recruited to detect meaningful effects, especially for outcomes like fatigue and mood, and to potentially replicate previous findings on memory deficits (c0004, d0004).",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "c0004",
+      "d0003",
+      "d0004"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "Sleep and Phone links?",
+    "title": "Explore the dose-response relationship between screen time and sleep/well-being",
+    "detail": "The current findings suggest an association between increased screen time and negative outcomes (c0001, d0001). However, the precise dose-response relationship, particularly concerning sleep duration and efficiency (c0003, d0002), needs further exploration. Future studies could investigate thresholds of screen time that significantly impact sleep and psychological well-being.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001",
+      "c0003",
+      "d0001",
+      "d0002"
+    ]
+  }
+]
