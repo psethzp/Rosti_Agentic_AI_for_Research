@@ -1,0 +1,33 @@
+Collective Insight Lab
+
+Challenge Tackled
+Problem: Research synthesis is time-consuming and error-prone. Researchers struggle to verify claims across multiple papers and often miss contradictions or key connections.
+User: Students, researchers, and analysts who need to quickly understand what a collection of papers says about a specific topic with verifiable citations.
+Solution: Collective Insight Lab – a multi-agent AI system where specialized agents collaborate to read, critique, and synthesize research papers. Each insight is backed by exact citations with page numbers and quotes, ensuring verifiability.
+
+Tools / ML Models Used
+Python- programming language
+gemini – Multi-agent reasoning, synthesis, embeddings
+ChromaDB – Vector storage for document chunks
+FastAPI, Jinja2 - Webserver + Templating
+HTMX, Tailwind, Pdf.js - Website
+Server Send Events  - Incremental data updates 
+
+What Worked Well
+Multi-Agent Pipeline: Four specialized agents (Researcher → Reviewer → Team Red → Synthesizer) successfully collaborate through a stateful workflow
+Citation Verification: implemented exact quote matching with character-level offsets, achieving high precision
+Modular Architecture: Clear separation of concerns across ingestion, retrieval, agents, and validation modules and UI Layer
+
+What Was Challenging
+Challenge 1: Agent Layer and UI Layer synchronisation
+Solution: Tried to define a shared data contract to allow parallel development of the agent and UI layer.
+Challenge 2: Time Constraints
+Solution: Focused on MVP core loop first, deferred MCP for interoperability
+
+How We Spent Our Time
+0–3h: Architecture planning, repository setup, schema design
+3–6h: PDF ingestion pipeline, ChromaDB integration, embedding generation
+6–12h: Different agent setup and basic integration 
+12–16h: Agent LLM integration 
+16–20h: UI setup, planning and implementation 
+20–24h: UI integration, end-to-end testing, submission materials

@@ -241,6 +241,8 @@ def _build_payload(run: RunRecord) -> dict:
             prompt=run.prompt,
         )
         finding["summary"] = _derive_summary(finding.get("summary"), finding.get("detail"))
+        if finding.get("claim_id") and finding.get("claim_id") in claims_index:
+            finding["claim_text"] = claims_index[finding["claim_id"]].get("text")
 
     payload = {
         "insights": insights,
@@ -281,6 +283,8 @@ def _first_claim_text(claims: List[dict]) -> Optional[str]:
         if text:
             return text
     return None
+
+
 
 
 # Typing helper for UploadFile-like objects

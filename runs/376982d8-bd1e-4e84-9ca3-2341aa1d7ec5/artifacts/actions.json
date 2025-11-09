@@ -1,0 +1,55 @@
+[
+  {
+    "id": "a0001",
+    "topic": "How do w eplan to help stroke victims?",
+    "title": "Validate Clinical Efficacy Beyond Proof-of-Concept",
+    "detail": "While the system is presented as a proof-of-concept with potential for clinical application (c0001), the current evidence focuses on system development and pilot studies (c0004). A critical next step is to design and execute a pilot clinical study with actual stroke survivors to gather preliminary data on the system's efficacy in improving motor function, user engagement, and safety. This will help bridge the gap between development and validated clinical use.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "c0004"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "How do w eplan to help stroke victims?",
+    "title": "Investigate Long-Term Adaptability and User Retention",
+    "detail": "The system incorporates adaptive difficulty and fading feedback (c0002, i0002), which is promising for personalized rehabilitation. However, it's unclear how well these mechanisms will adapt over extended periods of use and whether they will maintain user engagement and prevent plateaus in progress. A hypothesis to test is that the current adaptive algorithms may require further refinement to account for long-term user progression and potential boredom. Future work should explore more sophisticated adaptation strategies and investigate user retention rates over longer training durations.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "How do w eplan to help stroke victims?",
+    "title": "Clarify the Direct Link Between Technical Features and Stroke Victim Outcomes",
+    "detail": "Work packages are detailed with specific technical implementations (c0003), and the system aims to improve selective muscle activation (c0001). However, the direct causal link between specific technical features (e.g., haptic ticks, neon halos, specific adaptive parameters) and measurable improvements in stroke victim motor function needs to be more explicitly articulated and validated. Clarification is needed on how each technical component directly contributes to the rehabilitation goals for stroke survivors.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0001",
+      "c0003"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "How do w eplan to help stroke victims?",
+    "title": "Explore Broader Applications and Task Variety",
+    "detail": "The current focus is on arm motor impairments through pouring and tracing tasks (c0001). To maximize the impact of the mixed-reality rehabilitation system, a hypothesis to explore is that expanding the task repertoire to address other motor deficits (e.g., hand dexterity, trunk control) or even cognitive aspects of stroke recovery could significantly broaden the system's utility. Future research could investigate the feasibility and effectiveness of developing new tasks within the existing mixed-reality framework.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0005",
+    "topic": "How do w eplan to help stroke victims?",
+    "title": "Address Potential for Over-Adaptation and Metric Drift in Real-World Settings",
+    "detail": "While solutions like moving averages and buffered writes are proposed to address overreactive difficulty oscillation and metric drift (c0002), the effectiveness of these solutions in a live clinical setting with diverse user populations remains to be demonstrated. A next step is to rigorously test these mitigation strategies during the planned pilot study (c0004) and gather data on their performance. This will inform necessary adjustments to the adaptive controller to ensure robust and reliable performance in a clinical environment.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0002",
+      "c0004"
+    ]
+  }
+]

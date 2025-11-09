@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import List
+from pathlib import Path
+from typing import List, Optional
 
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.responses import FileResponse, RedirectResponse, StreamingResponse, JSONResponse
@@ -8,6 +9,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 
 from . import run_manager as runs
+from .storage import extract_page_text_from_pdf, load_page_text, cache_single_page_text
 
 app = FastAPI()
 
@@ -82,3 +84,34 @@ async def get_run_details(run_id: str):
             "payload": run.payload,
         }
     )
+
+
+@app.get("/api/runs/{run_id}/page_text")
+async def get_page_text(run_id: str, source_id: str, page: int):
+    run = runs.get_run(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail="Run not found")
+    text = load_page_text(source_id, page)
+    if text is None:
+        pdf_path = _resolve_pdf_path(run, source_id)
+        if pdf_path:
+            extracted = extract_page_text_from_pdf(pdf_path, page)
+            if extracted:
+                cache_single_page_text(source_id, page, extracted)
+                text = extracted
+    if text is None:
+        raise HTTPException(status_code=404, detail="Page text not available")
+    return {"text": text, "length": len(text)}
+
+
+def _resolve_pdf_path(run: runs.RunRecord, source_id: str) -> Optional[Path]:
+    """Best-effort lookup of the PDF that produced `source_id`."""
+    filename = run.source_map.get(source_id)
+    candidates = []
+    if filename:
+        candidates.append(run.pdf_dir / filename)
+    candidates.append(run.pdf_dir / f"{source_id}.pdf")
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return None

@@ -1,0 +1,57 @@
+[
+  {
+    "id": "a0001",
+    "topic": "How help Stroke?",
+    "title": "Investigate the impact of adaptive difficulty oscillation on user engagement and learning.",
+    "detail": "The system's adaptive controller can lead to overreactive difficulty oscillation (c0003). Further research is needed to understand how this oscillation affects stroke patients' motivation, frustration levels, and the effectiveness of motor learning. This could involve user studies to observe behavioral responses and qualitative feedback.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0003",
+      "c0002"
+    ]
+  },
+  {
+    "id": "a0002",
+    "topic": "How help Stroke?",
+    "title": "Hypothesize the optimal parameters for feedback fading to maximize motor skill acquisition.",
+    "detail": "The system employs feedback fading from knowledge of performance to knowledge of results (c0002). However, the specific parameters and timing of this fading process are not detailed. We hypothesize that there are optimal rates and thresholds for feedback fading that will lead to more robust and generalized motor skill acquisition in stroke survivors. This could be tested by varying the fading speed and observing long-term retention of learned movements.",
+    "tag": "Hypothesis",
+    "related_claims": [
+      "c0002",
+      "c0004"
+    ]
+  },
+  {
+    "id": "a0003",
+    "topic": "How help Stroke?",
+    "title": "Conduct a pilot clinical validation study to assess the efficacy of NeuroReach VR in improving selective muscle activation.",
+    "detail": "While the system aims to improve selective muscle activation (c0001, c0004), the current evidence indicates it has not yet been clinically validated (c0001). A pilot study is a crucial next step to gather preliminary data on the system's effectiveness in a clinical setting, specifically measuring improvements in selective muscle activation through objective biomechanical analysis and functional outcome measures.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0001",
+      "c0004"
+    ]
+  },
+  {
+    "id": "a0004",
+    "topic": "How help Stroke?",
+    "title": "Clarify the specific mechanisms and metrics used to quantify 'selective muscle activation' improvement.",
+    "detail": "The claim states the system aims to improve selective muscle activation (c0001, c0004), but the evidence focuses on broader feedback and adaptation rather than direct muscle activation training (c0004). It is unclear how this specific outcome is measured and what metrics are used to demonstrate improvement. Clarification is needed on the biomechanical or electrophysiological measures employed to assess selective muscle activation.",
+    "tag": "Clarification",
+    "related_claims": [
+      "c0004",
+      "c0001"
+    ]
+  },
+  {
+    "id": "a0005",
+    "topic": "How help Stroke?",
+    "title": "Develop and test strategies to ensure metric consistency across sessions to prevent drift.",
+    "detail": "The system faces challenges with metric drift across sessions (c0003), which could impact the reliability of performance tracking and adaptive adjustments. Next steps should involve developing and rigorously testing specific strategies, such as recalibration protocols or baseline normalization techniques, to ensure consistent and reliable metric reporting over time.",
+    "tag": "NextStep",
+    "related_claims": [
+      "c0003",
+      "c0002"
+    ]
+  }
+]

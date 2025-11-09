@@ -309,11 +309,16 @@
             </svg>
           </button>
         </div>
-        <button
-          onclick="closePdfModal()"
-          class="text-white hover:text-gray-300 transition-colors"
-          title="Close"
-        >
+        <div class="flex items-center space-x-2 bg-black/30 rounded-lg px-3 py-2">
+          <button onclick="navigateCitation(-1)" class="text-white hover:text-gray-300 transition-colors" title="Previous citation">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          </button>
+          <span id="citationCounter" class="text-sm text-gray-200 min-w-[48px] text-center"></span>
+          <button onclick="navigateCitation(1)" class="text-white hover:text-gray-300 transition-colors" title="Next citation">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </button>
+        </div>
+        <button onclick="closePdfModal()" class="text-white hover:text-gray-300 transition-colors" title="Close">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
@@ -323,12 +328,13 @@
 
     <!-- PDF Canvas Container -->
     <div id="pdfCanvasContainer" class="flex-1 overflow-auto bg-gray-800 p-4 flex items-center justify-center">
-      <div class="relative">
+      <div id="pdfCanvasWrapper" class="relative">
         <canvas id="pdfCanvas" class="shadow-2xl"></canvas>
-        <!-- Highlight overlay -->
-        <div id="highlightOverlay" class="absolute top-0 left-0 pointer-events-none"></div>
+        <div id="highlightOverlay" class="absolute left-0 right-0 pointer-events-none hidden"></div>
       </div>
     </div>
+
+    <div id="pdfQuoteFallback" class="bg-gray-900 border-t border-gray-800 p-4 text-sm text-gray-200 hidden"></div>
 
     <!-- Loading indicator -->
     <div id="pdfLoading" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 hidden">
@@ -486,6 +492,9 @@
   let currentRunData = null;
   let currentRunId = null;
   let currentRunPrompt = "";
+  const pageTextCache = new Map();
+  let currentCitationList = [];
+  let currentCitationIndex = -1;
 
   function initializeResults(runId) {
     currentRunId = runId;
@@ -558,6 +567,139 @@
     return sourceId.endsWith(".pdf") ? sourceId : `${sourceId}.pdf`;
   }
 
+  function setCitationContext(citations) {
+    currentCitationList = Array.isArray(citations) ? citations.slice() : [];
+    currentCitationIndex = currentCitationList.length ? 0 : -1;
+    updateCitationCounter();
+  }
+
+  function updateCitationCounter() {
+    const counter = document.getElementById("citationCounter");
+    if (!counter) {
+      return;
+    }
+    const toolbar = counter.parentElement;
+    const disabled = currentCitationIndex === -1;
+    if (toolbar) {
+      toolbar.classList.toggle("opacity-40", disabled);
+    }
+    if (disabled) {
+      counter.textContent = "";
+      return;
+    }
+    counter.textContent = `${currentCitationIndex + 1} / ${currentCitationList.length}`;
+  }
+
+  function viewCitation(index) {
+    if (!currentCitationList.length) {
+      return;
+    }
+    const clamped = Math.max(0, Math.min(index, currentCitationList.length - 1));
+    currentCitationIndex = clamped;
+    updateCitationCounter();
+    openPdfViewer(currentCitationList[currentCitationIndex]);
+  }
+
+  function navigateCitation(direction) {
+    if (!currentCitationList.length || currentCitationIndex === -1) {
+      return;
+    }
+    const nextIndex = currentCitationIndex + direction;
+    if (nextIndex < 0 || nextIndex >= currentCitationList.length) {
+      return;
+    }
+    viewCitation(nextIndex);
+  }
+
+  async function getPageTextForCitation(citation) {
+    if (!citation || !citation.source_id || !citation.page || !currentRunId) {
+      return null;
+    }
+    const key = `${citation.source_id}::${citation.page}`;
+    if (pageTextCache.has(key)) {
+      return pageTextCache.get(key);
+    }
+    try {
+      const params = new URLSearchParams({
+        source_id: citation.source_id,
+        page: String(citation.page),
+      });
+      const res = await fetch(`/api/runs/${currentRunId}/page_text?${params.toString()}`);
+      if (!res.ok) {
+        throw new Error(`Failed to load page text (${res.status})`);
+      }
+      const data = await res.json();
+      const text = data.text || "";
+      pageTextCache.set(key, text);
+      return text;
+    } catch (error) {
+      console.warn("Page text unavailable", error);
+      pageTextCache.set(key, null);
+      return null;
+    }
+  }
+
+  function resolveCharRange(citation) {
+    if (!citation) {
+      return { start: 0, end: 0 };
+    }
+    const start =
+      typeof citation.char_start === "number" && citation.char_start >= 0
+        ? citation.char_start
+        : 0;
+    let end =
+      typeof citation.char_end === "number" && citation.char_end >= start
+        ? citation.char_end
+        : start;
+    if (end <= start && citation.quote) {
+      end = start + citation.quote.length;
+    }
+    return { start, end };
+  }
+
+  function buildCitationSnippet(pageText, range, quote) {
+    if (!pageText) {
+      return quote || "Source text unavailable for this citation.";
+    }
+    const buffer = 80;
+    const start = Math.max(0, (range?.start ?? 0) - buffer);
+    const end = Math.min(pageText.length, (range?.end ?? 0) + buffer);
+    const raw = pageText.slice(start, end);
+    const cleaned = raw.replace(/\s+/g, " ").trim();
+    if (cleaned) {
+      return cleaned;
+    }
+    return quote || "Citation excerpt unavailable.";
+  }
+
+  function toggleQuoteFallback(show, snippet = "", reason = "") {
+    const container = document.getElementById("pdfQuoteFallback");
+    if (!container) {
+      return;
+    }
+    if (show) {
+      const reasonText = reason || "Showing excerpt because the PDF highlight is unavailable.";
+      const snippetText = snippet || "No cached excerpt available for this citation.";
+      container.innerHTML = `
+        <p class="text-amber-300 font-semibold mb-1">${escapeHtml(reasonText)}</p>
+        <p class="text-gray-200 leading-relaxed">${escapeHtml(snippetText)}</p>
+      `;
+      container.classList.remove("hidden");
+    } else {
+      container.classList.add("hidden");
+      container.textContent = "";
+    }
+  }
+
+  function hideHighlightOverlay() {
+    const overlay = document.getElementById("highlightOverlay");
+    if (overlay) {
+      overlay.classList.add("hidden");
+      overlay.innerHTML = "";
+    }
+    toggleQuoteFallback(false);
+  }
+
   function updateStatusBanner(eventData) {
     const heading = document.getElementById("statusHeading");
     const badges = document.getElementById("statusBadges");
@@ -592,6 +734,7 @@
 
   function renderResults(data) {
     currentRunData = data;
+    setCitationContext([]);
     const insights = (data && data.insights) || [];
     const challenges = (data && data.challenges) || [];
     const actions = (data && data.actions) || [];
@@ -817,11 +960,12 @@
 
     // Render citations
     const allCitations = insight.claims.flatMap((c) => c.citations);
+    setCitationContext(allCitations);
     if (allCitations.length > 0) {
       const citationsHtml = allCitations
         .map(
           (citation, index) => `
-        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-indigo-500 transition-all cursor-pointer group" onclick='openPdfViewer(${JSON.stringify(citation)})'>
+        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-indigo-500 transition-all cursor-pointer group" onclick="viewCitation(${index})">
           <div class="flex items-start">
             <span class="text-indigo-400 font-bold mr-3">[${index + 1}]</span>
             <div class="flex-1">
@@ -863,6 +1007,7 @@
     if (!currentRunData) return;
     const challenge = (currentRunData.challenges || []).find((c) => c.id === challengeId);
     if (!challenge) return;
+    setCitationContext(challenge.evidence || []);
 
     // Populate modal content
     document.getElementById("modalTitle").textContent = challenge.topic;
@@ -948,7 +1093,7 @@
       const citationsHtml = challenge.evidence
         .map(
           (evidence, index) => `
-        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-red-500 transition-all cursor-pointer group" onclick='openPdfViewer(${JSON.stringify(evidence)})'>
+        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-red-500 transition-all cursor-pointer group" onclick="viewCitation(${index})">
           <div class="flex items-start">
             <span class="text-red-400 font-bold mr-3">[${index + 1}]</span>
             <div class="flex-1">
@@ -1048,6 +1193,42 @@
       .join("");
     document.getElementById("modalClaims").innerHTML = claimsHtml || `<p class="text-gray-400 italic">No related claims available.</p>`;
 
+    // Aggregate citations from related claims for evidence browsing
+    const actionCitations = relatedClaims.flatMap((claim) => claim.citations || []);
+    setCitationContext(actionCitations);
+    if (actionCitations.length > 0) {
+      const citationHtml = actionCitations
+        .map(
+          (citation, index) => `
+        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-${colorInfo.bg}-500 transition-all cursor-pointer group" onclick="viewCitation(${index})">
+          <div class="flex items-start">
+            <span class="text-${colorInfo.bg}-300 font-bold mr-3">[${index + 1}]</span>
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-${colorInfo.bg}-300" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm font-semibold text-gray-300">${citation.source_id} - Page ${citation.page}</span>
+                </div>
+                <div class="flex items-center text-${colorInfo.bg}-300 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-semibold">
+                  View PDF
+                </div>
+              </div>
+              <blockquote class="text-sm text-gray-400 italic border-l-2 border-gray-600 pl-3">
+                "${citation.quote}"
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+      document.getElementById("modalCitations").innerHTML = citationHtml;
+    } else {
+      document.getElementById("modalCitations").innerHTML = `<p class="text-gray-400 italic text-sm">No direct evidence tied to this action yet.</p>`;
+    }
+
     // Change final insight section styling
     document.querySelector("#insightModal .bg-gradient-to-br.from-green-900\\/30, #insightModal .bg-gradient-to-br.from-red-900\\/30").className = 
       `bg-gradient-to-br from-${colorInfo.bg}-900/30 to-${colorInfo.bg}-800/30 border-2 border-${colorInfo.bg}-500/50 rounded-xl p-6`;
@@ -1115,54 +1296,91 @@
 
   // PDF Viewer Functions
   async function openPdfViewer(citation) {
+    if (!citation) {
+      return;
+    }
     const modal = document.getElementById("pdfModal");
     const loading = document.getElementById("pdfLoading");
-    
+    const canvasContainer = document.getElementById("pdfCanvasContainer");
+    const canvasWrapper = document.getElementById("pdfCanvasWrapper");
+    const pdfInfo = document.getElementById("pdfModalInfo");
+    const existingErrorBanner = document.getElementById("pdfErrorBanner");
+    hideHighlightOverlay();
+    toggleQuoteFallback(false);
+    if (existingErrorBanner) {
+      existingErrorBanner.classList.add("hidden");
+    }
+    if (canvasWrapper) {
+      canvasWrapper.classList.remove("hidden");
+    }
+
     // Show modal and loading
     modal.classList.remove("hidden");
     loading.classList.remove("hidden");
     document.body.style.overflow = "hidden";
-    
+    updateCitationCounter();
+
     // Update modal title
     document.getElementById("pdfModalTitle").textContent = citation.source_id;
-    document.getElementById("pdfModalInfo").textContent = `Page ${citation.page} - Character position ${citation.char_start}-${citation.char_end}`;
-    
-    // Store highlight info
-    currentHighlight = citation;
-    
+    pdfInfo.textContent = `Page ${citation.page} • Characters ${citation.char_start ?? "?"}-${citation.char_end ?? "?"}`;
+
     const pdfFilename = resolvePdfFilename(citation.source_id);
     const pdfUrl = currentRunId
       ? `/pdfs/${currentRunId}/${pdfFilename}`
       : `/pdfs/${pdfFilename}`;
-    
+
+    const pageTextPromise = getPageTextForCitation(citation);
+
     try {
       // Load the PDF
       const loadingTask = pdfjsLib.getDocument(pdfUrl);
       pdfDoc = await loadingTask.promise;
-      
+
       document.getElementById("totalPages").textContent = pdfDoc.numPages;
-      
+
+      // Prepare highlight context
+      const pageText = await pageTextPromise;
+      const range = resolveCharRange(citation);
+      const snippet = buildCitationSnippet(pageText, range, citation.quote);
+      currentHighlight = { ...citation, range, pageText, snippet };
+
       // Navigate to the citation page
       pageNum = citation.page || 1;
       await renderPage(pageNum);
-      
+
+      if (!pageText) {
+        toggleQuoteFallback(true, snippet, "Showing provided quote because the cached page text is missing.");
+      }
+
       loading.classList.add("hidden");
     } catch (error) {
       console.error("Error loading PDF:", error);
       loading.classList.add("hidden");
-      
-      // Show error message
-      const container = document.getElementById("pdfCanvasContainer");
-      container.innerHTML = `
-        <div class="text-center p-8">
+
+      if (canvasWrapper) {
+        canvasWrapper.classList.add("hidden");
+      }
+      let errorBanner = document.getElementById("pdfErrorBanner");
+      if (!errorBanner) {
+        errorBanner = document.createElement("div");
+        errorBanner.id = "pdfErrorBanner";
+        errorBanner.className = "text-center p-8";
+        canvasContainer.appendChild(errorBanner);
+      }
+      errorBanner.innerHTML = `
+        <div class="text-center">
           <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
           <h3 class="text-xl font-bold text-white mb-2">PDF Not Available</h3>
-          <p class="text-gray-400 mb-4">The PDF file "${citation.source_id}" could not be loaded.</p>
-          <p class="text-sm text-gray-500">Make sure PDFs are served from the <code class="bg-gray-700 px-2 py-1 rounded">/pdfs/</code> endpoint.</p>
+          <p class="text-gray-400 mb-4">The PDF file "${escapeHtml(citation.source_id)}" could not be loaded.</p>
+          <p class="text-sm text-gray-500">Ensure PDFs are available under <code class="bg-gray-700 px-2 py-1 rounded">/pdfs/</code>.</p>
         </div>
       `;
+      errorBanner.classList.remove("hidden");
+      toggleQuoteFallback(true, citation.quote || "", "Only the saved quote is available for this citation.");
+      currentHighlight = null;
+      pdfDoc = null;
     }
   }
 
@@ -1191,6 +1409,8 @@
       // Render highlight if we're on the citation page
       if (currentHighlight && num === currentHighlight.page) {
         await renderHighlight(page, viewport);
+      } else {
+        hideHighlightOverlay();
       }
       
       pageRendering = false;
@@ -1206,44 +1426,69 @@
   }
 
   async function renderHighlight(page, viewport) {
-    // Get text content to find the citation
-    const textContent = await page.getTextContent();
     const overlay = document.getElementById("highlightOverlay");
+    const canvas = document.getElementById("pdfCanvas");
     overlay.innerHTML = "";
-    
-    // This is a simplified highlight - in production, you'd need more sophisticated
-    // text positioning based on char_start and char_end
-    let currentPos = 0;
-    const targetStart = currentHighlight.char_start || 0;
-    const targetEnd = currentHighlight.char_end || 0;
-    
-    textContent.items.forEach((item) => {
-      const itemLength = item.str.length;
-      const itemStart = currentPos;
-      const itemEnd = currentPos + itemLength;
-      
-      // Check if this text item overlaps with our citation
-      if (itemEnd > targetStart && itemStart < targetEnd) {
-        const transform = pdfjsLib.Util.transform(
-          viewport.transform,
-          item.transform
-        );
-        
-        const highlight = document.createElement("div");
-        highlight.style.position = "absolute";
-        highlight.style.left = transform[4] + "px";
-        highlight.style.top = transform[5] + "px";
-        highlight.style.width = item.width + "px";
-        highlight.style.height = item.height + "px";
-        highlight.style.backgroundColor = "rgba(255, 255, 0, 0.3)";
-        highlight.style.border = "2px solid rgba(255, 200, 0, 0.8)";
-        highlight.style.animation = "pulse 2s ease-in-out infinite";
-        
-        overlay.appendChild(highlight);
+    overlay.style.left = "0px";
+    overlay.style.top = "0px";
+    overlay.style.width = `${canvas.width}px`;
+    overlay.style.height = `${canvas.height}px`;
+    overlay.classList.add("hidden");
+
+    if (!currentHighlight) {
+      toggleQuoteFallback(false);
+      return;
+    }
+
+    try {
+      const textContent = await page.getTextContent();
+      let cursor = 0;
+      const range = currentHighlight.range || { start: 0, end: 0 };
+      const targetStart = range.start;
+      const targetEnd = Math.max(range.end, targetStart + 1);
+      let hasHighlight = false;
+
+      textContent.items.forEach((item) => {
+        const itemLength = item.str.length;
+        const itemStart = cursor;
+        const itemEnd = cursor + itemLength;
+
+        if (itemEnd > targetStart && itemStart < targetEnd) {
+          const transform = pdfjsLib.Util.transform(
+            viewport.transform,
+            item.transform
+          );
+          const fontHeight = Math.hypot(transform[2], transform[3]) || item.height || 0;
+          const width = (item.width || 0) * viewport.scale;
+          const highlight = document.createElement("div");
+          highlight.style.position = "absolute";
+          highlight.style.left = `${transform[4]}px`;
+          highlight.style.top = `${transform[5] - fontHeight}px`;
+          highlight.style.width = `${width}px`;
+          highlight.style.height = `${fontHeight}px`;
+          highlight.style.backgroundColor = "rgba(251, 191, 36, 0.35)";
+          highlight.style.border = "1px solid rgba(245, 158, 11, 0.9)";
+          highlight.style.boxShadow = "0 0 8px rgba(245, 158, 11, 0.6)";
+          highlight.style.animation = "pulse 2s ease-in-out infinite";
+          overlay.appendChild(highlight);
+          hasHighlight = true;
+        }
+
+        cursor = itemEnd;
+      });
+
+      if (hasHighlight) {
+        overlay.classList.remove("hidden");
+        toggleQuoteFallback(false);
+      } else {
+        overlay.classList.add("hidden");
+        toggleQuoteFallback(true, currentHighlight.snippet, "Exact coordinates unavailable; showing excerpt instead.");
       }
-      
-      currentPos = itemEnd;
-    });
+    } catch (error) {
+      console.warn("Failed to render highlight", error);
+      overlay.classList.add("hidden");
+      toggleQuoteFallback(true, currentHighlight.snippet, "Highlight rendering failed; showing excerpt instead.");
+    }
   }
 
   function queueRenderPage(num) {
@@ -1293,7 +1538,15 @@
       const canvas = document.getElementById("pdfCanvas");
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      document.getElementById("highlightOverlay").innerHTML = "";
+      hideHighlightOverlay();
+      const errorBanner = document.getElementById("pdfErrorBanner");
+      if (errorBanner) {
+        errorBanner.classList.add("hidden");
+      }
+      const canvasWrapper = document.getElementById("pdfCanvasWrapper");
+      if (canvasWrapper) {
+        canvasWrapper.classList.remove("hidden");
+      }
     }
   }
 
