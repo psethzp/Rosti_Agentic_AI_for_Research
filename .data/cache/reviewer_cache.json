@@ -350,5 +350,157 @@
   "134bf5f4bd83fca919eec0b44eaf5236a0ea8fa4a6716f8123f652f819c75a5f": {
     "verdict": "Supported",
     "notes": "The evidence excerpt directly states that LLMs 'was at or near the passing threshold without any domain fine-tuning' and that 'large language models might be a powerful tool to assist medical education and eventually clinical decision-making processes'."
+  },
+  "16c73f6f4e8afd616eb24d6dc0c8b1f8b6c6daf9a12d30431c625b3544b4bc4c": {
+    "verdict": "Supported",
+    "notes": "The excerpt directly states that \"several works discuss the automatic generation of math word problems [44, 45, 46], which combines the challenge of understanding equations and putting them into the appropriate context.\""
+  },
+  "f2bd20e7e7b4f9e971eac90245f06c9abc96671147fa49f081c5c15c2c926d3f": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that both Blender and GPT-3 were capable of replying to a student adequately in an educational dialogue, directly supporting the claim."
+  },
+  "4dcaf911c265504c55608c2a943d1c6ef5e9b0e47316c2222148ff9b96e92fd8": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that the ability of LLMs to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework."
+  },
+  "b2490e1a922a96ebed3403b70676a593fb47eb2d48e831d56159fa314f82060c": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that LLMs have the ability to generate contextualized natural language texts, code for various implementation tasks, and multimedia content when combined with other AI systems like DALL-E."
+  },
+  "799f5a1d8681fe93df9a4708fa02b2f1f9291f851c82c4fdad5ec4b9f64b3ffa": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that it provides an overview of research works employing large language models in education published since 2018, and discusses these studies according to their target groups, learners and teachers, aligning perfectly with the claim."
+  },
+  "f522c85f54d12cf2c71c8d6505414b1e08dea1f3ccb11802217173681550db13": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that \"From a student\u2019s perspective, large language models can be used in multiple ways to assist the learning process.\" It then provides examples such as \"creation and design of educational content,\" generating \"interactive educational materials such as quizzes and flashcards,\" acting as a \"pedagogical agent to stimulate the curiosity of children and enhance question-asking skills,\" and generating \"code explanations.\""
+  },
+  "25662d7177dc53382bae85d93a06747cce4f56bbb0800fb5b42503de549f06e7": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that 'For the integration of large language models into educational workflows, further research on Human-Computer Interaction and User Interface Design is necessary.'"
+  },
+  "d364b4f91134633f6a543d23ac50f692097651135dea614e8ca92fc27f6f9044": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that LLMs can assist teachers by providing resources, summaries, and explanations of new teaching methodologies, technologies, and materials, which helps them stay up-to-date."
+  },
+  "a3430d09887d08ad51f2801893c75fb0226c1144cb114b9a84762624f8d0ef02": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that LLMs 'can be used to improve the clarity of the teaching materials, locate information or resources that professionals may be in need for as they learn on the job'."
+  },
+  "669d982ce6d24a5499b6be53ad0c671860fdc18f1a2b2196f5f2da25580ad36f": {
+    "verdict": "Supported",
+    "notes": "The excerpt directly states that based on the results, the authors argue that large language models might be a powerful tool to assist medical education and eventually clinical decision-making processes."
+  },
+  "56aad07f9be6d8664199eeace7caf1603ea0726b2559d0b40bfadce4a15ff909": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly mentions a study titled 'Performance of ChatGPT on USMLE: Potential for AI-Assisted Medical Education Using Large Language Models', directly supporting the claim that LLMs can assist in medical education and clinical decision-making, as demonstrated by their performance on medical exams."
+  },
+  "aa39c9d58778e7101fda3b5cacba064170d587cad70ae3f5c422ec8fb269466d": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs can assist teachers in creating inclusive lesson plans and activities by generating course syllabi and descriptions based on provided documents. It also mentions generating questions and prompts for different knowledge levels and personalized practice problems."
+  },
+  "4012b095a51483826b828623cbed8196d010b043fb5117a00c189b352f5187d8": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that \"Language models can also generate questions and prompts that encourage the participation of people at different knowledge and ability levels, and elicit critical thinking and problem-solving.\""
+  },
+  "30ef9902beb21a3c8a6cc68cf2a5048dbddea73802d0c2ac762aa00960d89767": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that LLMs 'can generate questions and prompts that encourage learners to think critically about their work and to analyze and interpret the information presented to them.' This directly supports the claim about generating questions and prompts that encourage critical thinking and problem-solving."
+  },
+  "e0daabc803876a7097807ad2028d3a3290c4adfbd6523086eb1c80a23846044a": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can \"assist teachers in the creation of (inclusive) lesson plans and activities\" by generating course syllabi and topic descriptions from provided documents. It also mentions their ability to \"generate questions and prompts that encourage the participation of people at different knowledge and ability levels, and elicit critical thinking and problem-solving.\""
+  },
+  "4442a41ece81e51931178f4d2516a6b449e89c4f82533ae90f390a7297b25781": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can assist in research skills by providing information, resources, and hinting at unexplored aspects and current research topics, which aligns with the claim."
+  },
+  "f701f396a3a924e851cc16ec87cea9cfed0099446e8567c0613a83241039e498": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can reduce grading effort by up to 85% with high precision and improved perceived quality, which aligns perfectly with the claim."
+  },
+  "69cc0745e8cd31333ae4f07d91bcfb14852e0141196c0d0e349229e344e675dc": {
+    "verdict": "Supported",
+    "notes": "The evidence explicitly states that OpenAI Codex can provide programming tasks, correct solutions, automated tests, and code explanations, directly supporting the claim about its utility in programming education."
+  },
+  "7762970bc7d919c44da2477b762c9610aac6f6a8b6436526377bf61a58756c7d": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly supports the claim that models can generate code explanations, which is one of the stated utilities in programming education."
+  },
+  "4f237d642062545f79bac3329deebb115b4e6319c6f63b5e57984599be6d6c76": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can assist in the development of field-specific language skills and lists programming, report writing, project management, decision making, and problem-solving as examples, aligning perfectly with the claim."
+  },
+  "e46321933779b5e261e3b225168dace72ae7ed4092e973c734cf880d4e109955": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that the GPT model (the predecessor to GPT-2 and GPT-3) was able to generate human-like text, answer questions, and assist in tasks like translation and summarization. It also mentions that GPT-2 and GPT-3 were released with more advanced capabilities, directly supporting the claim."
+  },
+  "5d1c46e3ba5e2391dc04bd0166695331de936d6b0b8e815c6d949f3c97e1db96": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that for elementary school students, large language models can assist in the development of reading and writing skills by suggesting syntactic and grammatical corrections, and in the development of writing style and critical thinking skills. It also mentions generating questions and prompts to encourage critical thinking and providing summaries and explanations to aid reading comprehension."
+  },
+  "e775e0de971ba6b81cb47be4e0736f2d2273f54064ab5dfc4baaeb39e471a0bf": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can assist teachers by providing them with resources, summaries, and explanations of new teaching methodologies, technologies, and materials, which helps them stay up-to-date with educational developments."
+  },
+  "d7829c5f90a902940d1aee6f552d3d96716542c867598b505c1ea1f565f04b38": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that BERT can be used to evaluate peer assessments, which directly supports the claim that large language models can evaluate peer-reviewed student solutions and that models like BERT show potential in assessing feedback quality."
+  },
+  "24fabf4b1050084b1a5501d04e7c4931c18e78d96f5a7fc8571e4fefe567d763": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that the ability of large language models to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework, which is critical for expanding educational possibilities."
+  },
+  "1e123e1868daeb39a04744deb7ae97af8bdebe74406865afa0e5d16404e673a2": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that LLMs can generate 'contextualized natural language texts, code for various implementation tasks' and 'various types of multimedia content (e.g., in combination with other AI systems, such as DALL-E)', which directly supports the claim."
+  },
+  "83d25b313a06f32e4365dbb78decc3217dff622d2de5c0da21ac531168023c7d": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that models performed 'at or near the passing threshold without any domain fine-tuning' and that the authors argue this demonstrates their potential to 'assist medical education and eventually clinical decision-making processes'."
+  },
+  "39a2fd34a80b09102a8817ebac3032cc0279da0584de6e3ed699b2c163a80199": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that \"the generated questions were rated favorably by human experts, promoting thus the usage of large language models in data science education\"."
+  },
+  "7cae5dd51c0c697bec58cf9ac0fa0ac82c173e4e37cd666d6476cccb71b93fe3": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly mentions a pipeline for generating assessment questions using a fine-tuned GPT3 model on text-based learning materials for a data science course, and states that these questions were evaluated for their usefulness to learning outcomes. This directly supports the claim."
+  },
+  "e22fa8120b3288d054b5d891ecf3a89d84b789da93679c35a7af416cb27f5079": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models can assist in organizing thoughts for writing and developing research skills by providing information, resources, and suggesting unexplored research topics."
+  },
+  "d62b2f2148115478156e545a78fcee7879dc6419ab654ba7e8d65544b1f0b277": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that grading effort in large courses could be reduced by up to 85% with high precision and improved quality perceived by students, which aligns perfectly with the claim."
+  },
+  "c9028e643dde5d160c06351fab0e4fabb0ca21242b8eacec7d4570bb356ec9de": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that the OpenAI Codex model, using few-shot learning, can generate programming tasks, correct solutions, automated tests, and code explanations, which directly supports the claim about aiding in student learning and assessment."
+  },
+  "386bf912ee3bc0f01ed1519172096894910a4a6caae50a6359b4efe38d6fb23b": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that the GPT model, a large language model, was able to 'generate human-like text, answer questions, and assist in tasks, such as translation and summarization'. This directly supports the claim about the capabilities of large language models like GPT-3."
+  },
+  "f5f5312f12b803e061a1149aa57a57ce9ba16dedb5d7ef40e011a6faff8e5498": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that both Blender and GPT-3 were capable of replying to a student adequately and generated conversational dialogues that conveyed the impression that these models understand the learner."
+  },
+  "248026a02e23d94131c270211cbce2f9ca633b1fc8c7c4070cb8f7594b62e6b8": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that for elementary school students, large language models can assist in the development of reading and writing skills, including suggesting grammatical corrections, and fostering writing style and critical thinking. This directly matches the claim."
+  },
+  "57dee80e0b9ddb1322655027b7bc88f06afe02f4336947a3568dab801f896f36": {
+    "verdict": "Supported",
+    "notes": "The excerpt explicitly states that large language models can generate 'contextualized natural language texts, code for various implementation tasks' and 'various types of multimedia content (e.g., in combination with other AI systems, such as DALL-E)' which directly supports the claim."
+  },
+  "73210d21398c71d6a02e04b034643b6c81b62d16a67fbb2435f9232b0902620a": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt directly states that large language models were \"at or near the passing threshold without any domain fine-tuning\" and that \"the authors argue that large language models might be a powerful tool to assist medical education and eventually clinical decision-making processes.\""
+  },
+  "abceb440856bded8a19fc8a67df806a3a0cc23b350ea4f723d5407a504ad2f36": {
+    "verdict": "Supported",
+    "notes": "The evidence excerpt explicitly states that large language models have been studied in the context of 'generating synthetic and yet realistic heterogeneous tabular data'."
   }
 }

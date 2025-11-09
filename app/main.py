@@ -7,6 +7,7 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import List
 
@@ -120,8 +121,8 @@ def main() -> None:
 
         topic = st.text_input("Topic / Prompt", "")
         run_pipeline_btn = st.button("Run Researcher + Reviewer")
-        generate_insights_btn = st.button("Generate Insights & Actions")
         run_red_team_btn = st.button("Run Red Team")
+        generate_insights_btn = st.button("Generate Insights & Next Steps")
 
     if run_pipeline_btn:
         if not topic.strip():
@@ -129,23 +130,10 @@ def main() -> None:
         else:
             with st.spinner("Running Researcher and Reviewer..."):
                 run_researcher(topic)
+                time.sleep(1)
                 claims = load_claims_from_artifacts()
                 reviewed = run_reviewer(claims)
             st.success("Researcher + Reviewer finished. Reviewed claims table updated.")
-
-    if generate_insights_btn:
-        reviewed = _load_reviewed_claims()
-        if not reviewed:
-            st.error("No reviewed claims found. Run the pipeline first.")
-        else:
-            current_topic = topic or reviewed[0].topic
-            with st.spinner("Generating insights and suggested actions..."):
-                insights = run_synthesizer(current_topic, reviewed)
-                actions = run_action_planner(current_topic, reviewed, insights)
-            if insights:
-                st.success("Insights generated and report updated.")
-            if actions:
-                st.info("Suggested actions refreshed.")
 
     if run_red_team_btn:
         reviewed = _load_reviewed_claims()
@@ -160,22 +148,23 @@ def main() -> None:
             else:
                 st.warning("Red Team did not find clear contradictions.")
 
+    if generate_insights_btn:
+        reviewed = _load_reviewed_claims()
+        if not reviewed:
+            st.error("No reviewed claims found. Run the pipeline first.")
+        else:
+            current_topic = topic or reviewed[0].topic
+            challenges = _load_challenges()
+            with st.spinner("Generating insights and suggested actions..."):
+                insights = run_synthesizer(current_topic, reviewed, challenges)
+                actions = run_action_planner(current_topic, reviewed, insights)
+            if insights:
+                st.success("Insights generated and report updated.")
+            if actions:
+                st.info("Suggested actions refreshed.")
+
     st.subheader("Reasoning Graph")
     st.graphviz_chart(build_reasoning_graph(include_red_team=True))
-
-    st.subheader("Insights")
-    insights = _load_insights()
-    if not insights:
-        st.info("No insights available. Run the pipeline to generate them.")
-    else:
-        for insight in insights:
-            with st.expander(f"{insight.id} · {insight.summary} · Confidence {insight.confidence:.2f}"):
-                st.write(insight.text)
-                st.caption(
-                    ", ".join(
-                        f"{span.source_id} p{span.page}" for span in insight.provenance
-                    )
-                )
 
     st.subheader("Reviewed Claims")
     reviewed_claims = _load_reviewed_claims()
@@ -197,25 +186,13 @@ def main() -> None:
             ]
         )
 
-    st.subheader("Suggested Actions & Next Hypotheses")
-    actions = _load_actions()
-    if not actions:
-        st.info("Generate insights to see suggested actions.")
-    else:
-        for action in actions:
-            label = f"{action.title} · {action.tag}"
-            with st.expander(label):
-                st.write(action.detail)
-                if action.related_claims:
-                    st.caption(f"Related claims: {', '.join(action.related_claims)}")
-
     st.subheader("Red Team Challenges")
     challenges = _load_challenges()
     if not challenges:
         st.info("Run the Red Team to discover contradictions or gaps.")
     else:
         for finding in challenges:
-            label = f"{finding.summary} (Claim {finding.claim_id})"
+            label = f"{finding.summary} · {finding.severity} (Claim {finding.claim_id})"
             with st.expander(label):
                 st.write(finding.detail)
                 st.caption(
@@ -227,6 +204,32 @@ def main() -> None:
                     st.markdown("**Suggested follow-ups:**")
                     for action in finding.actions:
                         st.markdown(f"- {action}")
+
+    st.subheader("Insights")
+    insights = _load_insights()
+    if not insights:
+        st.info("No insights available. Generate them after running Red Team.")
+    else:
+        for insight in insights:
+            with st.expander(f"{insight.id} · {insight.summary} · Confidence {insight.confidence:.2f}"):
+                st.write(insight.text)
+                st.caption(
+                    ", ".join(
+                        f"{span.source_id} p{span.page}" for span in insight.provenance
+                    )
+                )
+
+    st.subheader("Suggested Actions & Next Hypotheses")
+    actions = _load_actions()
+    if not actions:
+        st.info("Generate insights to see suggested actions.")
+    else:
+        for action in actions:
+            label = f"{action.title} · {action.tag}"
+            with st.expander(label):
+                st.write(action.detail)
+                if action.related_claims:
+                    st.caption(f"Related claims: {', '.join(action.related_claims)}")
 
 
 if __name__ == "__main__":

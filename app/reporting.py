@@ -71,7 +71,7 @@ def _render_challenges(challenges: Iterable["RedTeamFinding"]) -> str:
             actions_html = f"<ul>{bullets}</ul>"
         sections.append(
             "<section class='challenge'>"
-            f"<h4>{html.escape(finding.summary)}</h4>"
+            f"<h4>{html.escape(finding.summary)} · {html.escape(finding.severity)}</h4>"
             f"<p>{html.escape(finding.detail)}</p>"
             f"<p class='provenance'><strong>Evidence:</strong> {html.escape(citations)}</p>"
             f"{actions_html}"

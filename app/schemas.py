@@ -58,4 +58,5 @@ class RedTeamFinding(BaseModel):
     summary: str
     detail: str
     evidence: List[EvidenceSpan]
+    severity: Literal["High", "Medium", "Low"] = "Medium"
     actions: List[str] = Field(default_factory=list)

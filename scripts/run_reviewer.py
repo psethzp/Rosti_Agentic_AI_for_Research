@@ -14,6 +14,7 @@ if str(PROJECT_ROOT) not in sys.path:
 from app.agents import (
     load_claims_from_artifacts,
     run_action_planner,
+    run_red_team,
     run_reviewer,
     run_synthesizer,
 )
@@ -58,12 +59,16 @@ def main() -> None:
     topic = args.topic or (claims[0].topic if claims else "Untitled Topic")
     insights = run_synthesizer(topic, reviewed)
     logging.getLogger(__name__).info("Synthesized %d insights", len(insights))
+    findings = run_red_team(topic, reviewed)
+    logging.getLogger(__name__).info("Generated %d red-team findings", len(findings))
     actions = run_action_planner(topic, reviewed, insights)
     logging.getLogger(__name__).info("Generated %d suggested actions", len(actions))
     if insights:
         print("Saved output to artifacts/claims_reviewed.json and artifacts/report.{json,html}")
     else:
         print("No insights generated; check reviewer verdicts or add more documents.")
+    if findings:
+        print("Red team findings saved to artifacts/challenges.json")
     if actions:
         print("Suggested actions saved to artifacts/actions.json")
 

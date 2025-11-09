@@ -259,14 +259,23 @@ def run_reviewer(claims: List[Claim]) -> List[ReviewedClaim]:
     return reviewed
 
 
-def run_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
+def run_synthesizer(
+    topic: str,
+    reviewed: List[ReviewedClaim],
+    challenges: Optional[List[RedTeamFinding]] = None,
+) -> List[Insight]:
     """Synthesize reviewed claims into final insights."""
-    insights = _llm_synthesizer(topic, reviewed)
+    insights = _llm_synthesizer(topic, reviewed, challenges or _load_challenges_from_artifacts())
     if not insights:
         logger.warning("No insights synthesized; falling back to deterministic grouping.")
         insights = _fallback_insights(topic, reviewed)
     existing_actions = _load_actions_from_artifacts()
-    _persist_report(insights, reviewed, existing_actions, _load_challenges_from_artifacts())
+    _persist_report(
+        insights,
+        reviewed,
+        existing_actions,
+        challenges or _load_challenges_from_artifacts(),
+    )
     return insights
 
 
@@ -287,6 +296,10 @@ def run_action_planner(
     claim_lines = [
         f"{claim.id} ({claim.verdict}): {claim.text}" for claim in reviewed
     ]
+    challenge_lines = [
+        f"{challenge.claim_id}: {challenge.summary}"
+        for challenge in _load_challenges_from_artifacts()
+    ]
     system_prompt = (
         "You are a strategic planner. Propose 3-5 actionable follow-ups (mix of hypotheses, "
         "next steps, or clarifications) based on the claims and insights. "
@@ -295,8 +308,11 @@ def run_action_planner(
         "\"related_claims\": [\"c0001\", ...] }."
     )
     user_prompt = (
-        f"Topic: {topic}\nReviewed claims:\n" + "\n".join(claim_lines) + "\n\n"
-        "Insights:\n" + ("\n".join(insight_lines) if insight_lines else "None yet.")
+        f"Topic: {topic}\nReviewed claims:\n"
+        + "\n".join(claim_lines)
+        + "\n\nInsights:\n"
+        + ("\n".join(insight_lines) if insight_lines else "None yet.")
+        + ("\n\nChallenges:\n" + "\n".join(challenge_lines) if challenge_lines else "")
     )
     try:
         llm_output = call_llm_json(system_prompt, user_prompt)
@@ -342,6 +358,7 @@ def run_red_team(
     topic: str,
     reviewed: List[ReviewedClaim],
     max_per_claim: int = 2,
+    max_total: int = 5,
 ) -> List[RedTeamFinding]:
     candidates = [claim for claim in reviewed if claim.verdict in {"Supported", "Weak"}]
     findings: List[RedTeamFinding] = []
@@ -351,11 +368,14 @@ def run_red_team(
             continue
         system_prompt = (
             "You are Red Team. Given a claim and independent evidence snippets, "
-            "identify contradictions, limitations, or open questions. "
+            "identify the most significant contradictions, limitations, or unanswered questions. "
             "Output JSON list where each object has fields: "
-            "{\"summary\": \"short sentence\", \"detail\": \"multi-sentence explanation\", "
-            "\"evidence_refs\": [\"E1\"...], \"actions\": [\"bullet\", ...] }. "
-            f"Return at most {max_per_claim} items."
+            "{\"summary\": \"short sentence\", "
+            "\"detail\": \"multi-sentence explanation\", "
+            "\"severity\": \"High\"|\"Medium\"|\"Low\", "
+            "\"evidence_refs\": [\"E1\"...], "
+            "\"actions\": [\"bullet\", ...] }. "
+            f"Return at most {max_per_claim} items ranked by importance."
         )
         evidence_lines = []
         evidence_map = {}
@@ -399,6 +419,9 @@ def run_red_team(
                 )
             if not provenance:
                 continue
+            severity = str(entry.get("severity", "Medium")).title()
+            if severity not in {"High", "Medium", "Low"}:
+                severity = "Medium"
             actions = entry.get("actions", [])
             detail_text = detail if detail.endswith(".") else f"{detail}."
             summary_text = summary if summary.endswith(".") else f"{summary}."
@@ -411,9 +434,14 @@ def run_red_team(
                     summary=summary_text,
                     detail=detail_text,
                     evidence=provenance,
+                    severity=severity,
                     actions=[_normalize_text(a) for a in actions if a],
                 )
             )
+    if findings:
+        severity_rank = {"High": 0, "Medium": 1, "Low": 2}
+        findings.sort(key=lambda f: severity_rank.get(f.severity, 1))
+        findings = findings[:max_total]
     if findings:
         _persist_challenges(findings)
         _persist_report(
@@ -546,7 +574,11 @@ def _aggregate_verdict(evals: List[Tuple[str, str]]) -> str:
     return "Supported"
 
 
-def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]:
+def _llm_synthesizer(
+    topic: str,
+    reviewed: List[ReviewedClaim],
+    challenges: Optional[List[RedTeamFinding]],
+) -> List[Insight]:
     usable_claims = [c for c in reviewed if c.verdict in {"Supported", "Weak"}]
     if not usable_claims:
         logger.warning("No Supported/Weak claims to synthesize.")
@@ -554,13 +586,21 @@ def _llm_synthesizer(topic: str, reviewed: List[ReviewedClaim]) -> List[Insight]
     claim_lines = [
         f"{claim.id} ({claim.verdict}): {claim.text}" for claim in usable_claims
     ]
+    challenge_lines = [
+        f"{challenge.claim_id}: {challenge.summary}" for challenge in (challenges or [])
+    ]
     system_prompt = (
-        "You are Synthesizer. Combine the reviewed claims into 3-5 high-level insights. "
-        "Each insight should have a short summary sentence and a detailed explanation. "
+        "You are Synthesizer. Combine the reviewed claims (and note any listed challenges) into 3-5 insights. "
+        "Each insight must include a brief summary plus a detailed explanation referencing supporting claims, "
+        "and should highlight contradictions if challenges exist. "
         "Output JSON list with objects {\"summary\": \"...\", \"detail\": \"...\", "
         "\"claim_ids\": [\"c0001\"...], \"confidence\": 0-1}. Only reference claim IDs provided."
     )
-    user_prompt = f"Topic: {topic}\nReviewed claims:\n" + "\n".join(claim_lines)
+    user_prompt = (
+        f"Topic: {topic}\nReviewed claims:\n"
+        + "\n".join(claim_lines)
+        + ("\nChallenges:\n" + "\n".join(challenge_lines) if challenge_lines else "")
+    )
     try:
         llm_output = call_llm_json(system_prompt, user_prompt)
     except Exception as exc:  # noqa: BLE001
