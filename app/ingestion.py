@@ -14,6 +14,7 @@ import fitz  # PyMuPDF
 from chromadb.errors import InvalidDimensionException
 
 from .storage import cache_page_texts
+from .tracing import log_trace_event
 from .utils import configure_logging, ensure_dirs
 from .vectorstore import (
     build_embeddings,
@@ -177,4 +178,13 @@ def ingest_dir(input_dir: str | Path) -> int:
             time.sleep(2)
 
     logger.info("Completed ingestion: %d chunks from %d PDFs", total_chunks, len(pdf_files))
+    log_trace_event(
+        agent="Ingestion",
+        stage="ingestion",
+        details={
+            "input_dir": str(input_path),
+            "pdf_count": len(pdf_files),
+            "chunk_count": total_chunks,
+        },
+    )
     return total_chunks

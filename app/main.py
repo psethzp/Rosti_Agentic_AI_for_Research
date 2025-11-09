@@ -9,6 +9,7 @@ import sys
 import tempfile
 import time
 from pathlib import Path
+import logging
 from typing import List
 
 import streamlit as st
@@ -31,8 +32,10 @@ from app.graph import build_reasoning_graph  # type: ignore  # noqa: E402
 from app.ingestion import ingest_dir  # type: ignore  # noqa: E402
 from app.schemas import ActionItem, Insight, RedTeamFinding, ReviewedClaim  # type: ignore  # noqa: E402
 from app.utils import configure_logging, ensure_dirs  # type: ignore  # noqa: E402
+from app.vectorstore import get_collection, reset_vector_store  # type: ignore  # noqa: E402
 
 configure_logging()
+logger = logging.getLogger(__name__)
 
 DOCS_DIR = Path("pdf_workspace")
 CHROMA_DIR = Path(os.getenv("CHROMA_DIR", ".data/chroma")).expanduser()
@@ -58,6 +61,23 @@ def initialize_workspace() -> None:
     ensure_dirs(DOCS_DIR, "artifacts")
     reset_artifacts(include_claims=True)
     st.session_state["_workspace_initialized"] = True
+
+
+def _vector_store_ready() -> bool:
+    """Return True if Chroma collection exists and has data."""
+    try:
+        collection = get_collection()
+        has_docs = collection.count() > 0
+        if not has_docs:
+            logger.info("Vector store is empty; ingestion required before running agents.")
+        return has_docs
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("Vector store unavailable (%s); resetting.", exc)
+        try:
+            reset_vector_store()
+        except Exception as reset_exc:  # noqa: BLE001
+            logger.error("Failed to reset vector store: %s", reset_exc)
+        return False
 
 
 def _load_reviewed_claims() -> List[ReviewedClaim]:
@@ -123,10 +143,13 @@ def main() -> None:
         run_pipeline_btn = st.button("Run Researcher + Reviewer")
         run_red_team_btn = st.button("Run Red Team")
         generate_insights_btn = st.button("Generate Insights & Next Steps")
+        run_full_pipeline_btn = st.button("Run Full Pipeline")
 
     if run_pipeline_btn:
         if not topic.strip():
             st.error("Please enter a topic before running the pipeline.")
+        elif not _vector_store_ready():
+            st.error("No documents found in the vector store. Upload and ingest PDFs first.")
         else:
             with st.spinner("Running Researcher and Reviewer..."):
                 run_researcher(topic)
@@ -162,6 +185,42 @@ def main() -> None:
                 st.success("Insights generated and report updated.")
             if actions:
                 st.info("Suggested actions refreshed.")
+
+    if run_full_pipeline_btn:
+        if not topic.strip():
+            st.error("Please enter a topic before running the full pipeline.")
+        elif not _vector_store_ready():
+            st.error("No documents found in the vector store. Upload and ingest PDFs first.")
+        else:
+            status_placeholder = st.empty()
+            try:
+                status_placeholder.info("Running Researcher agent...")
+                with st.spinner("Researcher agent in progress..."):
+                    run_researcher(topic)
+                    time.sleep(0.5)
+                claims = load_claims_from_artifacts()
+
+                status_placeholder.info("Auto-reviewing claims...")
+                reviewed = run_reviewer(claims)
+                time.sleep(0.2)
+
+                status_placeholder.info("Running Red Team agent...")
+                with st.spinner("Red Team in progress..."):
+                    findings = run_red_team(topic, reviewed)
+                    time.sleep(0.5)
+
+                status_placeholder.info("Synthesizing insights and actions...")
+                with st.spinner("Synthesizer in progress..."):
+                    insights = run_synthesizer(topic, reviewed, findings)
+                    actions = run_action_planner(topic, reviewed, insights)
+
+                status_placeholder.success("Full pipeline completed successfully.")
+                if findings:
+                    st.info("Red Team findings updated during the full run.")
+                if insights:
+                    st.success("Insights and actions refreshed.")
+            except Exception as exc:  # noqa: BLE001
+                status_placeholder.error(f"Full pipeline failed: {exc}")
 
     st.subheader("Reasoning Graph")
     st.graphviz_chart(build_reasoning_graph(include_red_team=True))

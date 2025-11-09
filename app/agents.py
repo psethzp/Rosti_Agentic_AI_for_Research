@@ -13,6 +13,7 @@ from .llm import call_llm_json
 from .reporting import render_report_html
 from .retrieval import search
 from .schemas import ActionItem, Claim, EvidenceSpan, Insight, RedTeamFinding, ReviewedClaim
+from .tracing import log_trace_event
 from .utils import configure_logging, ensure_dirs
 from .validator import assess_span_support, verify_span
 
@@ -227,6 +228,15 @@ def run_researcher(topic: str) -> List[Claim]:
         logger.warning("LLM provided %d claims; using fallback extraction.", len(claims))
         claims = _fallback_claims(topic, hits)
     _persist_claims(claims)
+    log_trace_event(
+        agent="Researcher",
+        stage="researcher",
+        topic=topic,
+        details={
+            "claim_ids": [claim.id for claim in claims],
+            "count": len(claims),
+        },
+    )
     return claims
 
 
@@ -263,6 +273,15 @@ def run_synthesizer(
         reviewed,
         existing_actions,
         challenges or _load_challenges_from_artifacts(),
+    )
+    log_trace_event(
+        agent="Synthesizer",
+        stage="synthesizer",
+        topic=topic,
+        details={
+            "insight_ids": [insight.id for insight in insights],
+            "count": len(insights),
+        },
     )
     return insights
 
@@ -340,6 +359,15 @@ def run_action_planner(
         _persist_report(insights or [], reviewed, actions, _load_challenges_from_artifacts())
     else:
         logger.warning("No action items generated; retaining previous suggestions.")
+    log_trace_event(
+        agent="ActionPlanner",
+        stage="action_planner",
+        topic=topic,
+        details={
+            "action_ids": [action.id for action in actions],
+            "count": len(actions),
+        },
+    )
     return actions
 
 
@@ -441,6 +469,16 @@ def run_red_team(
         )
     else:
         logger.warning("Red Team found no contradictions.")
+    log_trace_event(
+        agent="RedTeam",
+        stage="red_team",
+        topic=topic,
+        details={
+            "claim_ids": [claim.id for claim in reviewed],
+            "finding_ids": [finding.id for finding in findings],
+            "count": len(findings),
+        },
+    )
     return findings
 
 

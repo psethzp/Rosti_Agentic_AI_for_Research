@@ -1,54 +1,52 @@
 [
   {
     "id": "a0001",
-    "topic": "What are some areas in which LLms today fail?",
-    "title": "Develop a Framework for Bias Mitigation in LLM Educational Tools",
-    "detail": "Given the significant risk of LLMs perpetuating biases and fading local knowledge (c0001), a proactive approach is needed. This action proposes the development of a comprehensive framework that outlines strategies for identifying, measuring, and mitigating bias in LLM outputs used in educational contexts. This framework should include guidelines for data diversity, continuous model updates, and expert human supervision, as well as recommendations for educator training on recognizing and addressing bias.",
-    "tag": "NextStep",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "title": "Investigate the impact of LLM-generated content on student critical thinking development.",
+    "detail": "Given the challenge that LLMs may negatively impact students' critical thinking and problem-solving skills due to over-reliance (c0001), and the assertion that LLMs should supplement, not replace, human instruction to ensure development of critical thinking skills (c0004), further research is needed to quantify this impact. This could involve comparative studies of student cohorts using LLMs extensively versus those with limited LLM use, focusing on metrics of critical thinking and problem-solving.",
+    "tag": "Hypothesis",
     "related_claims": [
-      "c0001"
+      "c0001",
+      "c0004"
     ]
   },
   {
     "id": "a0002",
-    "topic": "What are some areas in which LLms today fail?",
-    "title": "Investigate the Impact of LLM Reliance on Student Cognitive Development Across Age Groups",
-    "detail": "The concern that learners may become too reliant on LLMs, impacting critical thinking and problem-solving (c0002), requires deeper investigation. This action hypothesizes that the negative impact on cognitive skills is more pronounced in younger learners or those with less developed metacognitive abilities. Research should focus on longitudinal studies and comparative analyses across different age groups and educational levels to understand the nuances of this over-reliance and inform curriculum design that promotes complementary LLM use.",
-    "tag": "Hypothesis",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "title": "Develop and validate metrics for distinguishing AI-generated from student-generated educational content.",
+    "detail": "The challenge that the claim overstates the precision and quality of LLM-based grading by not acknowledging the difficulty in distinguishing AI-generated from student-generated answers (c0002) necessitates the development of robust methods for attribution. This next step involves researching and proposing technical or stylistic markers that can reliably differentiate LLM outputs from human student work in educational contexts, particularly for grading and assessment purposes.",
+    "tag": "NextStep",
     "related_claims": [
-      "c0002",
-      "c0004"
+      "c0002"
     ]
   },
   {
     "id": "a0003",
-    "topic": "What are some areas in which LLms today fail?",
-    "title": "Clarify the Financial and Infrastructural Requirements for Equitable LLM Access in Education",
-    "detail": "The challenge of LLMs creating unfair access for non-English speakers and the potential financial burden (c0003) necessitates clarification. This action aims to identify the specific financial and infrastructural barriers that prevent equitable access to LLMs for all educational entities. This could involve surveying institutions, analyzing the cost of LLM implementation and maintenance, and exploring potential governmental or philanthropic funding models to ensure fair access and prevent widening educational gaps.",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "title": "Clarify the extent to which LLM-generated educational content is currently being used for direct student assessment versus content creation support.",
+    "detail": "The challenge that the claim highlights LLMs' ability to generate educational content, but the evidence focuses more on teacher attitudes and professional development support (c0002), indicates a potential gap in understanding the practical application of LLMs in student assessment. A clarification is needed to determine if the primary use case is in generating materials for teachers to use, or if LLMs are directly involved in evaluating student work, and to what degree.",
     "tag": "Clarification",
     "related_claims": [
-      "c0003",
-      "c0001"
+      "c0002"
     ]
   },
   {
     "id": "a0004",
-    "topic": "What are some areas in which LLms today fail?",
-    "title": "Establish Standards for LLM Fact-Checking and Transparency in Educational Applications",
-    "detail": "The critical need for fact-checking and corroborating LLM-generated information (c0004) highlights a significant failure point. This action proposes the development of clear, actionable standards and protocols for fact-checking LLM outputs within educational settings. This should include guidelines for users on how to verify information and requirements for LLM providers to offer transparent information about their model's performance, limitations, and operating conditions.",
-    "tag": "NextStep",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "title": "Explore strategies for mitigating educational divides caused by LLM access and language barriers.",
+    "detail": "The challenge that LLMs may exacerbate educational divides due to language and financial access barriers (c0001) requires proactive solutions. This hypothesis proposes investigating and piloting interventions such as developing low-resource LLM versions, creating open-source educational LLM tools, or implementing subsidized access programs to ensure equitable benefits from LLM technology in education.",
+    "tag": "Hypothesis",
     "related_claims": [
-      "c0004"
+      "c0001"
     ]
   },
   {
     "id": "a0005",
-    "topic": "What are some areas in which LLms today fail?",
-    "title": "Hypothesize Optimal Integration Models for LLMs to Enhance, Not Replace, Human Expertise",
-    "detail": "While LLMs cannot replace human critical thinking and problem-solving skills (c0002, c0004), their potential as complementary tools is significant. This action hypothesizes that specific integration models, such as LLMs as brainstorming partners, research assistants, or personalized feedback providers, can demonstrably enhance student learning and skill development without fostering over-reliance. Research should focus on designing and testing these models to identify best practices for leveraging LLMs to augment human instruction and student capabilities.",
-    "tag": "Hypothesis",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "title": "Assess the long-term impact of LLM-assisted skill development on career readiness.",
+    "detail": "LLMs are shown to assist in acquiring skills like programming, report writing, and decision-making (c0004). However, the long-term efficacy and transferability of these LLM-assisted skills to real-world professional environments are not fully understood. This next step involves longitudinal studies tracking individuals who have heavily utilized LLMs for skill development to evaluate their career progression, adaptability, and performance compared to those who developed skills through traditional means.",
+    "tag": "NextStep",
     "related_claims": [
-      "c0002",
       "c0004"
     ]
   }
