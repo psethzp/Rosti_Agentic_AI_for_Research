@@ -168,23 +168,19 @@ def main() -> None:
 
     st.subheader("Reviewed Claims")
     reviewed_claims = _load_reviewed_claims()
-    if reviewed_claims:
-        st.dataframe(
-            [
-                {
-                    "ID": claim.id,
-                    "Text": claim.text,
-                    "Verdict": claim.verdict,
-                    "Notes": claim.reviewer_notes,
-                    "Citation": (
-                        f"{claim.citations[0].source_id} p{claim.citations[0].page}"
-                        if claim.citations
-                        else "N/A"
-                    ),
-                }
-                for claim in reviewed_claims
-            ]
-        )
+    if not reviewed_claims:
+        st.info("No reviewed claims yet. Run the pipeline to populate this section.")
+    else:
+        for claim in reviewed_claims:
+            summary = claim.summary or claim.text.split(".")[0]
+            label = f"{claim.id} · {summary}"
+            with st.expander(label):
+                st.write(claim.text)
+                st.caption(
+                    ", ".join(
+                        f"{span.source_id} p{span.page}" for span in claim.citations
+                    )
+                )
 
     st.subheader("Red Team Challenges")
     challenges = _load_challenges()

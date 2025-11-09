@@ -20,7 +20,9 @@ class EvidenceSpan(BaseModel):
 class Claim(BaseModel):
     id: str
     topic: str
+    summary: Optional[str] = None
     text: str
+    subpoints: List[str] = Field(default_factory=list)
     citations: List[EvidenceSpan] = Field(default_factory=list)
     confidence: Optional[float] = None
     status: Literal["draft", "reviewed"] = "draft"

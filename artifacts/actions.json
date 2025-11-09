@@ -2,8 +2,8 @@
   {
     "id": "a0001",
     "topic": "What are some tasks that LLMs today are used for?",
-    "title": "Investigate LLM Bias in Educational Content Generation",
-    "detail": "Given the challenge that LLMs might introduce bias into inclusive lesson plans (c0001), a follow-up action should be to research and develop methods for detecting and mitigating bias in LLM-generated educational materials. This could involve prompt engineering techniques, fine-tuning on diverse datasets, or post-generation review processes.",
+    "title": "Investigate LLM Bias in Inclusive Content Generation",
+    "detail": "Given the challenge that LLMs may overstate their ability to create inclusive lesson plans and tailor content to diverse student needs due to potential bias (c0001), we need to explore how to actively mitigate these biases. This could involve developing specific prompt engineering techniques, fine-tuning models on diverse datasets, or implementing human review processes to ensure true inclusivity.",
     "tag": "NextStep",
     "related_claims": [
       "c0001"
@@ -12,28 +12,29 @@
   {
     "id": "a0002",
     "topic": "What are some tasks that LLMs today are used for?",
-    "title": "Quantify LLM Impact on Student Research Skills",
-    "detail": "To address the concern that LLMs might negatively impact critical thinking and independent investigation in research (c0002), a hypothesis to test is that guided LLM usage, focusing on idea generation and resource discovery rather than direct answer provision, can actually enhance research skills. This would require designing experiments to measure the depth and originality of student research with and without specific LLM guidance.",
+    "title": "Quantify the 'Over-reliance' Risk in Student Skill Development",
+    "detail": "The challenges highlight a significant risk of students becoming overly reliant on LLMs, hindering critical thinking and independent learning (c0001). We need to hypothesize and then design studies to quantify this risk. What are the specific metrics or observable behaviors that indicate over-reliance, and at what point does LLM assistance transition from beneficial to detrimental for skill development?.",
     "tag": "Hypothesis",
     "related_claims": [
-      "c0002"
+      "c0001",
+      "c0003"
     ]
   },
   {
     "id": "a0003",
     "topic": "What are some tasks that LLMs today are used for?",
-    "title": "Clarify LLM Grading Automation Levels",
-    "detail": "The challenge states that the 85% grading reduction (c0003) is not directly supported, with evidence only mentioning semi-automation. A clarification is needed on the specific types of grading tasks LLMs can automate and the extent of human oversight required to achieve significant time savings. This would involve reviewing the original sources for c0003 and potentially conducting further studies on LLM grading efficiency.",
+    "title": "Clarify LLM's Role in Distinguishing AI vs. Student Content",
+    "detail": "The challenge states that LLMs overstate their capabilities by not acknowledging the difficulty in distinguishing AI-generated from student-generated content (c0002). We need clarification on the current state-of-the-art in LLM-based content detection. Are there specific LLM architectures or techniques that are proving more effective, and what are the limitations of these detection methods?.",
     "tag": "Clarification",
     "related_claims": [
-      "c0003"
+      "c0002"
     ]
   },
   {
     "id": "a0004",
     "topic": "What are some tasks that LLMs today are used for?",
-    "title": "Validate LLM Capabilities in Generating Programming Tasks and Solutions",
-    "detail": "The challenge notes that evidence for c0004 only explicitly mentions code explanations and assessment questions, not full task and solution generation. A next step is to investigate the capabilities of models like OpenAI Codex in generating complete programming tasks and their corresponding correct solutions. This could involve empirical testing of the model's output against defined task requirements.",
+    "title": "Benchmark LLM Performance Against Human Educators",
+    "detail": "Challenge c0004 states that LLMs are not yet on par with human performance in educational assistance. To address this, we need to define specific educational tasks (e.g., providing nuanced feedback on complex essays, adapting explanations in real-time to a student's confusion) and design comparative studies. This will help us understand where LLMs excel, where they fall short, and what the realistic expectations for their current capabilities should be.",
     "tag": "NextStep",
     "related_claims": [
       "c0004"
@@ -42,11 +43,11 @@
   {
     "id": "a0005",
     "topic": "What are some tasks that LLMs today are used for?",
-    "title": "Explore LLM Support for Complex Professional Skills",
-    "detail": "Given the challenge that LLMs may overstate their current capabilities in complex professional skills like decision-making and problem-solving (c0005), a hypothesis is that LLMs can serve as valuable simulation tools for practicing these skills, rather than directly performing them. Further research should explore how LLMs can be integrated into training scenarios to facilitate skill development through interactive exercises and feedback.",
+    "title": "Explore Hybrid Models for Research Skill Development",
+    "detail": "The risk of over-reliance on LLMs for research skills (c0003) suggests that a purely LLM-driven approach might be insufficient. We should hypothesize about the effectiveness of hybrid models where LLMs act as powerful assistants but are integrated into a framework that explicitly guides students through the research process, emphasizing critical evaluation of LLM-provided information and encouraging independent exploration.",
     "tag": "Hypothesis",
     "related_claims": [
-      "c0005"
+      "c0003"
     ]
   }
 ]

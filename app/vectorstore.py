@@ -56,12 +56,22 @@ def get_collection() -> Collection:
     """Create or retrieve the configured Chroma collection."""
     chroma_dir = get_chroma_dir()
     ensure_dirs(chroma_dir)
-    client = chromadb.PersistentClient(
-        path=str(chroma_dir),
-        settings=Settings(anonymized_telemetry=False),
-    )
-    collection = client.get_or_create_collection(name=get_collection_name())
-    return collection
+    try:
+        client = chromadb.PersistentClient(
+            path=str(chroma_dir),
+            settings=Settings(anonymized_telemetry=False),
+        )
+        collection = client.get_or_create_collection(name=get_collection_name())
+        return collection
+    except ValueError:
+        logger.warning("Chroma tenant missing; resetting vector store.")
+        reset_vector_store()
+        client = chromadb.PersistentClient(
+            path=str(chroma_dir),
+            settings=Settings(anonymized_telemetry=False),
+        )
+        collection = client.get_or_create_collection(name=get_collection_name())
+        return collection
 
 
 def reset_vector_store() -> None:

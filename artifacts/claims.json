@@ -2,7 +2,14 @@
   {
     "id": "c0001",
     "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can assist teachers in creating inclusive lesson plans and activities by generating course syllabi and short topic descriptions based on provided documents. They can also produce questions and prompts designed to encourage critical thinking and participation from students with varying knowledge levels. (E1).",
+    "summary": "Large language models are extensively used in education to enhance learning and teaching processes for students of all levels.",
+    "text": "LLMs can assist teachers in creating inclusive lesson plans and activities by generating course syllabi, topic descriptions, and critical thinking prompts tailored to different student abilities (E1). For students, LLMs can aid in developing reading and writing skills, including syntactic and grammatical corrections, and improving writing style and critical thinking (E8). LLMs can also facilitate professional development for educators by providing resources, summaries, and explanations of new teaching methodologies and technologies (E9). These models can be adapted to specific learner needs, including those with disabilities, and can assist in developing language skills specific to particular fields of work (E5).",
+    "subpoints": [
+      "LLMs can assist teachers in creating inclusive lesson plans and activities by generating course syllabi, topic descriptions, and critical thinking prompts tailored to different student abilities (E1).",
+      "For students, LLMs can aid in developing reading and writing skills, including syntactic and grammatical corrections, and improving writing style and critical thinking (E8).",
+      "LLMs can also facilitate professional development for educators by providing resources, summaries, and explanations of new teaching methodologies and technologies (E9).",
+      "These models can be adapted to specific learner needs, including those with disabilities, and can assist in developing language skills specific to particular fields of work (E5)."
+    ],
     "citations": [
       {
         "source_id": "1-ChatGPT_for_Good",
@@ -12,70 +19,25 @@
         "quote": "also as- sist teachers in the creation of (inclusive) lesson plans and activities. Teachers can input to the models the corpus of document based on which they want to build a course. The output can be a course syllabus with short description of each topic. Language models can also generate questions and prompts that...",
         "chunk_id": "1-ChatGPT_for_Good:p0003:c0001",
         "chunk_text": "also as-\nsist teachers in the creation of (inclusive) lesson plans and\nactivities. Teachers can input to the models the corpus of\ndocument based on which they want to build a course. The\noutput can be a course syllabus with short description of each\ntopic. Language models can also generate questions and\nprompts that encourage the participation of people at different\nknowledge and ability levels, and elicit critical thinking and\nproblem-solving. Moreover, they can be used to generate tar-\ngeted and personalized practice problems and quizzes, which\ncan help to ensure that students are mastering the material.\nFor language learning, teachers of language classes can\nuse large language models in an assistive way, e.g., to high-\nlight important phrases, generate summaries and translations,\nprovide explanations of grammar and vocabulary, suggest\ngrammatical or style improvements and assist in conversation\npractice. Language models can also provide teachers with\nadaptive and personalized means to assist students in their\nlanguage learning journey, which can make language learning\nmore engaging and effective for students.\nFor research and writing, large language models can\nassist teachers of university and high school classes to com-\nplete research and writing tasks (e.g., in seminar works, paper\nwriting, and feedback to students) more efficiently and effec-\ntively. The most basic help can happen at a syntactic level,\ni.e., identifying and correcting typos. At a semantic level,\nlarge language models can be used to highlight (potential)\ngrammatical inconsistencies and suggest adequate and person-\nalized improvement strategies. Going further, these models\ncan be used to identify possibilities for topic-specific style\nimprovement. They can also be used to generate summaries\nand outlines of challenging texts, which can help teachers and\nresearchers to highlight the main points of a text in a way\nthat is helpful for further deep dive and understanding of the\ncontent in question.\nFor professional development, large language models\ncan also assist teachers by providing them with resources,\nsummaries, and explanations of new teaching methodologies,\ntechnologies, and materials. This can help teachers stay up-to-\ndate with the latest developments and techniques in education,\nand contribute to the effectiveness of their"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0002",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "In the realm of education, large language models can help students organize their thoughts for writing and develop research skills by providing information, resources, and suggesting unexplored research topics. (E2).",
-    "citations": [
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 2,
-        "char_start": 3858,
-        "char_end": 6173,
-        "quote": "a text and to organize their thoughts for writing. Additionally, large language models can also assist in the development of research skills by providing students with information and re- sources on a particular topic and hinting at unexplored aspects and current research topics, which can help them to better unders...",
-        "chunk_id": "1-ChatGPT_for_Good:p0002:c0002",
-        "chunk_text": "a\ntext and to organize their thoughts for writing. Additionally,\nlarge language models can also assist in the development of\nresearch skills by providing students with information and re-\nsources on a particular topic and hinting at unexplored aspects\nand current research topics, which can help them to better\nunderstand and analyze the material.\nFor group & remote learning, large language models\ncan be used to facilitate group discussions and debates by\nproviding a discussion structure, real-time feedback and per-\nsonalized guidance to students during the discussion. This\ncan help to improve student engagement and participation. In\ncollaborative writing activities, where multiple students work\ntogether to write a document or a project, language models\ncan assist by providing style and editing suggestions as well\nas other integrative co-writing features. For research purposes,\nsuch models can be used to span the range of open research\nquestions in relation to already researched topics and to au-\ntomatically assign the questions and topics to the involved\nteam members. For remote tutoring purposes, they can be\nused to automatically generate questions and provide practice\nproblems, explanations, and assessments that are tailored to\nthe students\u2019 level of knowledge so that they can learn at their\nown pace.\nTo empower learners with disabilities, large language\nmodels can be used in combination with speech-to-text or text-\nto-speech solutions to help people with visual impairment. In\ncombination with the previously mentioned group and remote\ntutoring opportunities, language models can be used to de-\nvelop inclusive learning strategies with adequate support in\ntasks such as adaptive writing, translating, and highlighting\nof important content in various formats. However, it is im-\nportant to note that the use of large language models should\nbe accompanied by the help of professionals such as speech\ntherapists, educators, and other specialists that can adapt the\ntechnology to the specific needs of the learner\u2019s disabilities.\nFor professional training, large language models can\nassist in the development of language skills that are specific\nto a particular field of work. They can also assist in the\ndevelopment of skills such as programming, report writing,\nproject management, decision"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0003",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can significantly reduce grading effort in large courses, with reported reductions of up to 85% while maintaining high precision and improving student-perceived quality. (E4).",
-    "citations": [
+        "char_start": 1901,
+        "char_end": 4241,
+        "quote": "these mod- els, opportunities for enhancement of learning and teaching experiences may be possible for individuals at all levels of edu- cation, including primary, secondary, tertiary and professional development. For elementary school students, large language models can assist in the development of reading and writ...",
+        "chunk_id": "1-ChatGPT_for_Good:p0002:c0001",
+        "chunk_text": "these mod-\nels, opportunities for enhancement of learning and teaching\nexperiences may be possible for individuals at all levels of edu-\ncation, including primary, secondary, tertiary and professional\ndevelopment.\nFor elementary school students, large language models\ncan assist in the development of reading and writing skills\n(e.g., by suggesting syntactic and grammatical corrections), as\nwell as in the development of writing style and critical think-\ning skills. These models can be used to generate questions\nand prompts that encourage students to think critically about\nwhat they are reading and writing, and to analyze and inter-\npret the information presented to them. Additionally, large\nlanguage models can also assist in the development of reading\ncomprehension skills by providing students with summaries\nand explanations of complex texts, which can make reading\nand understanding the material easier.\nFor middle and high school students, large language\nmodels can assist in the learning of a language and of writ-\ning styles for various subjects and topics, e.g., mathematics,\nphysics, language and literature, and other subjects. These\nmodels can be used to generate practice problems and quizzes,\nwhich can help students to better understand, contextual-\nize and retain the material they are learning. Additionally,\nlarge language models can also assist in the development of\nproblem-solving skills by providing students with explana-\ntions, step-by-step solutions, and interesting related questions\nto problems, which can help them to understand the reasoning\nbehind the solutions and develop analytical and out-of-the-box\nthinking.\nFor university students, large language models can assist\nin the research and writing tasks, as well as in the development\nof critical thinking and problem-solving skills. These models\ncan be used to generate summaries and outlines of texts, which\ncan help students to quickly understand the main points of a\ntext and to organize their thoughts for writing. Additionally,\nlarge language models can also assist in the development of\nresearch skills by providing students with information and re-\nsources on a particular topic and hinting at unexplored aspects\nand current research topics, which can help them to better\nunderstand and analyze the material.\nFor group & remote learning, large"
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
-        "page": 5,
-        "char_start": 5605,
-        "char_end": 6603,
-        "quote": "student answers in large courses, where grading effort could be reduced by up to 85% with a high precision and an improved quality perceived by the students. Large language models can not only support the assess- ment of student\u2019s solutions but also assist in the automatic generation of exercises. Using few-shot lea...",
-        "chunk_id": "1-ChatGPT_for_Good:p0005:c0003",
-        "chunk_text": "student answers\nin large courses, where grading effort could be reduced by\nup to 85% with a high precision and an improved quality\nperceived by the students.\nLarge language models can not only support the assess-\nment of student\u2019s solutions but also assist in the automatic\ngeneration of exercises. Using few-shot learning, [40] showed\nthat the OpenAI Codex model is able to provide a variety of\nprogramming tasks together with the correct solution, auto-\nmated tests to verify the student\u2019s solutions, and additional\ncode explanations. With regard to testing factual knowledge\nin general, [41] proposed a framework to automatically gen-\nerate question-answer pairs. This can be used in the creation\nof teaching materials, e.g., for reading comprehension tasks.\nBeyond the generation of the correct answer, transformer\nmodels are also able to create distractor answers, as needed\nfor the generation of multiple choice questionnaires [42, 43].\nBringing language models to mathematics education, sev-"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0004",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "The OpenAI Codex model, using few-shot learning, can generate programming tasks, correct solutions, automated tests, and code explanations, aiding in student learning and assessment. (E4).",
-    "citations": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 5,
-        "char_start": 5605,
-        "char_end": 6603,
-        "quote": "student answers in large courses, where grading effort could be reduced by up to 85% with a high precision and an improved quality perceived by the students. Large language models can not only support the assess- ment of student\u2019s solutions but also assist in the automatic generation of exercises. Using few-shot lea...",
-        "chunk_id": "1-ChatGPT_for_Good:p0005:c0003",
-        "chunk_text": "student answers\nin large courses, where grading effort could be reduced by\nup to 85% with a high precision and an improved quality\nperceived by the students.\nLarge language models can not only support the assess-\nment of student\u2019s solutions but also assist in the automatic\ngeneration of exercises. Using few-shot learning, [40] showed\nthat the OpenAI Codex model is able to provide a variety of\nprogramming tasks together with the correct solution, auto-\nmated tests to verify the student\u2019s solutions, and additional\ncode explanations. With regard to testing factual knowledge\nin general, [41] proposed a framework to automatically gen-\nerate question-answer pairs. This can be used in the creation\nof teaching materials, e.g., for reading comprehension tasks.\nBeyond the generation of the correct answer, transformer\nmodels are also able to create distractor answers, as needed\nfor the generation of multiple choice questionnaires [42, 43].\nBringing language models to mathematics education, sev-"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0005",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "For professional training, large language models can help develop field-specific language skills and competencies such as programming, report writing, project management, decision-making, and problem-solving. (E5).",
-    "citations": [
+        "page": 3,
+        "char_start": 3872,
+        "char_end": 6237,
+        "quote": "is helpful for further deep dive and understanding of the content in question. For professional development, large language models can also assist teachers by providing them with resources, summaries, and explanations of new teaching methodologies, technologies, and materials. This can help teachers stay up-to- date...",
+        "chunk_id": "1-ChatGPT_for_Good:p0003:c0002",
+        "chunk_text": "is helpful for further deep dive and understanding of the\ncontent in question.\nFor professional development, large language models\ncan also assist teachers by providing them with resources,\nsummaries, and explanations of new teaching methodologies,\ntechnologies, and materials. This can help teachers stay up-to-\ndate with the latest developments and techniques in education,\nand contribute to the effectiveness of their teaching. They can\nbe used to improve the clarity of the teaching materials, locate\ninformation or resources that professionals may be in need for\nas they learn on the job, as well as used for on-the-job training\nmodules that require presentation and communication skills.\nFor assessment and evaluation, teachers can use large\nlanguage models to semi-automate the grading of student work\nby highlighting potential strengths and weakness of the work\nin question, e.g., essays, research papers, and other writing\nassignments. This can save teachers a significant amount of\ntime for tasks related to individualized feedback to students.\nFurthermore, large language models can also be used to check\nfor plagiarism, which can help to prevent cheating. Hence,\nlarge language models can help teachers to identify areas\nwhere students are struggling, which adds to a more accurate\nassessments of student learning development and challenges.\nTargeted instruction provided by the models can be used to\nhelp students excel and to provide opportunities for further\ndevelopment.\nThe acquaintance of students with AI challenges related\nto the potential bias in the output, the need for continuous hu-\nman oversight, and the potential for misuse of large language\nmodels are not unique to education. In fact, these challenges\nare inherent to transformative digital technologies. Thus, we\nbelieve that, if handled sensibly by the teacher, these chal-\nlenges can be insightful in learning and education scenarios to\nacquaint students early on with potential societal biases, and\nrisks of AI application.\nIn conclusion, large language models have the potential\nto revolutionize teaching from a teacher\u2019s perspective by pro-\nviding teachers with a wide range of tools and resources that\ncan assist with lesson planning, personalized content creation,\ndifferentiation and personalized instruction, assessment, and\nprofessional development. Overall, large language"
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 2,
@@ -86,50 +48,30 @@
         "chunk_text": "as speech\ntherapists, educators, and other specialists that can adapt the\ntechnology to the specific needs of the learner\u2019s disabilities.\nFor professional training, large language models can\nassist in the development of language skills that are specific\nto a particular field of work. They can also assist in the\ndevelopment of skills such as programming, report writing,\nproject management, decision making and problem-solving.\nFor example, large language models can be fine-tuned on\na domain-specific corpus (e.g. legal, medical, IT) in order\nto generate domain-specific language and assist learners in\nwriting technical reports, legal documents, medical records etc."
       }
     ],
-    "confidence": 0.7,
+    "confidence": 1.0,
     "status": "draft"
   },
   {
-    "id": "c0006",
+    "id": "c0002",
     "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models like GPT-3 can generate human-like text, answer questions, and perform tasks such as translation and summarization, making them versatile tools. (E6).",
+    "summary": "LLMs play a significant role in automating and improving educational assessment and content generation.",
+    "text": "LLMs can reduce grading effort in large courses by up to 85% with high precision and improved student-perceived quality (E4). They can automatically generate exercises, programming tasks with correct solutions, automated tests, and code explanations, as demonstrated by models like OpenAI Codex (E4). LLMs are capable of generating math word problems by understanding equations and contextualizing them appropriately (E7). Generated questions for data science education have been rated favorably by human experts, promoting their use in the field (E10).",
+    "subpoints": [
+      "LLMs can reduce grading effort in large courses by up to 85% with high precision and improved student-perceived quality (E4).",
+      "They can automatically generate exercises, programming tasks with correct solutions, automated tests, and code explanations, as demonstrated by models like OpenAI Codex (E4).",
+      "LLMs are capable of generating math word problems by understanding equations and contextualizing them appropriately (E7).",
+      "Generated questions for data science education have been rated favorably by human experts, promoting their use in the field (E10)."
+    ],
     "citations": [
       {
         "source_id": "1-ChatGPT_for_Good",
-        "page": 4,
-        "char_start": 0,
-        "char_end": 2228,
-        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 4/13 2. Current Research and Applications of Language Models in Education 2.1 Overview of Current Large Language Models The GPT (Generative Pre-trained Transformer) [10] model developed by OpenAI was the first large language m...",
-        "chunk_id": "1-ChatGPT_for_Good:p0004:c0000",
-        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 4/13\n2. Current Research and Applications of\nLanguage Models in Education\n2.1 Overview of Current Large Language Models\nThe GPT (Generative Pre-trained Transformer) [10] model\ndeveloped by OpenAI was the first large language model that\nwas publicly released in 2018. GPT was able to generate\nhuman-like text, answer questions, and assist in tasks, such as\ntranslation and summarization, through human-like comple-\ntion. Based on this initial model, OpenAI later released the\nGPT-2 and GPT-3 models with more advanced capabilities.\nIt can be argued that the release of GPT marked a significant\nmilestone in the field of NLP and has opened up many ways\nfor dissemination, both in research and industrial applications.\nAnother model that was released by Google Research in\n2018 is BERT (Bidirectional Encoder Representations from\nTransformers [2]), which is also based on a transformer ar-\nchitecture and is pre-trained on a massive dataset of text data\non two unsupervised tasks, namely masked language mod-\neling (to predict missing parts in a sentence and learn their\ncontext) and next sentence prediction (to learn plausible sub-\nsequent sentences of a given sentence) with the aim to learn\nthe broader context of words in various topics.\nOne year later in 2019, Google AI released XLNet [11],\nwhich is trained using a process called permutation language\nmodeling and enables XLNet to cope with tasks that involve\nunderstanding the dependencies between words in a sentence,\ne.g., natural language inference and question answering. An-\nother model developed by Google Research was T5 (Text-to-\nText Transfer Transformer) [12], which was released in 2020.\nLike the predecessor models, T5 is also transformer-based\nmodel trained on a massive text dataset with the key feature\nbeing its ability to perform many NLP tasks with a single\npre-training and fine-tuning pipeline.\nIn parallel with Open AI and Google, Facebook AI devel-\noped a large language model called RoBERTa (Robustly Opti-\nmized BERT Pre-training) [13], which was released in 2019.\nRoBERTa is a variant of the BERT model which uses dynamic\nmasking instead of static masking"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0007",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Research has explored the automatic generation of math word problems using large language models, which involves understanding equations and contextualizing them appropriately. (E7).",
-    "citations": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 6,
-        "char_start": 0,
-        "char_end": 2405,
-        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13 eral works discuss the automatic generation of math word problems [44, 45, 46], which combines the challenge of un- derstanding equations and putting them into the appropriate context. Finally, another recent work [47] in...",
-        "chunk_id": "1-ChatGPT_for_Good:p0006:c0000",
-        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13\neral works discuss the automatic generation of math word\nproblems [44, 45, 46], which combines the challenge of un-\nderstanding equations and putting them into the appropriate\ncontext.\nFinally, another recent work [47] investigated the capabil-\nity of state-of-the-art conversational agents to adequately reply\nto a student in an educational dialogue. Both models used in\nthis work (Blender and GPT-3) were capable of replying to\na student adequately and generated conversational dialogues\nthat conveyed the impression that these models understand the\nlearner (in particular Blender). They are however well behind\nhuman performance when it comes to helping the student [47],\nthus emphasizing the need for further research.\n3. Opportunities for Innovative\nEducational Technologies\nLooking forward, large language models bear the potential to\nconsiderably improve digital ecosystems for education, such\nas environments based on Augmented Reality (AR), Virtual\nReality (VR) [48, 49], and other related digital experiences.\nSpecifically, they can be used to amplify several key fac-\ntors, which are crucial for the immersive interaction of users\nwith digital content. For example, large language models\ncan considerably improve the natural language processing\nand understanding capabilities of an AR/VR system to enable\nan effective natural communication and interaction between\nusers and the system (e.g., virtual teacher or virtual peers).\nThe latter has been identified early on as a key usability aspect\nfor immersive educational technologies [50] and is in general\nseen as a key factor for improving the interaction between\nhumans and AI systems [51].\nLarge language models can also be used to develop more\nnatural and sophisticated user interfaces by exploiting their\nability to generate contextualized, personalized, and diverse\nresponses to natural language questions asked by users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0008",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Conversational agents, including models like Blender and GPT-3, have demonstrated the capability to adequately respond to students in educational dialogues, generating conversational exchanges. (E7).",
-    "citations": [
+        "page": 5,
+        "char_start": 5605,
+        "char_end": 6603,
+        "quote": "student answers in large courses, where grading effort could be reduced by up to 85% with a high precision and an improved quality perceived by the students. Large language models can not only support the assess- ment of student\u2019s solutions but also assist in the automatic generation of exercises. Using few-shot lea...",
+        "chunk_id": "1-ChatGPT_for_Good:p0005:c0003",
+        "chunk_text": "student answers\nin large courses, where grading effort could be reduced by\nup to 85% with a high precision and an improved quality\nperceived by the students.\nLarge language models can not only support the assess-\nment of student\u2019s solutions but also assist in the automatic\ngeneration of exercises. Using few-shot learning, [40] showed\nthat the OpenAI Codex model is able to provide a variety of\nprogramming tasks together with the correct solution, auto-\nmated tests to verify the student\u2019s solutions, and additional\ncode explanations. With regard to testing factual knowledge\nin general, [41] proposed a framework to automatically gen-\nerate question-answer pairs. This can be used in the creation\nof teaching materials, e.g., for reading comprehension tasks.\nBeyond the generation of the correct answer, transformer\nmodels are also able to create distractor answers, as needed\nfor the generation of multiple choice questionnaires [42, 43].\nBringing language models to mathematics education, sev-"
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 6,
@@ -138,52 +80,41 @@
         "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13 eral works discuss the automatic generation of math word problems [44, 45, 46], which combines the challenge of un- derstanding equations and putting them into the appropriate context. Finally, another recent work [47] in...",
         "chunk_id": "1-ChatGPT_for_Good:p0006:c0000",
         "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13\neral works discuss the automatic generation of math word\nproblems [44, 45, 46], which combines the challenge of un-\nderstanding equations and putting them into the appropriate\ncontext.\nFinally, another recent work [47] investigated the capabil-\nity of state-of-the-art conversational agents to adequately reply\nto a student in an educational dialogue. Both models used in\nthis work (Blender and GPT-3) were capable of replying to\na student adequately and generated conversational dialogues\nthat conveyed the impression that these models understand the\nlearner (in particular Blender). They are however well behind\nhuman performance when it comes to helping the student [47],\nthus emphasizing the need for further research.\n3. Opportunities for Innovative\nEducational Technologies\nLooking forward, large language models bear the potential to\nconsiderably improve digital ecosystems for education, such\nas environments based on Augmented Reality (AR), Virtual\nReality (VR) [48, 49], and other related digital experiences.\nSpecifically, they can be used to amplify several key fac-\ntors, which are crucial for the immersive interaction of users\nwith digital content. For example, large language models\ncan considerably improve the natural language processing\nand understanding capabilities of an AR/VR system to enable\nan effective natural communication and interaction between\nusers and the system (e.g., virtual teacher or virtual peers).\nThe latter has been identified early on as a key usability aspect\nfor immersive educational technologies [50] and is in general\nseen as a key factor for improving the interaction between\nhumans and AI systems [51].\nLarge language models can also be used to develop more\nnatural and sophisticated user interfaces by exploiting their\nability to generate contextualized, personalized, and diverse\nresponses to natural language questions asked by users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation"
+      },
+      {
+        "source_id": "1-ChatGPT_for_Good",
+        "page": 5,
+        "char_start": 0,
+        "char_end": 2181,
+        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 5/13 ing by a trained GPT-3 model and manual reviews by human experts. The authors reported that the generated questions were rated favorably by human experts, promoting thus the usage of large language models in data science ...",
+        "chunk_id": "1-ChatGPT_for_Good:p0005:c0000",
+        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 5/13\ning by a trained GPT-3 model and manual reviews by human\nexperts. The authors reported that the generated questions\nwere rated favorably by human experts, promoting thus the\nusage of large language models in data science education [20].\nStudents can learn from each other by peer-reviewing and\nassessing each other\u2019s solutions. This, of course, has the best\neffect when the given feedback is comprehensive and of high\nquality. For example, Jia et al. [21] showed how BERT can\nbe used to evaluate the peer assessments so that students can\nlearn to improve their feedback.\nIn a recent review on conversational AI in language edu-\ncation, the authors found that there are five main applications\nof conversational AI during teaching [22], the most common\none being the use of large language models as a conversa-\ntional partner in a written or oral form, e.g., in the context\nof a task-oriented dialogue that provides language practice\nopportunities such as pronunciation [23]. Another application\nis to support students when they experience foreign language\nlearning anxiety [24] or have a lower willingness to commu-\nnicate [25]. In [26], the application of providing feedback, as\na needs analyst, and evaluator when primary school students\npractice their vocabulary was explored. The authors of [27]\nfound that a chatbot that is guided by a mind map is more suc-\ncessful in supporting students by providing scaffolds during\nlanguage learning than a conventional AI chatbot.\nA recent work in the area of medical education by Kung et\nal. [28] explored the performance of ChatGPT on the United\nStates Medical Licensing Exam. According to the evaluation\nresults, the performance of ChatGPT on this test was at or\nnear the passing threshold without any domain fine-tuning.\nBased on these results, the authors argue that large language\nmodels might be a powerful tool to assist medical education\nand eventually clinical decision-making processes [28].\nTeachers\u2019 perspective.\nAs the rate of adoption of AI in\neducation is still slow compared to other fields, such as indus-\ntrial applications"
       }
     ],
-    "confidence": 0.7,
+    "confidence": 1.0,
     "status": "draft"
   },
   {
-    "id": "c0009",
+    "id": "c0003",
     "topic": "What are some tasks that LLMs today are used for?",
-    "text": "For elementary students, large language models can aid in developing reading and writing skills, including suggesting grammatical corrections, and fostering writing style and critical thinking. (E8).",
+    "summary": "LLMs are employed to support research skills and facilitate collaborative learning environments.",
+    "text": "LLMs can assist students in developing research skills by providing information and resources on specific topics, and suggesting unexplored aspects and current research areas (E2). For group and remote learning, LLMs can structure discussions, offer real-time feedback, and provide personalized guidance to students, thereby improving engagement (E2). LLMs can also be used to evaluate peer-reviewed solutions, with models like BERT showing effectiveness in assessing student work (E10). Conversational agents, including models like Blender and GPT-3, have demonstrated the capability to adequately respond to students in educational dialogues, generating conversational exchanges (E7).",
+    "subpoints": [
+      "LLMs can assist students in developing research skills by providing information and resources on specific topics, and suggesting unexplored aspects and current research areas (E2).",
+      "For group and remote learning, LLMs can structure discussions, offer real-time feedback, and provide personalized guidance to students, thereby improving engagement (E2).",
+      "LLMs can also be used to evaluate peer-reviewed solutions, with models like BERT showing effectiveness in assessing student work (E10).",
+      "Conversational agents, including models like Blender and GPT-3, have demonstrated the capability to adequately respond to students in educational dialogues, generating conversational exchanges (E7)."
+    ],
     "citations": [
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 2,
-        "char_start": 1901,
-        "char_end": 4241,
-        "quote": "these mod- els, opportunities for enhancement of learning and teaching experiences may be possible for individuals at all levels of edu- cation, including primary, secondary, tertiary and professional development. For elementary school students, large language models can assist in the development of reading and writ...",
-        "chunk_id": "1-ChatGPT_for_Good:p0002:c0001",
-        "chunk_text": "these mod-\nels, opportunities for enhancement of learning and teaching\nexperiences may be possible for individuals at all levels of edu-\ncation, including primary, secondary, tertiary and professional\ndevelopment.\nFor elementary school students, large language models\ncan assist in the development of reading and writing skills\n(e.g., by suggesting syntactic and grammatical corrections), as\nwell as in the development of writing style and critical think-\ning skills. These models can be used to generate questions\nand prompts that encourage students to think critically about\nwhat they are reading and writing, and to analyze and inter-\npret the information presented to them. Additionally, large\nlanguage models can also assist in the development of reading\ncomprehension skills by providing students with summaries\nand explanations of complex texts, which can make reading\nand understanding the material easier.\nFor middle and high school students, large language\nmodels can assist in the learning of a language and of writ-\ning styles for various subjects and topics, e.g., mathematics,\nphysics, language and literature, and other subjects. These\nmodels can be used to generate practice problems and quizzes,\nwhich can help students to better understand, contextual-\nize and retain the material they are learning. Additionally,\nlarge language models can also assist in the development of\nproblem-solving skills by providing students with explana-\ntions, step-by-step solutions, and interesting related questions\nto problems, which can help them to understand the reasoning\nbehind the solutions and develop analytical and out-of-the-box\nthinking.\nFor university students, large language models can assist\nin the research and writing tasks, as well as in the development\nof critical thinking and problem-solving skills. These models\ncan be used to generate summaries and outlines of texts, which\ncan help students to quickly understand the main points of a\ntext and to organize their thoughts for writing. Additionally,\nlarge language models can also assist in the development of\nresearch skills by providing students with information and re-\nsources on a particular topic and hinting at unexplored aspects\nand current research topics, which can help them to better\nunderstand and analyze the material.\nFor group & remote learning, large"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0010",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can provide teachers with resources, summaries, and explanations of new teaching methodologies and technologies, helping them stay current in their field. (E9).",
-    "citations": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 3,
-        "char_start": 3872,
-        "char_end": 6237,
-        "quote": "is helpful for further deep dive and understanding of the content in question. For professional development, large language models can also assist teachers by providing them with resources, summaries, and explanations of new teaching methodologies, technologies, and materials. This can help teachers stay up-to- date...",
-        "chunk_id": "1-ChatGPT_for_Good:p0003:c0002",
-        "chunk_text": "is helpful for further deep dive and understanding of the\ncontent in question.\nFor professional development, large language models\ncan also assist teachers by providing them with resources,\nsummaries, and explanations of new teaching methodologies,\ntechnologies, and materials. This can help teachers stay up-to-\ndate with the latest developments and techniques in education,\nand contribute to the effectiveness of their teaching. They can\nbe used to improve the clarity of the teaching materials, locate\ninformation or resources that professionals may be in need for\nas they learn on the job, as well as used for on-the-job training\nmodules that require presentation and communication skills.\nFor assessment and evaluation, teachers can use large\nlanguage models to semi-automate the grading of student work\nby highlighting potential strengths and weakness of the work\nin question, e.g., essays, research papers, and other writing\nassignments. This can save teachers a significant amount of\ntime for tasks related to individualized feedback to students.\nFurthermore, large language models can also be used to check\nfor plagiarism, which can help to prevent cheating. Hence,\nlarge language models can help teachers to identify areas\nwhere students are struggling, which adds to a more accurate\nassessments of student learning development and challenges.\nTargeted instruction provided by the models can be used to\nhelp students excel and to provide opportunities for further\ndevelopment.\nThe acquaintance of students with AI challenges related\nto the potential bias in the output, the need for continuous hu-\nman oversight, and the potential for misuse of large language\nmodels are not unique to education. In fact, these challenges\nare inherent to transformative digital technologies. Thus, we\nbelieve that, if handled sensibly by the teacher, these chal-\nlenges can be insightful in learning and education scenarios to\nacquaint students early on with potential societal biases, and\nrisks of AI application.\nIn conclusion, large language models have the potential\nto revolutionize teaching from a teacher\u2019s perspective by pro-\nviding teachers with a wide range of tools and resources that\ncan assist with lesson planning, personalized content creation,\ndifferentiation and personalized instruction, assessment, and\nprofessional development. Overall, large language"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0011",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can be used to generate assessment questions, as demonstrated by a GPT-3 model fine-tuned on text-based learning materials for data science education, with generated questions rated favorably by human experts. (E10, E24).",
-    "citations": [
+        "char_start": 3858,
+        "char_end": 6173,
+        "quote": "a text and to organize their thoughts for writing. Additionally, large language models can also assist in the development of research skills by providing students with information and re- sources on a particular topic and hinting at unexplored aspects and current research topics, which can help them to better unders...",
+        "chunk_id": "1-ChatGPT_for_Good:p0002:c0002",
+        "chunk_text": "a\ntext and to organize their thoughts for writing. Additionally,\nlarge language models can also assist in the development of\nresearch skills by providing students with information and re-\nsources on a particular topic and hinting at unexplored aspects\nand current research topics, which can help them to better\nunderstand and analyze the material.\nFor group & remote learning, large language models\ncan be used to facilitate group discussions and debates by\nproviding a discussion structure, real-time feedback and per-\nsonalized guidance to students during the discussion. This\ncan help to improve student engagement and participation. In\ncollaborative writing activities, where multiple students work\ntogether to write a document or a project, language models\ncan assist by providing style and editing suggestions as well\nas other integrative co-writing features. For research purposes,\nsuch models can be used to span the range of open research\nquestions in relation to already researched topics and to au-\ntomatically assign the questions and topics to the involved\nteam members. For remote tutoring purposes, they can be\nused to automatically generate questions and provide practice\nproblems, explanations, and assessments that are tailored to\nthe students\u2019 level of knowledge so that they can learn at their\nown pace.\nTo empower learners with disabilities, large language\nmodels can be used in combination with speech-to-text or text-\nto-speech solutions to help people with visual impairment. In\ncombination with the previously mentioned group and remote\ntutoring opportunities, language models can be used to de-\nvelop inclusive learning strategies with adequate support in\ntasks such as adaptive writing, translating, and highlighting\nof important content in various formats. However, it is im-\nportant to note that the use of large language models should\nbe accompanied by the help of professionals such as speech\ntherapists, educators, and other specialists that can adapt the\ntechnology to the specific needs of the learner\u2019s disabilities.\nFor professional training, large language models can\nassist in the development of language skills that are specific\nto a particular field of work. They can also assist in the\ndevelopment of skills such as programming, report writing,\nproject management, decision"
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 5,
@@ -195,22 +126,38 @@
       },
       {
         "source_id": "1-ChatGPT_for_Good",
+        "page": 6,
+        "char_start": 0,
+        "char_end": 2405,
+        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13 eral works discuss the automatic generation of math word problems [44, 45, 46], which combines the challenge of un- derstanding equations and putting them into the appropriate context. Finally, another recent work [47] in...",
+        "chunk_id": "1-ChatGPT_for_Good:p0006:c0000",
+        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 6/13\neral works discuss the automatic generation of math word\nproblems [44, 45, 46], which combines the challenge of un-\nderstanding equations and putting them into the appropriate\ncontext.\nFinally, another recent work [47] investigated the capabil-\nity of state-of-the-art conversational agents to adequately reply\nto a student in an educational dialogue. Both models used in\nthis work (Blender and GPT-3) were capable of replying to\na student adequately and generated conversational dialogues\nthat conveyed the impression that these models understand the\nlearner (in particular Blender). They are however well behind\nhuman performance when it comes to helping the student [47],\nthus emphasizing the need for further research.\n3. Opportunities for Innovative\nEducational Technologies\nLooking forward, large language models bear the potential to\nconsiderably improve digital ecosystems for education, such\nas environments based on Augmented Reality (AR), Virtual\nReality (VR) [48, 49], and other related digital experiences.\nSpecifically, they can be used to amplify several key fac-\ntors, which are crucial for the immersive interaction of users\nwith digital content. For example, large language models\ncan considerably improve the natural language processing\nand understanding capabilities of an AR/VR system to enable\nan effective natural communication and interaction between\nusers and the system (e.g., virtual teacher or virtual peers).\nThe latter has been identified early on as a key usability aspect\nfor immersive educational technologies [50] and is in general\nseen as a key factor for improving the interaction between\nhumans and AI systems [51].\nLarge language models can also be used to develop more\nnatural and sophisticated user interfaces by exploiting their\nability to generate contextualized, personalized, and diverse\nresponses to natural language questions asked by users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation"
+      }
+    ],
+    "confidence": 1.0,
+    "status": "draft"
+  },
+  {
+    "id": "c0004",
+    "topic": "What are some tasks that LLMs today are used for?",
+    "summary": "The capabilities of LLMs extend to generating diverse content and integrating digital applications for educational purposes.",
+    "text": "LLMs can generate human-like text, answer questions, and assist with tasks like translation and summarization, as initially shown by GPT (E6). Their ability to answer natural language questions across various domains facilitates the integration of diverse digital applications into unified frameworks, expanding educational possibilities (E11). LLMs can generate contextualized natural language texts, code for implementation tasks, and multimedia content when combined with other AI systems, enabling scalable creation of compelling educational materials (E11). Models like GPT-3 and ChatGPT, trained on extensive web corpora, have demonstrated state-of-the-art performance in generating realistic heterogeneous tabular data (E13).",
+    "subpoints": [
+      "LLMs can generate human-like text, answer questions, and assist with tasks like translation and summarization, as initially shown by GPT (E6).",
+      "Their ability to answer natural language questions across various domains facilitates the integration of diverse digital applications into unified frameworks, expanding educational possibilities (E11).",
+      "LLMs can generate contextualized natural language texts, code for implementation tasks, and multimedia content when combined with other AI systems, enabling scalable creation of compelling educational materials (E11).",
+      "Models like GPT-3 and ChatGPT, trained on extensive web corpora, have demonstrated state-of-the-art performance in generating realistic heterogeneous tabular data (E13)."
+    ],
+    "citations": [
+      {
+        "source_id": "1-ChatGPT_for_Good",
         "page": 4,
-        "char_start": 5697,
-        "char_end": 6291,
-        "quote": "to generate code explanations. Despite several open research and pedagogical questions that need to be further explored, this work has successfully demon- strated the potential of GPT-3 to support learning by explain- ing aspects of a given code snippet. For a data science course, Bhat et al. [20] proposed a pipelin...",
-        "chunk_id": "1-ChatGPT_for_Good:p0004:c0003",
-        "chunk_text": "to generate code explanations.\nDespite several open research and pedagogical questions that\nneed to be further explored, this work has successfully demon-\nstrated the potential of GPT-3 to support learning by explain-\ning aspects of a given code snippet.\nFor a data science course, Bhat et al. [20] proposed a\npipeline for generating assessment questions based on a fine-\ntuned GPT3 model on text-based learning materials. The gen-\nerated questions were further evaluated with regard to their\nusefulness to the learning outcome based on automated label-\n3https://huggingface.co/bigscience/bloom"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0012",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "The ability of large language models to answer natural language questions across various domains can help integrate diverse digital applications into a unified framework, expanding educational possibilities. (E11).",
-    "citations": [
+        "char_start": 0,
+        "char_end": 2228,
+        "quote": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 4/13 2. Current Research and Applications of Language Models in Education 2.1 Overview of Current Large Language Models The GPT (Generative Pre-trained Transformer) [10] model developed by OpenAI was the first large language m...",
+        "chunk_id": "1-ChatGPT_for_Good:p0004:c0000",
+        "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 4/13\n2. Current Research and Applications of\nLanguage Models in Education\n2.1 Overview of Current Large Language Models\nThe GPT (Generative Pre-trained Transformer) [10] model\ndeveloped by OpenAI was the first large language model that\nwas publicly released in 2018. GPT was able to generate\nhuman-like text, answer questions, and assist in tasks, such as\ntranslation and summarization, through human-like comple-\ntion. Based on this initial model, OpenAI later released the\nGPT-2 and GPT-3 models with more advanced capabilities.\nIt can be argued that the release of GPT marked a significant\nmilestone in the field of NLP and has opened up many ways\nfor dissemination, both in research and industrial applications.\nAnother model that was released by Google Research in\n2018 is BERT (Bidirectional Encoder Representations from\nTransformers [2]), which is also based on a transformer ar-\nchitecture and is pre-trained on a massive dataset of text data\non two unsupervised tasks, namely masked language mod-\neling (to predict missing parts in a sentence and learn their\ncontext) and next sentence prediction (to learn plausible sub-\nsequent sentences of a given sentence) with the aim to learn\nthe broader context of words in various topics.\nOne year later in 2019, Google AI released XLNet [11],\nwhich is trained using a process called permutation language\nmodeling and enables XLNet to cope with tasks that involve\nunderstanding the dependencies between words in a sentence,\ne.g., natural language inference and question answering. An-\nother model developed by Google Research was T5 (Text-to-\nText Transfer Transformer) [12], which was released in 2020.\nLike the predecessor models, T5 is also transformer-based\nmodel trained on a massive text dataset with the key feature\nbeing its ability to perform many NLP tasks with a single\npre-training and fine-tuning pipeline.\nIn parallel with Open AI and Google, Facebook AI devel-\noped a large language model called RoBERTa (Robustly Opti-\nmized BERT Pre-training) [13], which was released in 2019.\nRoBERTa is a variant of the BERT model which uses dynamic\nmasking instead of static masking"
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 6,
@@ -219,52 +166,7 @@
         "quote": "users. Fur- thermore, their ability to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework or application, which is also critical for expanding the bounds of educational possibilities and experiences [52, 49]. In general, th...",
         "chunk_id": "1-ChatGPT_for_Good:p0006:c0001",
         "chunk_text": "users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation\ntasks [53] as well as various types of multimedia content\n(e.g., in combination with other AI systems, such as DALL-\nE [54]) can enable and scale the creation of compelling and\nimmersive digital (e.g., AR/VR) experiences. From gamifica-\ntion to detailed simulations for immersive learning in digital\nenvironments, large language models are a key enabling tech-\nnology. To fully realize this potential, however, it is important\nto consider not only technical aspects but also ethical, legal,\necological and social implications.\nIn the following section, we take a brief look at the risks re-\nlated to the application on large language models in education\nand provide corresponding mitigation strategies.\n4. Key Challenges and Risks Related to\nthe Application of Large Language\nModels in Education\nCopyright Issues.\nWhen we train large language models on\na task to produce education-related content \u2013 course syllabus,\nquizzes, scientific paper \u2013 the mode should be trained on\nexamples of such texts. During the generation for a new\nprompt, the answer may contain a full sentence or even a\nparagraph seen in the training set, leading to copyright and\nplagiarism issues.\nImportant steps to responsibly mitigate such an issue can\nbe the following:\n\u2022 Asking the authors of the original documents trans-\nparently (i.e., purpose and policy of data usage) for\npermission to use their content for training the model\n\u2022 Compliance with copyright terms for open-source con-\ntent\n\u2022 Inheritance and detailed terms of use for the content\ngenerated by the model\n\u2022 Informing and raising awareness of the users about\nthese policies\nBias and fairness.\nLarge language models can perpetuate\nand amplify existing biases and unfairness in society, which\ncan negatively impact teaching and learning processes and\noutcomes. For example, if a model is trained"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0013",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can generate contextualized natural language texts and code for various implementation tasks, and in conjunction with other AI systems, can enable the creation of multimedia content. (E11).",
-    "citations": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 6,
-        "char_start": 1977,
-        "char_end": 4238,
-        "quote": "users. Fur- thermore, their ability to answer natural language questions across various domains can facilitate the integration of diverse digital applications into a unified framework or application, which is also critical for expanding the bounds of educational possibilities and experiences [52, 49]. In general, th...",
-        "chunk_id": "1-ChatGPT_for_Good:p0006:c0001",
-        "chunk_text": "users. Fur-\nthermore, their ability to answer natural language questions\nacross various domains can facilitate the integration of diverse\ndigital applications into a unified framework or application,\nwhich is also critical for expanding the bounds of educational\npossibilities and experiences [52, 49].\nIn general, the ability of these models to generate contextu-\nalized natural language texts, code for various implementation\ntasks [53] as well as various types of multimedia content\n(e.g., in combination with other AI systems, such as DALL-\nE [54]) can enable and scale the creation of compelling and\nimmersive digital (e.g., AR/VR) experiences. From gamifica-\ntion to detailed simulations for immersive learning in digital\nenvironments, large language models are a key enabling tech-\nnology. To fully realize this potential, however, it is important\nto consider not only technical aspects but also ethical, legal,\necological and social implications.\nIn the following section, we take a brief look at the risks re-\nlated to the application on large language models in education\nand provide corresponding mitigation strategies.\n4. Key Challenges and Risks Related to\nthe Application of Large Language\nModels in Education\nCopyright Issues.\nWhen we train large language models on\na task to produce education-related content \u2013 course syllabus,\nquizzes, scientific paper \u2013 the mode should be trained on\nexamples of such texts. During the generation for a new\nprompt, the answer may contain a full sentence or even a\nparagraph seen in the training set, leading to copyright and\nplagiarism issues.\nImportant steps to responsibly mitigate such an issue can\nbe the following:\n\u2022 Asking the authors of the original documents trans-\nparently (i.e., purpose and policy of data usage) for\npermission to use their content for training the model\n\u2022 Compliance with copyright terms for open-source con-\ntent\n\u2022 Inheritance and detailed terms of use for the content\ngenerated by the model\n\u2022 Informing and raising awareness of the users about\nthese policies\nBias and fairness.\nLarge language models can perpetuate\nand amplify existing biases and unfairness in society, which\ncan negatively impact teaching and learning processes and\noutcomes. For example, if a model is trained"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0014",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models have shown potential in assisting medical education and clinical decision-making processes, with some models performing at or near passing thresholds without specific domain fine-tuning. (E14).",
-    "citations": [
-      {
-        "source_id": "1-ChatGPT_for_Good",
-        "page": 5,
-        "char_start": 1794,
-        "char_end": 4059,
-        "quote": "was at or near the passing threshold without any domain fine-tuning. Based on these results, the authors argue that large language models might be a powerful tool to assist medical education and eventually clinical decision-making processes [28]. Teachers\u2019 perspective. As the rate of adoption of AI in education is s...",
-        "chunk_id": "1-ChatGPT_for_Good:p0005:c0001",
-        "chunk_text": "was at or\nnear the passing threshold without any domain fine-tuning.\nBased on these results, the authors argue that large language\nmodels might be a powerful tool to assist medical education\nand eventually clinical decision-making processes [28].\nTeachers\u2019 perspective.\nAs the rate of adoption of AI in\neducation is still slow compared to other fields, such as indus-\ntrial applications (e.g., finance, e-commerce, automotive) or\nmedicine, there are less studies considering the use of large\nlanguage models in education [29]. A recent review of oppor-\ntunities and challenges of chatbots in education pointed out\nthat the studies related to chatbots in education are still in an\nearly stage, with few empirical studies investigating the use of\neffective learning designs or learning strategies [30]. There-\nfore, we discuss first the teachers\u2019 perspectives concerning AI\nand Learning Analytics in education and transfer these on the\nmuch newer field of large language models.\nIn this view, a pilot study with European teachers indi-\ncates a positive attitude towards AI for education and a high\nmotivation to introduce AI-related content at school. Overall,\nthe teachers from the study seemed to have a basic level of\ndigital skills but low AI-related skills [31]. Another study\nwith Nigerian teachers emphasized that the willingness and\nreadiness of teachers to promote AI are key prerequisites for\nthe integration of AI-based technologies in education [32].\nAlong the same lines, the results of a study with teachers from\nSouth Korea indicate that teachers with constructivist beliefs\nare more likely to integrate educational AI-based tools than\nteachers with transmissive orientations [33]. Furthermore, per-\nceived usefulness, perceived ease of use, and perceived trust in\nthese AI-based tools are determinants to be considered when\npredicting their acceptance by the teachers. Similar results\nconcerning teachers attitudes towards chatbots in education\nwere reported in [34]: perceiving the AI chatbot as easy-to-\nuse and useful leads to greater acceptance of the chatbot. As\nfor the chatbots\u2019 features, formal language by a chatbot leads\nto a higher intention of using it.\nAs it seems that teachers\u2019 perspectives on the general use\nof AI in education have a"
-      }
-    ],
-    "confidence": 0.7,
-    "status": "draft"
-  },
-  {
-    "id": "c0015",
-    "topic": "What are some tasks that LLMs today are used for?",
-    "text": "Large language models can be used to generate synthetic and realistic heterogeneous tabular data, demonstrating their adaptability to various downstream tasks. (E13).",
-    "citations": [
+      },
       {
         "source_id": "1-ChatGPT_for_Good",
         "page": 2,
@@ -275,7 +177,7 @@
         "chunk_text": "ChatGPT for Good? On Opportunities and Challenges of Large Language Models for Education \u2014 2/13\nefficiently adapted to down-stream tasks or even other seem-\ningly unrelated tasks (e.g., as in transfer learning) has been\nempirically observed and studied for various natural-language\ntasks [6], e.g., more recently in the context of generating\nsynthetic and yet realistic heterogeneous tabular data [7].\nRecent advancements also include GPT-3 [1] and Chat-\nGPT [8], which were trained on a much larger datasets, i.e.,\ntexts from a very large web corpus, and have demonstrated\nstate-of-the-art performance on a wide range of natural-language\ntasks ranging from translation to question answering, writ-\ning coherent essays, and computer programs. Additionally,\nextensive research has been conducted on fine-tuning these\nmodels on smaller datasets and applying transfer learning to\nnew problems. This allows for improved performance on\nspecific tasks with smaller amount of data.\nWhile large language models have made great strides in\nrecent years, there are still many limitations that need to be\naddressed. One major limitation is the lack of interpretabil-\nity, as it is difficult to understand the reasoning behind the\nmodel\u2019s predictions. There are ethical considerations, such\nas concerns about bias and the impact of these models, e.g.,\non employment, risks of misuse and inadequate or unethical\ndeployment, loss of integrity, and many more. Overall, large\nlanguage models will continue to push the boundaries of what\nis possible in natural language processing. However, there\nis still much work to be done in terms of addressing their\nlimitations and the related ethical considerations.\n1.1 Opportunities for Learning\nThe use of large language models in education has been iden-\ntified as a potential area of interest due to the diverse range of\napplications they offer. Through the utilization of these mod-\nels, opportunities for enhancement of learning and teaching\nexperiences may be possible for individuals at all levels of edu-\ncation, including primary, secondary, tertiary and professional\ndevelopment.\nFor elementary school students, large language models\ncan assist in the development of reading and writing skills\n(e.g., by suggesting syntactic and grammatical corrections), as\nwell as in the development of"
       }
     ],
-    "confidence": 0.7,
+    "confidence": 1.0,
     "status": "draft"
   }
 ]
