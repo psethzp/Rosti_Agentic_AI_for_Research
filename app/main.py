@@ -1,7 +1,8 @@
 import asyncio
 import uuid
-from fastapi import FastAPI, Request, Form, UploadFile, File
-from fastapi.responses import RedirectResponse, StreamingResponse
+from pathlib import Path
+from fastapi import FastAPI, Request, Form, UploadFile, File, HTTPException
+from fastapi.responses import RedirectResponse, StreamingResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from typing import List
@@ -10,6 +11,10 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
+
+# Create pdfs directory if it doesn't exist
+PDFS_DIR = Path("pdfs")
+PDFS_DIR.mkdir(exist_ok=True)
 
 
 @app.get("/")
@@ -24,7 +29,7 @@ async def start(
     pdf_files: List[UploadFile] = File(default=[]),
 ):
     """
-    Handle the form submit
+    Handle the form submit and save uploaded PDFs
     """
     run_id = str(uuid.uuid4())
 
@@ -34,13 +39,20 @@ async def start(
     print(f"{'='*60}")
     print(f"Prompt: {prompt}")
 
-    # Print uploaded file names
+    # Save uploaded PDF files
     if pdf_files and len(pdf_files) > 0 and pdf_files[0].filename:
         print(f"\nUploaded PDF files ({len(pdf_files)}):")
         for i, file in enumerate(pdf_files, 1):
             print(
                 f"  {i}. {file.filename} (Content-Type: {file.content_type}, Size: {file.size} bytes)"
             )
+            
+            # Save the PDF file
+            file_path = PDFS_DIR / file.filename
+            with open(file_path, "wb") as f:
+                content = await file.read()
+                f.write(content)
+            print(f"     Saved to: {file_path}")
     else:
         print("\nNo PDF files uploaded")
 
@@ -49,6 +61,26 @@ async def start(
     url = request.url_for("result", run_id=run_id)
 
     return RedirectResponse(url=url, status_code=303)
+
+
+@app.get("/pdfs/{filename}")
+async def get_pdf(filename: str):
+    """
+    Serve PDF files for viewing
+    """
+    file_path = PDFS_DIR / filename
+    
+    if not file_path.exists():
+        raise HTTPException(status_code=404, detail=f"PDF file '{filename}' not found")
+    
+    return FileResponse(
+        file_path,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": f"inline; filename={filename}",
+            "Access-Control-Allow-Origin": "*"
+        }
+    )
 
 
 @app.get("/result/{run_id}", name="result")

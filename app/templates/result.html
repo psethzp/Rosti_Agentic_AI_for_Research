@@ -1,14 +1,17 @@
 {% extends "base.html" %} {% block content %}
-<div class="max-w-4xl mx-auto">
+<div class="max-w-7xl mx-auto">
   <!-- Header Section -->
   <div class="mb-8">
-    <h1 class="text-4xl font-bold text-white mb-2">Processing Results</h1>
-    <p class="text-gray-300">Your request is being processed by our agents</p>
+    <h1 class="text-4xl font-bold text-white mb-2">Research Analysis Results</h1>
+    <p class="text-gray-300">Multi-agent reasoning and insights</p>
   </div>
 
-  <!-- Results Card -->
+  <!-- Processing Status (Initially visible, hidden after completion) -->
   <div
+    id="processingStatus"
     class="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 overflow-hidden mb-6"
+    hx-ext="sse"
+    sse-connect="/events/{{ run_id }}"
   >
     <div class="bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-4">
       <h2 class="text-xl font-semibold text-white flex items-center">
@@ -25,11 +28,11 @@
             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
           ></path>
         </svg>
-        Live Updates
+        Agents Working...
       </h2>
     </div>
 
-    <div class="p-8" hx-ext="sse" sse-connect="/events/{{ run_id }}">
+    <div class="p-8">
       <div id="stream" sse-swap="message" hx-swap="beforeend" class="space-y-3">
         <div class="flex items-center text-gray-400 italic">
           <svg
@@ -43,37 +46,297 @@
               clip-rule="evenodd"
             ></path>
           </svg>
-          Waiting for updates…
+          Initializing agents…
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Action Buttons -->
-  <div class="flex justify-between items-center">
-    <a
-      href="/"
-      class="inline-flex items-center px-6 py-3 bg-gray-700 border-2 border-gray-600 rounded-lg font-semibold text-gray-200 hover:bg-gray-600 hover:border-gray-500 transition-all shadow-md"
-    >
-      <svg
-        class="w-5 h-5 mr-2"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+  <!-- Main Results Section (Hidden until processing completes) -->
+  <div id="resultsContainer" class="hidden">
+    <!-- Key Insights Section -->
+    <section class="mb-8">
+      <div class="flex items-center mb-4">
+        <svg
+          class="w-7 h-7 mr-3 text-green-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+          ></path>
+        </svg>
+        <h2 class="text-2xl font-bold text-white">Key Insights</h2>
+      </div>
+      <div id="insightsContainer" class="space-y-4">
+        <!-- Insights will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <!-- Concerns/Challenges Section -->
+    <section class="mb-8">
+      <div class="flex items-center mb-4">
+        <svg
+          class="w-7 h-7 mr-3 text-red-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+          ></path>
+        </svg>
+        <h2 class="text-2xl font-bold text-white">Concerns / Challenges</h2>
+      </div>
+      <div id="challengesContainer" class="space-y-4">
+        <!-- Challenges will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <!-- Next Steps Section -->
+    <section class="mb-8">
+      <div class="flex items-center mb-4">
+        <svg
+          class="w-7 h-7 mr-3 text-blue-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7l5 5m0 0l-5 5m5-5H6"
+          ></path>
+        </svg>
+        <h2 class="text-2xl font-bold text-white">Next Steps</h2>
+      </div>
+      <div id="actionsContainer" class="space-y-4">
+        <!-- Actions will be dynamically inserted here -->
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-between items-center mt-8">
+      <a
+        href="/"
+        class="inline-flex items-center px-6 py-3 bg-gray-700 border-2 border-gray-600 rounded-lg font-semibold text-gray-200 hover:bg-gray-600 hover:border-gray-500 transition-all shadow-md"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M10 19l-7-7m0 0l7-7m-7 7h18"
-        ></path>
-      </svg>
-      New Query
-    </a>
+        <svg
+          class="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          ></path>
+        </svg>
+        New Query
+      </a>
+      <button
+        onclick="window.print()"
+        class="inline-flex items-center px-6 py-3 bg-indigo-600 border-2 border-indigo-500 rounded-lg font-semibold text-white hover:bg-indigo-700 transition-all shadow-md"
+      >
+        <svg
+          class="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+          ></path>
+        </svg>
+        Export Report
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for Insight Details -->
+<div
+  id="insightModal"
+  class="hidden fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4 overflow-y-auto"
+  onclick="closeModal(event)"
+>
+  <div
+    class="bg-gray-800 rounded-2xl shadow-2xl border border-gray-700 max-w-5xl w-full max-h-[90vh] overflow-y-auto"
+    onclick="event.stopPropagation()"
+  >
+    <div class="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 px-8 py-6 flex justify-between items-center z-10">
+      <h3 id="modalTitle" class="text-2xl font-bold text-white"></h3>
+      <button
+        onclick="closeModal()"
+        class="text-white hover:text-gray-300 transition-colors"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          ></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="p-8">
+      <!-- Reasoning Flow Visualization -->
+      <div class="mb-8">
+        <h4 class="text-lg font-semibold text-gray-200 mb-4 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+          Multi-Agent Reasoning Flow
+        </h4>
+        <div id="modalClaims" class="space-y-4">
+          <!-- Claims will be inserted here -->
+        </div>
+      </div>
+
+      <!-- Final Synthesized Insight -->
+      <div class="bg-gradient-to-br from-green-900/30 to-emerald-900/30 border-2 border-green-500/50 rounded-xl p-6">
+        <div class="flex items-start mb-3">
+          <svg class="w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <div class="flex-1">
+            <h4 class="text-xl font-bold text-green-300 mb-2">Final Synthesized Insight</h4>
+            <p id="modalFinalInsight" class="text-gray-200 leading-relaxed"></p>
+          </div>
+        </div>
+
+        <!-- Confidence Score -->
+        <div class="mt-4 pt-4 border-t border-green-700/50">
+          <div class="flex items-center justify-between">
+            <span class="text-sm font-semibold text-gray-300">Confidence Level:</span>
+            <div class="flex items-center">
+              <div class="w-48 h-2 bg-gray-700 rounded-full mr-3">
+                <div id="modalConfidence" class="h-2 bg-gradient-to-r from-yellow-500 to-green-500 rounded-full" style="width: 0%"></div>
+              </div>
+              <span id="modalConfidenceText" class="text-sm font-bold text-green-400">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supporting Evidence -->
+      <div class="mt-6">
+        <h4 class="text-lg font-semibold text-gray-200 mb-3 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Citations & Evidence
+        </h4>
+        <div id="modalCitations" class="space-y-3">
+          <!-- Citations will be inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF Viewer Modal -->
+<div
+  id="pdfModal"
+  class="hidden fixed inset-0 bg-black bg-opacity-90 z-[60] flex items-center justify-center p-4"
+  onclick="closePdfModal(event)"
+>
+  <div
+    class="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 max-w-7xl w-full h-[90vh] flex flex-col"
+    onclick="event.stopPropagation()"
+  >
+    <!-- PDF Header -->
+    <div class="bg-gradient-to-r from-red-600 to-orange-600 px-6 py-4 flex justify-between items-center rounded-t-2xl">
+      <div class="flex items-center space-x-4">
+        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+        </svg>
+        <div>
+          <h3 id="pdfModalTitle" class="text-xl font-bold text-white">PDF Viewer</h3>
+          <p id="pdfModalInfo" class="text-sm text-gray-200 opacity-90"></p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3">
+        <!-- Page Navigation -->
+        <div class="flex items-center space-x-2 bg-black/30 rounded-lg px-3 py-2">
+          <button onclick="previousPage()" class="text-white hover:text-gray-300 transition-colors" title="Previous page">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+          <span class="text-white text-sm">
+            <span id="currentPage">1</span> / <span id="totalPages">1</span>
+          </span>
+          <button onclick="nextPage()" class="text-white hover:text-gray-300 transition-colors" title="Next page">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Zoom Controls -->
+        <div class="flex items-center space-x-2 bg-black/30 rounded-lg px-3 py-2">
+          <button onclick="zoomOut()" class="text-white hover:text-gray-300 transition-colors" title="Zoom out">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"></path>
+            </svg>
+          </button>
+          <span id="zoomLevel" class="text-white text-sm">100%</span>
+          <button onclick="zoomIn()" class="text-white hover:text-gray-300 transition-colors" title="Zoom in">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"></path>
+            </svg>
+          </button>
+        </div>
+        <button
+          onclick="closePdfModal()"
+          class="text-white hover:text-gray-300 transition-colors"
+          title="Close"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- PDF Canvas Container -->
+    <div id="pdfCanvasContainer" class="flex-1 overflow-auto bg-gray-800 p-4 flex items-center justify-center">
+      <div class="relative">
+        <canvas id="pdfCanvas" class="shadow-2xl"></canvas>
+        <!-- Highlight overlay -->
+        <div id="highlightOverlay" class="absolute top-0 left-0 pointer-events-none"></div>
+      </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="pdfLoading" class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 hidden">
+      <div class="text-center">
+        <svg class="w-12 h-12 text-indigo-500 animate-spin mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <p class="text-white text-lg">Loading PDF...</p>
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
+  /* Processing stream animations */
   #stream > div {
     padding: 12px 16px;
     background-color: #1f2937;
@@ -99,12 +362,929 @@
     }
   }
 
+  /* Card hover effects */
+  .insight-card,
+  .challenge-card,
+  .action-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .insight-card:hover,
+  .challenge-card:hover,
+  .action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Modal animations */
+  #insightModal.show {
+    display: flex !important;
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Claim flow connector lines */
+  .claim-connector {
+    position: relative;
+  }
+
+  .claim-connector::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -20px;
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, #6366f1, transparent);
+  }
+
+  .claim-connector:last-child::after {
+    display: none;
+  }
+
   @media print {
     header,
     footer,
-    button {
+    button,
+    #processingStatus {
       display: none !important;
     }
+    #resultsContainer {
+      display: block !important;
+    }
+  }
+
+  /* PDF file badges */
+  .pdf-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    background-color: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #fca5a5;
+    margin-right: 6px;
+    margin-bottom: 6px;
+  }
+
+  /* Severity badges */
+  .severity-high {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-color: #ef4444;
+    color: #fca5a5;
+  }
+
+  .severity-medium {
+    background-color: rgba(251, 191, 36, 0.2);
+    border-color: #fbbf24;
+    color: #fde68a;
+  }
+
+  .severity-low {
+    background-color: rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    color: #93c5fd;
   }
 </style>
+
+<script>
+  // PDF.js viewer state
+  let pdfDoc = null;
+  let pageNum = 1;
+  let pageRendering = false;
+  let pageNumPending = null;
+  let scale = 1.5;
+  let currentHighlight = null;
+
+  // Mock data for demonstration - Replace with actual backend data
+  const mockData = {
+    insights: [
+      {
+        id: "i0001",
+        topic: "VR Rehabilitation Effectiveness",
+        summary:
+          "VR-based rehabilitation shows significant improvement in motor recovery for stroke patients",
+        text: "Multiple studies demonstrate that VR rehabilitation interventions lead to measurable improvements in upper limb motor function, with effect sizes ranging from 0.4 to 0.8. The immersive nature of VR enhances patient engagement and enables more intensive training sessions.",
+        confidence: 0.85,
+        claim_ids: ["c0001", "c0002", "c0003"],
+        claims: [
+          {
+            id: "c0001",
+            summary: "VR improves motor function in stroke patients",
+            text: "Clinical trials show VR rehabilitation improves upper limb motor scores by 20-30%",
+            citations: [
+              {
+                source_id: "neurorehab_2024.pdf",
+                page: 5,
+                 "char_start": 125,
+                 "char_end": 420,
+                quote: "Patients using VR-based therapy showed a 25% improvement in motor function scores..."
+              }
+            ]
+          },
+          {
+            id: "c0002",
+            summary: "Higher engagement leads to better outcomes",
+            text: "VR environments increase patient motivation and training duration",
+            citations: [
+              {
+                source_id: "virtual_therapy.pdf",
+                page: 12,
+                quote: "Engagement rates in VR rehabilitation were 40% higher than traditional therapy..."
+              }
+            ]
+          },
+          {
+            id: "c0003",
+            summary: "Neuroplasticity enhanced through VR",
+            text: "Immersive VR activates multiple brain regions associated with motor learning",
+            citations: [
+              {
+                source_id: "brain_imaging_study.pdf",
+                page: 8,
+                quote: "fMRI scans revealed increased activation in motor cortex during VR therapy..."
+              }
+            ]
+          }
+        ],
+        provenance: [
+          { source_id: "neurorehab_2024.pdf", page: 5 },
+          { source_id: "virtual_therapy.pdf", page: 12 }
+        ]
+      },
+      {
+        id: "i0002",
+        topic: "Cost-Effectiveness Analysis",
+        summary: "VR rehabilitation is cost-effective compared to traditional therapy",
+        text: "Economic analyses indicate VR-based interventions reduce overall healthcare costs while maintaining or improving clinical outcomes.",
+        confidence: 0.72,
+        claim_ids: ["c0004", "c0005"],
+        claims: [
+          {
+            id: "c0004",
+            summary: "Lower operational costs",
+            text: "VR systems reduce therapist time requirements",
+            citations: []
+          },
+          {
+            id: "c0005",
+            summary: "Improved access to care",
+            text: "Home-based VR enables treatment in underserved areas",
+            citations: []
+          }
+        ],
+        provenance: []
+      }
+    ],
+    challenges: [
+      {
+        id: "r0001",
+        topic: "Sample Size Limitations",
+        claim_id: "c0001",
+        summary: "Many studies have small sample sizes limiting generalizability",
+        detail:
+          "Review of 15 VR rehabilitation studies found that 60% had fewer than 30 participants, which may limit the statistical power and generalizability of findings.",
+        severity: "Medium",
+        evidence: [
+          {
+            source_id: "meta_analysis_2024.pdf",
+            page: 18,
+            quote: "Sample sizes ranged from 12 to 85 participants (median = 24)..."
+          }
+        ],
+        actions: [
+          "Conduct multi-center trials with larger sample sizes",
+          "Perform meta-analyses to combine data across studies"
+        ]
+      }
+    ],
+    actions: [
+      {
+        id: "a0001",
+        topic: "Future Research Direction",
+        title: "Long-term efficacy study",
+        detail:
+          "Investigate whether VR rehabilitation benefits persist beyond 6 months post-intervention through longitudinal follow-up studies.",
+        tag: "Hypothesis",
+        related_claims: ["c0001", "c0002"]
+      },
+      {
+        id: "a0002",
+        topic: "Clinical Implementation",
+        title: "Standardize VR protocols",
+        detail:
+          "Develop standardized VR rehabilitation protocols to ensure consistency across clinical settings and enable better comparison of outcomes.",
+        tag: "NextStep",
+        related_claims: ["c0001"]
+      }
+    ]
+  };
+
+  // Initialize with mock data - Replace this with actual SSE data parsing
+  function initializeResults() {
+    // Simulate processing completion
+    setTimeout(() => {
+      document.getElementById("processingStatus").classList.add("hidden");
+      document.getElementById("resultsContainer").classList.remove("hidden");
+      renderResults(mockData);
+    }, 3000);
+  }
+
+  function renderResults(data) {
+    renderInsights(data.insights);
+    renderChallenges(data.challenges);
+    renderActions(data.actions);
+  }
+
+  function renderInsights(insights) {
+    const container = document.getElementById("insightsContainer");
+    container.innerHTML = insights
+      .map(
+        (insight) => `
+      <div class="insight-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-green-500/50 transition-all" onclick="openInsightModal('${insight.id}')">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-white flex-1">${insight.topic}</h3>
+          <button class="ml-4 w-10 h-10 bg-green-600/20 hover:bg-green-600/40 rounded-full flex items-center justify-center transition-all group">
+            <svg class="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </button>
+        </div>
+        <p class="text-gray-300 mb-4">${insight.summary}</p>
+        <div class="flex items-center justify-between">
+          <div class="flex flex-wrap gap-2">
+            ${insight.provenance
+              .slice(0, 2)
+              .map(
+                (p) =>
+                  `<span class="pdf-badge">
+                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                </svg>
+                ${p.source_id}
+              </span>`
+              )
+              .join("")}
+            ${
+              insight.provenance.length > 2
+                ? `<span class="pdf-badge">+${insight.provenance.length - 2} more</span>`
+                : ""
+            }
+          </div>
+          <span class="text-sm font-semibold text-green-400">
+            ${Math.round(insight.confidence * 100)}% confident
+          </span>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+  }
+
+  function renderChallenges(challenges) {
+    const container = document.getElementById("challengesContainer");
+    if (challenges.length === 0) {
+      container.innerHTML = `<p class="text-gray-400 italic">No significant challenges identified.</p>`;
+      return;
+    }
+    container.innerHTML = challenges
+      .map(
+        (challenge) => `
+      <div class="challenge-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-red-500/50 transition-all" onclick="openChallengeModal('${challenge.id}')">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-xl font-bold text-white flex-1">${challenge.topic}</h3>
+          <div class="flex items-center gap-3">
+            <span class="severity-${challenge.severity.toLowerCase()} px-3 py-1 rounded-full text-xs font-bold border">
+              ${challenge.severity.toUpperCase()}
+            </span>
+            <button class="w-10 h-10 bg-red-600/20 hover:bg-red-600/40 rounded-full flex items-center justify-center transition-all group">
+              <svg class="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="text-gray-300 mb-3">${challenge.summary}</p>
+        ${
+          challenge.evidence.length > 0
+            ? `
+          <div class="flex flex-wrap gap-2">
+            ${challenge.evidence
+              .slice(0, 2)
+              .map(
+                (e) =>
+                  `<span class="pdf-badge">
+                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                </svg>
+                ${e.source_id}
+              </span>`
+              )
+              .join("")}
+            ${
+              challenge.evidence.length > 2
+                ? `<span class="pdf-badge">+${challenge.evidence.length - 2} more</span>`
+                : ""
+            }
+          </div>
+        `
+            : ""
+        }
+      </div>
+    `
+      )
+      .join("");
+  }
+
+  function renderActions(actions) {
+    const container = document.getElementById("actionsContainer");
+    if (actions.length === 0) {
+      container.innerHTML = `<p class="text-gray-400 italic">No specific next steps identified.</p>`;
+      return;
+    }
+
+    const tagColors = {
+      Hypothesis: "blue",
+      NextStep: "green",
+      Clarification: "purple"
+    };
+
+    container.innerHTML = actions
+      .map((action) => {
+        const color = tagColors[action.tag] || "gray";
+        return `
+        <div class="action-card bg-gray-800 rounded-xl border border-gray-700 p-6 hover:border-${color}-500/50 transition-all" onclick="openActionModal('${action.id}')">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-xl font-bold text-white flex-1">${action.title}</h3>
+            <div class="flex items-center gap-3">
+              <span class="bg-${color}-600/20 text-${color}-400 border border-${color}-600/50 px-3 py-1 rounded-full text-xs font-bold">
+                ${action.tag}
+              </span>
+              <button class="w-10 h-10 bg-${color}-600/20 hover:bg-${color}-600/40 rounded-full flex items-center justify-center transition-all group">
+                <svg class="w-5 h-5 text-${color}-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <p class="text-gray-300 mb-3">${action.detail}</p>
+          <div class="text-xs text-gray-500">
+            Related to ${action.related_claims.length} claim${action.related_claims.length > 1 ? "s" : ""}
+          </div>
+        </div>
+      `;
+      })
+      .join("");
+  }
+
+  function openInsightModal(insightId) {
+    const insight = mockData.insights.find((i) => i.id === insightId);
+    if (!insight) return;
+
+    // Populate modal content
+    document.getElementById("modalTitle").textContent = insight.topic;
+    document.getElementById("modalFinalInsight").textContent = insight.text;
+
+    // Set confidence
+    const confidencePercent = Math.round(insight.confidence * 100);
+    document.getElementById("modalConfidence").style.width = `${confidencePercent}%`;
+    document.getElementById("modalConfidenceText").textContent = `${confidencePercent}%`;
+
+    // Render claims
+    const claimsHtml = insight.claims
+      .map(
+        (claim, index) => `
+      <div class="claim-connector bg-gray-900/50 rounded-lg p-4 border-l-4 border-indigo-500">
+        <div class="flex items-start">
+          <div class="bg-indigo-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0">
+            ${index + 1}
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-white mb-1">${claim.summary}</h5>
+            <p class="text-gray-400 text-sm">${claim.text}</p>
+            ${
+              claim.citations.length > 0
+                ? `
+              <div class="mt-2 flex flex-wrap gap-2">
+                ${claim.citations
+                  .map(
+                    (c) => `
+                  <span class="pdf-badge text-xs">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                    </svg>
+                    ${c.source_id} p.${c.page}
+                  </span>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+          </div>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+    document.getElementById("modalClaims").innerHTML = claimsHtml;
+
+    // Render citations
+    const allCitations = insight.claims.flatMap((c) => c.citations);
+    if (allCitations.length > 0) {
+      const citationsHtml = allCitations
+        .map(
+          (citation, index) => `
+        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-indigo-500 transition-all cursor-pointer group" onclick='openPdfViewer(${JSON.stringify(citation)})'>
+          <div class="flex items-start">
+            <span class="text-indigo-400 font-bold mr-3">[${index + 1}]</span>
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm font-semibold text-gray-300">${citation.source_id} - Page ${citation.page}</span>
+                </div>
+                <div class="flex items-center text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                  <span class="text-xs font-semibold">View PDF</span>
+                </div>
+              </div>
+              <blockquote class="text-sm text-gray-400 italic border-l-2 border-gray-600 pl-3">
+                "${citation.quote}"
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+      document.getElementById("modalCitations").innerHTML = citationsHtml;
+    } else {
+      document.getElementById("modalCitations").innerHTML = `<p class="text-gray-400 italic text-sm">No specific citations available.</p>`;
+    }
+
+    // Show modal
+    document.getElementById("insightModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function openChallengeModal(challengeId) {
+    const challenge = mockData.challenges.find((c) => c.id === challengeId);
+    if (!challenge) return;
+
+    // Populate modal content
+    document.getElementById("modalTitle").textContent = challenge.topic;
+    document.getElementById("modalFinalInsight").textContent = challenge.detail;
+
+    // Set confidence to 100% for challenges (or hide it)
+    document.getElementById("modalConfidence").style.width = "100%";
+    document.getElementById("modalConfidenceText").textContent = `${challenge.severity} Severity`;
+    document.getElementById("modalConfidenceText").className = `text-sm font-bold ${
+      challenge.severity === "High" ? "text-red-400" : 
+      challenge.severity === "Medium" ? "text-yellow-400" : "text-blue-400"
+    }`;
+
+    // Render challenge summary as a single claim
+    const claimsHtml = `
+      <div class="bg-gray-900/50 rounded-lg p-4 border-l-4 border-red-500">
+        <div class="flex items-start">
+          <div class="bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0">
+            ⚠
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-white mb-1">${challenge.summary}</h5>
+            <p class="text-gray-400 text-sm mb-3">Claim ID: ${challenge.claim_id}</p>
+            <p class="text-gray-300 text-sm italic">"${challenge.claim_text || 'Related claim text not available'}"</p>
+            ${
+              challenge.evidence.length > 0
+                ? `
+              <div class="mt-3 flex flex-wrap gap-2">
+                ${challenge.evidence
+                  .map(
+                    (e) => `
+                  <span class="pdf-badge text-xs">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                    </svg>
+                    ${e.source_id} p.${e.page}
+                  </span>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById("modalClaims").innerHTML = claimsHtml;
+
+    // Change final insight section to "Challenge Detail"
+    document.querySelector("#insightModal .bg-gradient-to-br.from-green-900\\/30").className = 
+      "bg-gradient-to-br from-red-900/30 to-orange-900/30 border-2 border-red-500/50 rounded-xl p-6";
+    document.querySelector("#insightModal .text-green-300").textContent = "Challenge Detail";
+    document.querySelector("#insightModal .text-green-400").className = "w-6 h-6 mr-3 text-red-400 flex-shrink-0 mt-1";
+
+    // Render recommended actions
+    if (challenge.actions && challenge.actions.length > 0) {
+      const actionsHtml = `
+        <div class="mt-4 pt-4 border-t border-red-700/50">
+          <h5 class="text-sm font-semibold text-yellow-400 mb-3">Recommended Actions:</h5>
+          <ul class="space-y-2">
+            ${challenge.actions
+              .map(
+                (action) => `
+              <li class="flex items-start text-sm text-gray-300">
+                <svg class="w-4 h-4 mr-2 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+                ${action}
+              </li>
+            `
+              )
+              .join("")}
+          </ul>
+        </div>
+      `;
+      document.getElementById("modalFinalInsight").insertAdjacentHTML("afterend", actionsHtml);
+    }
+
+    // Render citations/evidence
+    if (challenge.evidence && challenge.evidence.length > 0) {
+      const citationsHtml = challenge.evidence
+        .map(
+          (evidence, index) => `
+        <div class="bg-gray-900/50 rounded-lg p-4 border border-gray-700 hover:border-red-500 transition-all cursor-pointer group" onclick='openPdfViewer(${JSON.stringify(evidence)})'>
+          <div class="flex items-start">
+            <span class="text-red-400 font-bold mr-3">[${index + 1}]</span>
+            <div class="flex-1">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center">
+                  <svg class="w-4 h-4 mr-2 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                  </svg>
+                  <span class="text-sm font-semibold text-gray-300">${evidence.source_id} - Page ${evidence.page}</span>
+                </div>
+                <div class="flex items-center text-red-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                  </svg>
+                  <span class="text-xs font-semibold">View PDF</span>
+                </div>
+              </div>
+              <blockquote class="text-sm text-gray-400 italic border-l-2 border-gray-600 pl-3">
+                "${evidence.quote}"
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+      document.getElementById("modalCitations").innerHTML = citationsHtml;
+    } else {
+      document.getElementById("modalCitations").innerHTML = `<p class="text-gray-400 italic text-sm">No specific evidence citations available.</p>`;
+    }
+
+    // Show modal
+    document.getElementById("insightModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function openActionModal(actionId) {
+    const action = mockData.actions.find((a) => a.id === actionId);
+    if (!action) return;
+
+    const tagColors = {
+      Hypothesis: { bg: "blue", text: "Proposed Hypothesis" },
+      NextStep: { bg: "green", text: "Recommended Next Step" },
+      Clarification: { bg: "purple", text: "Clarification Needed" }
+    };
+    const colorInfo = tagColors[action.tag] || { bg: "gray", text: action.tag };
+
+    // Populate modal content
+    document.getElementById("modalTitle").textContent = action.title;
+    document.getElementById("modalFinalInsight").textContent = action.detail;
+
+    // Hide confidence for actions
+    document.querySelector("#insightModal .bg-gradient-to-br").parentElement.querySelector(".border-t").style.display = "none";
+
+    // Render related claims
+    const relatedClaims = mockData.insights.flatMap(i => i.claims).filter(c => action.related_claims.includes(c.id));
+    const claimsHtml = relatedClaims
+      .map(
+        (claim, index) => `
+      <div class="claim-connector bg-gray-900/50 rounded-lg p-4 border-l-4 border-${colorInfo.bg}-500">
+        <div class="flex items-start">
+          <div class="bg-${colorInfo.bg}-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-sm mr-3 flex-shrink-0">
+            ${index + 1}
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-white mb-1">${claim.summary}</h5>
+            <p class="text-gray-400 text-sm">${claim.text}</p>
+            ${
+              claim.citations && claim.citations.length > 0
+                ? `
+              <div class="mt-2 flex flex-wrap gap-2">
+                ${claim.citations
+                  .map(
+                    (c) => `
+                  <span class="pdf-badge text-xs">
+                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/>
+                    </svg>
+                    ${c.source_id} p.${c.page}
+                  </span>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+          </div>
+        </div>
+      </div>
+    `
+      )
+      .join("");
+    document.getElementById("modalClaims").innerHTML = claimsHtml || `<p class="text-gray-400 italic">No related claims available.</p>`;
+
+    // Change final insight section styling
+    document.querySelector("#insightModal .bg-gradient-to-br.from-green-900\\/30, #insightModal .bg-gradient-to-br.from-red-900\\/30").className = 
+      `bg-gradient-to-br from-${colorInfo.bg}-900/30 to-${colorInfo.bg}-800/30 border-2 border-${colorInfo.bg}-500/50 rounded-xl p-6`;
+    document.querySelector("#insightModal .text-green-300, #insightModal .text-red-300").textContent = colorInfo.text;
+    document.querySelector("#insightModal .text-green-400, #insightModal .text-red-400").className = `w-6 h-6 mr-3 text-${colorInfo.bg}-400 flex-shrink-0 mt-1`;
+
+    // Clear citations for actions
+    document.getElementById("modalCitations").innerHTML = `<p class="text-gray-400 italic text-sm">Follow this ${action.tag.toLowerCase()} to advance your research.</p>`;
+
+    // Show modal
+    document.getElementById("insightModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal(event) {
+    if (!event || event.target.id === "insightModal") {
+      document.getElementById("insightModal").classList.remove("show");
+      document.body.style.overflow = "auto";
+      
+      // Reset modal styling to default (green for insights)
+      setTimeout(() => {
+        const container = document.querySelector("#insightModal .bg-gradient-to-br");
+        if (container) {
+          container.className = "bg-gradient-to-br from-green-900/30 to-emerald-900/30 border-2 border-green-500/50 rounded-xl p-6";
+        }
+        const title = document.querySelector("#insightModal h4.text-xl");
+        if (title) {
+          title.textContent = "Final Synthesized Insight";
+          title.className = "text-xl font-bold text-green-300 mb-2";
+        }
+        const icon = document.querySelector("#insightModal .flex-shrink-0.mt-1");
+        if (icon) {
+          icon.className = "w-6 h-6 mr-3 text-green-400 flex-shrink-0 mt-1";
+        }
+        const confidence = document.querySelector("#insightModal .border-t");
+        if (confidence) {
+          confidence.style.display = "block";
+        }
+        // Remove any action items
+        const actionItems = document.querySelector("#insightModal .border-t.border-red-700\\/50");
+        if (actionItems) {
+          actionItems.parentElement.removeChild(actionItems);
+        }
+      }, 300);
+    }
+  }
+
+  // Initialize on page load
+  initializeResults();
+
+  // Handle ESC key to close modal
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      if (!document.getElementById("pdfModal").classList.contains("hidden")) {
+        closePdfModal();
+      } else {
+        closeModal();
+      }
+    }
+  });
+
+  // PDF Viewer Functions
+  async function openPdfViewer(citation) {
+    const modal = document.getElementById("pdfModal");
+    const loading = document.getElementById("pdfLoading");
+    
+    // Show modal and loading
+    modal.classList.remove("hidden");
+    loading.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    
+    // Update modal title
+    document.getElementById("pdfModalTitle").textContent = citation.source_id;
+    document.getElementById("pdfModalInfo").textContent = `Page ${citation.page} - Character position ${citation.char_start}-${citation.char_end}`;
+    
+    // Store highlight info
+    currentHighlight = citation;
+    
+    // In a real implementation, you would fetch the PDF from your server
+    // For now, we'll show a message about PDF loading
+    // Replace '/pdfs/' with your actual PDF serving endpoint
+    const pdfUrl = `/pdfs/${citation.source_id}`;
+    
+    try {
+      // Load the PDF
+      const loadingTask = pdfjsLib.getDocument(pdfUrl);
+      pdfDoc = await loadingTask.promise;
+      
+      document.getElementById("totalPages").textContent = pdfDoc.numPages;
+      
+      // Navigate to the citation page
+      pageNum = citation.page || 1;
+      await renderPage(pageNum);
+      
+      loading.classList.add("hidden");
+    } catch (error) {
+      console.error("Error loading PDF:", error);
+      loading.classList.add("hidden");
+      
+      // Show error message
+      const container = document.getElementById("pdfCanvasContainer");
+      container.innerHTML = `
+        <div class="text-center p-8">
+          <svg class="w-16 h-16 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <h3 class="text-xl font-bold text-white mb-2">PDF Not Available</h3>
+          <p class="text-gray-400 mb-4">The PDF file "${citation.source_id}" could not be loaded.</p>
+          <p class="text-sm text-gray-500">Make sure PDFs are served from the <code class="bg-gray-700 px-2 py-1 rounded">/pdfs/</code> endpoint.</p>
+        </div>
+      `;
+    }
+  }
+
+  async function renderPage(num) {
+    pageRendering = true;
+    
+    try {
+      const page = await pdfDoc.getPage(num);
+      const canvas = document.getElementById("pdfCanvas");
+      const ctx = canvas.getContext("2d");
+      const viewport = page.getViewport({ scale: scale });
+      
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      
+      const renderContext = {
+        canvasContext: ctx,
+        viewport: viewport
+      };
+      
+      await page.render(renderContext).promise;
+      
+      // Update page number
+      document.getElementById("currentPage").textContent = num;
+      
+      // Render highlight if we're on the citation page
+      if (currentHighlight && num === currentHighlight.page) {
+        await renderHighlight(page, viewport);
+      }
+      
+      pageRendering = false;
+      
+      if (pageNumPending !== null) {
+        renderPage(pageNumPending);
+        pageNumPending = null;
+      }
+    } catch (error) {
+      console.error("Error rendering page:", error);
+      pageRendering = false;
+    }
+  }
+
+  async function renderHighlight(page, viewport) {
+    // Get text content to find the citation
+    const textContent = await page.getTextContent();
+    const overlay = document.getElementById("highlightOverlay");
+    overlay.innerHTML = "";
+    
+    // This is a simplified highlight - in production, you'd need more sophisticated
+    // text positioning based on char_start and char_end
+    let currentPos = 0;
+    const targetStart = currentHighlight.char_start || 0;
+    const targetEnd = currentHighlight.char_end || 0;
+    
+    textContent.items.forEach((item) => {
+      const itemLength = item.str.length;
+      const itemStart = currentPos;
+      const itemEnd = currentPos + itemLength;
+      
+      // Check if this text item overlaps with our citation
+      if (itemEnd > targetStart && itemStart < targetEnd) {
+        const transform = pdfjsLib.Util.transform(
+          viewport.transform,
+          item.transform
+        );
+        
+        const highlight = document.createElement("div");
+        highlight.style.position = "absolute";
+        highlight.style.left = transform[4] + "px";
+        highlight.style.top = transform[5] + "px";
+        highlight.style.width = item.width + "px";
+        highlight.style.height = item.height + "px";
+        highlight.style.backgroundColor = "rgba(255, 255, 0, 0.3)";
+        highlight.style.border = "2px solid rgba(255, 200, 0, 0.8)";
+        highlight.style.animation = "pulse 2s ease-in-out infinite";
+        
+        overlay.appendChild(highlight);
+      }
+      
+      currentPos = itemEnd;
+    });
+  }
+
+  function queueRenderPage(num) {
+    if (pageRendering) {
+      pageNumPending = num;
+    } else {
+      renderPage(num);
+    }
+  }
+
+  function previousPage() {
+    if (pageNum <= 1) return;
+    pageNum--;
+    queueRenderPage(pageNum);
+  }
+
+  function nextPage() {
+    if (!pdfDoc || pageNum >= pdfDoc.numPages) return;
+    pageNum++;
+    queueRenderPage(pageNum);
+  }
+
+  function zoomIn() {
+    scale = Math.min(scale + 0.25, 3.0);
+    document.getElementById("zoomLevel").textContent = Math.round(scale * 100) + "%";
+    queueRenderPage(pageNum);
+  }
+
+  function zoomOut() {
+    scale = Math.max(scale - 0.25, 0.5);
+    document.getElementById("zoomLevel").textContent = Math.round(scale * 100) + "%";
+    queueRenderPage(pageNum);
+  }
+
+  function closePdfModal(event) {
+    if (!event || event.target.id === "pdfModal") {
+      document.getElementById("pdfModal").classList.add("hidden");
+      document.body.style.overflow = "auto";
+      
+      // Reset PDF state
+      pdfDoc = null;
+      currentHighlight = null;
+      pageNum = 1;
+      scale = 1.5;
+      
+      // Clear canvas
+      const canvas = document.getElementById("pdfCanvas");
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById("highlightOverlay").innerHTML = "";
+    }
+  }
+
+  // Add pulse animation for highlights
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
 {% endblock %}
